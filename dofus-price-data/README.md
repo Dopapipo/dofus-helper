@@ -1,3 +1,0 @@
-Microservice de gestion des données de prix de dofus
-
-requetes de mise a jour, etc...

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="plantlazy-plant-generator" />
+        <module name="plantlazy-compost" />
+        <module name="plantlazy-farm" />
+        <module name="plantlazy-surveillance" />
+        <module name="plantlazy-history" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="plantlazy-compost" options="-parameters" />
+      <module name="plantlazy-farm" options="-parameters" />
+      <module name="plantlazy-history" options="-parameters" />
+      <module name="plantlazy-plant-generator" options="-parameters" />
+      <module name="plantlazy-surveillance" options="-parameters" />
+    </option>
+  </component>
+</project>

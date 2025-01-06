@@ -8,9 +8,11 @@
     <packaging>pom</packaging>
     <name>projet-m1</name>
     <modules>
-        <module>accountancy-service</module>
-        <module>invoice-service</module>
-        <module>user-service</module>
+        <module>plantlazy-compost</module>
+        <module>plantlazy-farm</module>
+        <module>plantlazy-history</module>
+        <module>plantlazy-surveillance</module>
+        <module>plantlazy-plant-generator</module>
     </modules>
     <dependencyManagement>
         <dependencies>
