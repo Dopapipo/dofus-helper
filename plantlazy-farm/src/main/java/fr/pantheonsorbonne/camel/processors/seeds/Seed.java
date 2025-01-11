@@ -8,4 +8,5 @@ public interface Seed {
     PlantType getType();
     FullPlantStats getInitialStats();
     Plant grow();
+    SeedQuality getQuality();
 }

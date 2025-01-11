@@ -8,13 +8,13 @@ public class Plant {
     private PlantType type;
     private double nutrimentConversionRate;
     private PlantStat water;
-    private PlantStat sun;
+    private PlantStat energy;
     private PlantStat soil;
 
-    public Plant(PlantType type, PlantStat water, PlantStat sun, PlantStat soil) {
+    public Plant(PlantType type, PlantStat water, PlantStat energy, PlantStat soil) {
         this.type = type;
         this.water = water;
-        this.sun = sun;
+        this.energy = energy;
         this.soil = soil;
         switch (type) {
             case FLOWER:
@@ -41,14 +41,14 @@ public class Plant {
     }
     public void tick() {
         this.water.tick();
-        this.sun.tick();
+        this.energy.tick();
         this.soil.tick();
     }
     public void giveWater(int value) {
         this.giveNutriment(water, value);
     }
     public void giveSun(int value) {
-        this.giveNutriment(sun, value);
+        this.giveNutriment(energy, value);
     }
 
     public void giveSoil(int value){
