@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Embeddable
 @Table(name = "seeds")
 public class SeedEntity {
 
@@ -25,7 +26,6 @@ public class SeedEntity {
     private FullPlantStats initialStats;
 
     protected SeedEntity() {
-        // Default constructor for JPA
     }
 
     public SeedEntity(PlantType type, SeedQuality quality, FullPlantStats initialStats) {

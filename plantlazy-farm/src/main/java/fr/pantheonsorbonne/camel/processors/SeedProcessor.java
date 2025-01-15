@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.camel.processors;
 
-import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.camel.processors.seeds.GenericSeed;
 import fr.pantheonsorbonne.camel.processors.seeds.Seed;
 import fr.pantheonsorbonne.dto.SeedDTO;
