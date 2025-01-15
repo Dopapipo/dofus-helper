@@ -41,7 +41,7 @@ public class TickProducer {
         scheduler.shutdown();
     }
 
-    private void sendTick(TickType tickType) {
+    public void sendTick(TickType tickType) {
         try (JMSContext context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE)) {
             long timestamp = System.currentTimeMillis();
             TickMessage tickMessage = new TickMessage(tickType, timestamp);
