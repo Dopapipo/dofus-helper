@@ -56,6 +56,7 @@ public class GenericPlantStat implements PlantStat {
 
     }
 
+
     @Override
     public boolean isHealthy() {
         return this.value >= this.threshold;

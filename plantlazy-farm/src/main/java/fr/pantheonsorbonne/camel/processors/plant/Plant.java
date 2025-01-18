@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.camel.processors.plant;
 import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.camel.processors.plant.stat.PlantStat;
 import fr.pantheonsorbonne.camel.processors.seeds.Seed;
+import fr.pantheonsorbonne.entity.PlantEntity;
 
 public class Plant {
     private PlantType type;
@@ -57,8 +58,5 @@ public class Plant {
 
     private void giveNutriment(PlantStat stat, int nutrimentQuantity) {
         stat.giveNutriment(nutrimentQuantity, nutrimentConversionRate);
-    }
-    static Plant fromSeed(Seed seed) {
-        return seed.grow();
     }
 }

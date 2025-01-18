@@ -5,6 +5,7 @@ import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SoilStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SunStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.WaterStat;
+import fr.pantheonsorbonne.camel.processors.seeds.Seed;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
@@ -46,6 +47,9 @@ public class PlantEntity {
 
     protected PlantEntity() {
     }
+    public PlantEntity(PlantType type, FullPlantStats stats) {
+        this(type, stats.getWaterStat(), stats.getSunStat(), stats.getSoilStat());
+    }
 
     public PlantEntity(PlantType type, WaterStat water, SunStat sun, SoilStat soil) {
         this.type = type;
@@ -58,7 +62,6 @@ public class PlantEntity {
             case TREE -> 0.25;
         };
     }
-
 
     public void markAsDead(String cause) {
         this.isDead = true;
@@ -79,4 +82,5 @@ public class PlantEntity {
             this.markAsDead("Plant is dead");
         }
     }
+
 }

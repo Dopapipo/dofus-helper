@@ -6,6 +6,7 @@ import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SoilStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SunStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.WaterStat;
+import fr.pantheonsorbonne.entity.PlantEntity;
 
 public class GenericSeed implements Seed{
     private PlantType type;
@@ -32,7 +33,7 @@ public class GenericSeed implements Seed{
     }
 
     @Override
-    public Plant grow() {
-        return new Plant(this.type, this.getInitialStats());
+    public PlantEntity grow() {
+        return new PlantEntity(this.type, this.getInitialStats());
     }
 }
