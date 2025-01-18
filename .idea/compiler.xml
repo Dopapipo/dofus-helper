@@ -6,21 +6,32 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="plantlazy-plant-generator" />
-        <module name="plantlazy-compost" />
+        <module name="plantlazy-server-ticks" />
+        <module name="plantlazy-store" />
+        <module name="plantlazy-stock" />
         <module name="plantlazy-farm" />
-        <module name="plantlazy-surveillance" />
-        <module name="plantlazy-history" />
-        <module name="server-ticks" />
+        <module name="plantlazy-dashboard" />
+        <module name="plantlazy-plant-manager" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="plantlazy-compost" target="21" />
+      <module name="plantlazy-history" target="21" />
+      <module name="plantlazy-plant-generator" target="1.8" />
+      <module name="plantlazy-surveillance" target="21" />
+      <module name="server-ticks" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="plantlazy-compost" options="-parameters" />
+      <module name="plantlazy-dashboard" options="-parameters" />
       <module name="plantlazy-farm" options="-parameters" />
       <module name="plantlazy-history" options="-parameters" />
       <module name="plantlazy-plant-generator" options="" />
+      <module name="plantlazy-server-ticks" options="-parameters" />
+      <module name="plantlazy-stock" options="-parameters" />
+      <module name="plantlazy-store" options="-parameters" />
       <module name="plantlazy-surveillance" options="-parameters" />
       <module name="server-ticks" options="-parameters" />
     </option>
