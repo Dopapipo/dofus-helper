@@ -27,9 +27,6 @@ public class StockService {
     @Inject
     MessageProducerService producerTemplate;
 
-    @ConfigProperty(name = "tick.endpoint")
-    String tickEndpoint;
-
 
     public ResourceDTO updateResource(ResourceType type, Double quantity) {
         validateQuantity(quantity);

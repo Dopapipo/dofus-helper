@@ -6,6 +6,7 @@ import fr.pantheonsorbonne.dto.TickType;
 import fr.pantheonsorbonne.service.StockService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -22,16 +23,15 @@ public class StockRoutes extends RouteBuilder {
     }
 
     @Override
-    public void configure() throws Exception {
-        from("direct:resourceUpdateRoute")
-                .marshal().json()
-                .to("sjms2:queue:log");
-
+    public void configure() {
         from(tickEndpoint)
+                .log(LoggingLevel.INFO, "Static log to test")
                 .process(new TickMessageProcessor())
                 .filter(exchange -> exchange.getIn().getBody(TickMessage.class) != null)
                 .filter(exchange -> exchange.getIn().getBody(TickMessage.class).getTickType() == TickType.DAILY)
+                .log(LoggingLevel.INFO, "Processing daily tick: ${body}")
                 .bean(stockService, "refillDailyResources");
+
     }
 }
 

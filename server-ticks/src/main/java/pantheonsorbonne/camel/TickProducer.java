@@ -48,7 +48,6 @@ public class TickProducer{
             ObjectMessage message = context.createObjectMessage(tickMessage);
 
             context.createProducer().send(context.createQueue(tickEndpoint), message);
-            System.out.println("Sent " + tickType + " tick to " + tickEndpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }
