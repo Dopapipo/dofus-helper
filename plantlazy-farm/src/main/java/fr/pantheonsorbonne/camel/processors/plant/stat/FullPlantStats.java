@@ -1,5 +1,8 @@
 package fr.pantheonsorbonne.camel.processors.plant.stat;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class FullPlantStats {
    private WaterStat waterStat;
    private SoilStat soilStat;
@@ -9,6 +12,10 @@ public class FullPlantStats {
         this.waterStat = waterStat;
         this.soilStat = soilStat;
         this.sunStat = sunStat;
+    }
+
+    public FullPlantStats() {
+
     }
 
     public WaterStat getWaterStat() {

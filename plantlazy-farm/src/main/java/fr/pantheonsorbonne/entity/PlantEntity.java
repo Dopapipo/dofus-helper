@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Embeddable
 @Table(name = "plants")
 public class PlantEntity {
 
