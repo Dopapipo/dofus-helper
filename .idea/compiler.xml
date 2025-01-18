@@ -11,6 +11,7 @@
         <module name="plantlazy-farm" />
         <module name="plantlazy-surveillance" />
         <module name="plantlazy-history" />
+        <module name="server-ticks" />
       </profile>
     </annotationProcessing>
   </component>
@@ -21,6 +22,7 @@
       <module name="plantlazy-history" options="-parameters" />
       <module name="plantlazy-plant-generator" options="-parameters" />
       <module name="plantlazy-surveillance" options="-parameters" />
+      <module name="server-ticks" options="-parameters" />
     </option>
   </component>
 </project>
