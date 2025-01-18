@@ -16,7 +16,7 @@ import pantheonsorbonne.entity.TickMessage;
 import pantheonsorbonne.entity.TickType;
 
 @ApplicationScoped
-public class TickProducer {
+public class TickProducer{
 
     @Inject
     ConnectionFactory connectionFactory;
