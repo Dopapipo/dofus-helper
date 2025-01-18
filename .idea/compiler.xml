@@ -20,7 +20,7 @@
       <module name="plantlazy-compost" options="-parameters" />
       <module name="plantlazy-farm" options="-parameters" />
       <module name="plantlazy-history" options="-parameters" />
-      <module name="plantlazy-plant-generator" options="-parameters" />
+      <module name="plantlazy-plant-generator" options="" />
       <module name="plantlazy-surveillance" options="-parameters" />
       <module name="server-ticks" options="-parameters" />
     </option>
