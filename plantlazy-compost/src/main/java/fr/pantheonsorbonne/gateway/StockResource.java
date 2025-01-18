@@ -1,12 +1,14 @@
 package fr.pantheonsorbonne.gateway;
 
 import fr.pantheonsorbonne.dto.ErrorResponse;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.dto.ResourceDTO;
 import fr.pantheonsorbonne.exception.ResourceException;
 import fr.pantheonsorbonne.service.StockService;
-
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -18,14 +20,11 @@ public class StockResource {
     StockService stockService;
 
     @POST
-    @Path("/{resourceType}/request")
-    public Response requestResource(
-            @PathParam("resourceType") ResourceType type,
-            @QueryParam("quantity") Double quantity
-    ) {
+    @Path("/request")
+    public Response requestResource(ResourceDTO resourceDTO) {
         try {
-            stockService.updateResource(type, -quantity);
-            return Response.ok().build();
+            ResourceDTO updatedResource = stockService.updateResource(resourceDTO.getType(), -resourceDTO.getQuantity());
+            return Response.ok(updatedResource).build();
         } catch (ResourceException e) {
             return Response.status(getStatusCode(e))
                     .entity(new ErrorResponse(e))
@@ -42,5 +41,6 @@ public class StockResource {
             case DATABASE_ERROR -> 500;
             default -> 500;
         };
+
     }
 }

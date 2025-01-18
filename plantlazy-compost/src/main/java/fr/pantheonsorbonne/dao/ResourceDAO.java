@@ -30,15 +30,16 @@ public class ResourceDAO {
     }
 
     @Transactional
-    public void save(Resource resource) {
+    public Resource save(Resource resource) {
         try {
             if (resource.getId() == null) {
                 em.persist(resource);
-                return;
+                return resource;
             }
             em.merge(resource);
         } catch (PersistenceException e) {
             throw new DatabaseException("Error saving resource", e);
         }
+        return resource;
     }
 }

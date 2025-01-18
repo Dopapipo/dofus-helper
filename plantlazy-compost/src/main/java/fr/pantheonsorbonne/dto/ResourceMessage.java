@@ -9,6 +9,6 @@ public record ResourceMessage(
         Double quantityAfter
 ) {
     public ResourceMessage(ResourceType type, Double quantityBefore, Double quantityChange, Double quantityAfter) {
-        this(type.name(), quantityBefore, quantityChange, quantityAfter);
+            this(type.name(), quantityBefore, quantityChange, quantityAfter);
     }
 }
