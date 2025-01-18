@@ -8,12 +8,12 @@
     <packaging>pom</packaging>
     <name>projet-m1</name>
     <modules>
-        <module>plantlazy-compost</module>
+        <module>plantlazy-stock</module>
         <module>plantlazy-farm</module>
-        <module>plantlazy-history</module>
-        <module>plantlazy-surveillance</module>
-        <module>plantlazy-plant-generator</module>
-        <module>server-ticks</module>
+        <module>plantlazy-dashboard</module>
+        <module>plantlazy-store</module>
+        <module>plantlazy-plant-manager</module>
+        <module>plantlazy-server-ticks</module>
     </modules>
     <dependencyManagement>
         <dependencies>
