@@ -1,10 +1,6 @@
 package fr.pantheonsorbonne.camel.processors;
 
-import fr.pantheonsorbonne.camel.processors.seeds.GenericSeed;
-import fr.pantheonsorbonne.camel.processors.seeds.Seed;
 import fr.pantheonsorbonne.dto.SeedDTO;
-import fr.pantheonsorbonne.entity.SeedEntity;
-import fr.pantheonsorbonne.mapper.SeedEntityMapper;
 import fr.pantheonsorbonne.service.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

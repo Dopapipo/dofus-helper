@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.dao;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,7 @@ public class PlantRepositoryImpl implements PlantRepository {
     @Inject
     EntityManager em;
 
+    @Transactional
     @Override
     public PlantEntity save(PlantEntity plantEntity) {
         return em.merge(plantEntity);

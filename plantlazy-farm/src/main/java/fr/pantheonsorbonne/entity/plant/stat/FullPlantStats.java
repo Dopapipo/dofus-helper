@@ -1,6 +1,5 @@
-package fr.pantheonsorbonne.camel.processors.plant.stat;
+package fr.pantheonsorbonne.entity.plant.stat;
 
-import fr.pantheonsorbonne.camel.processors.seeds.SeedQuality;
 import jakarta.persistence.Embeddable;
 
 @Embeddable

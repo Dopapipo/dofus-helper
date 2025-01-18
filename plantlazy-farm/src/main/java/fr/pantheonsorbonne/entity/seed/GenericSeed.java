@@ -1,11 +1,10 @@
-package fr.pantheonsorbonne.camel.processors.seeds;
+package fr.pantheonsorbonne.entity.seed;
 
-import fr.pantheonsorbonne.camel.processors.plant.Plant;
-import fr.pantheonsorbonne.camel.processors.plant.PlantType;
-import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
-import fr.pantheonsorbonne.camel.processors.plant.stat.SoilStat;
-import fr.pantheonsorbonne.camel.processors.plant.stat.SunStat;
-import fr.pantheonsorbonne.camel.processors.plant.stat.WaterStat;
+import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.plant.stat.FullPlantStats;
+import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
+import fr.pantheonsorbonne.entity.plant.stat.SunStat;
+import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
 public class GenericSeed implements Seed{

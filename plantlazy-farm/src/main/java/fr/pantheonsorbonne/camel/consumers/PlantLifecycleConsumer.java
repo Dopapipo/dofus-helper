@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.camel.consumers;
 import fr.pantheonsorbonne.camel.processors.PlantLifecycleProcessor;
 import fr.pantheonsorbonne.dto.TickMessage;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.RouteDefinition;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.LoggingLevel;

@@ -1,10 +1,9 @@
 package fr.pantheonsorbonne.dto;
 
-import fr.pantheonsorbonne.camel.processors.plant.PlantType;
-import fr.pantheonsorbonne.camel.processors.seeds.Seed;
-import fr.pantheonsorbonne.camel.processors.seeds.SeedFactory;
-import fr.pantheonsorbonne.camel.processors.seeds.SeedQuality;
-import fr.pantheonsorbonne.entity.SeedEntity;
+import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.seed.Seed;
+import fr.pantheonsorbonne.entity.seed.SeedFactory;
+import fr.pantheonsorbonne.entity.seed.SeedQuality;
 
 public class SeedDTO {
     private PlantType type;

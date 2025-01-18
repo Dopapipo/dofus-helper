@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.entity;
-import fr.pantheonsorbonne.camel.processors.plant.PlantType;
-import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
-import fr.pantheonsorbonne.camel.processors.seeds.SeedQuality;
+import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.plant.stat.FullPlantStats;
+import fr.pantheonsorbonne.entity.seed.SeedQuality;
 import jakarta.persistence.*;
 import java.util.UUID;
 

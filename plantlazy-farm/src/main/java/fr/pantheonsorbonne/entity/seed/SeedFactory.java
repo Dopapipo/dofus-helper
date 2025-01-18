@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.camel.processors.seeds;
+package fr.pantheonsorbonne.entity.seed;
 
-import fr.pantheonsorbonne.camel.processors.plant.PlantType;
+import fr.pantheonsorbonne.entity.plant.PlantType;
 
 public class SeedFactory {
     public static Seed getSeed(PlantType type, SeedQuality quality) {

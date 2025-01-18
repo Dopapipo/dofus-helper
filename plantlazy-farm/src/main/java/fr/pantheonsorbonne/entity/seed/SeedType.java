@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.camel.processors.seeds;
+package fr.pantheonsorbonne.entity.seed;
 
 public enum SeedType {
     CACTUS,
