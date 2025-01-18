@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.exception.InsufficientStockException;
 import fr.pantheonsorbonne.exception.PlantNotFoundException;
 import fr.pantheonsorbonne.exception.SaleNotCompletedException;
@@ -68,9 +69,9 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void initializePlants() {
         if (plantDAO.getAllPlants().isEmpty()) {
-            plantDAO.savePlant(new PlantEntity("Tomate", 100, 0));
-            plantDAO.savePlant(new PlantEntity("Courgette", 150, 0));
-            plantDAO.savePlant(new PlantEntity("Concombre", 120, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.CACTUS, 100, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.FLOWER, 150, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.TREE, 120, 0));
         }
     }
 
