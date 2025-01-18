@@ -83,11 +83,11 @@ public class StockService {
         return newUsage >= 0;
     }
 
-    public List<ResourceDTO> RefillDailyResources() {
+    public List<ResourceDTO> refillDailyResources() {
         List<ResourceType> typesToRefill = List.of(ResourceType.WATER, ResourceType.ENERGY);
         return typesToRefill.stream().map(type -> {
             Resource resource = resourceDAO.findByType(type).orElseThrow(() ->
-                    new IllegalStateException("Resource not found for type: " + type));
+                    new ResourceNotFoundException("Resource not found for type: " + type));
             resource.setQuantity(DAILY_LIMIT);
             Resource updatedResource = resourceDAO.save(resource);
             return ResourceDTO.fromEntity(updatedResource);
