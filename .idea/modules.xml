@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plantlazy-compost/plantlazy-compost.iml" filepath="$PROJECT_DIR$/plantlazy-compost/plantlazy-compost.iml" />
     </modules>
   </component>
 </project>
