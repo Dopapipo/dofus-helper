@@ -3,6 +3,9 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
+import fr.pantheonsorbonne.exception.InsufficientStockException;
+import fr.pantheonsorbonne.exception.PlantNotFoundException;
+import fr.pantheonsorbonne.exception.SaleNotCompletedException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -39,19 +42,19 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void sellPlant(String type, int quantity) {
         PlantEntity plant = plantDAO.getPlantByType(type)
-                .orElseThrow(() -> new IllegalArgumentException("Plant type not found: " + type));
+                .orElseThrow(() -> new PlantNotFoundException(type));
 
         // Probabilité de vente
         int probability = SALE_PROBABILITIES.getOrDefault(type, 0); // 0% si le type est inconnu
         int randomValue = random.nextInt(100); // Génère un nombre entre 0 et 99
 
         if (randomValue >= probability) {
-            throw new IllegalArgumentException("The sale did not occur due to low probability.");
+            throw new SaleNotCompletedException(type); // Vente échoue à cause de la probabilité
         }
 
         // Vérifier la quantité disponible
         if (plant.getQuantity() < quantity) {
-            throw new IllegalArgumentException("Insufficient stock for plant type: " + type);
+            throw new InsufficientStockException(type, plant.getQuantity(), quantity);
         }
 
         // Réduction de la quantité en stock
