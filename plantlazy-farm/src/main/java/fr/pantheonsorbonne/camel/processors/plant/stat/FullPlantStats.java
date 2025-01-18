@@ -4,9 +4,9 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class FullPlantStats {
-   private WaterStat waterStat;
-   private SoilStat soilStat;
-   private SunStat sunStat;
+    private WaterStat waterStat;
+    private SoilStat soilStat;
+    private SunStat sunStat;
 
     public FullPlantStats(WaterStat waterStat, SoilStat soilStat, SunStat sunStat) {
         this.waterStat = waterStat;
@@ -28,5 +28,9 @@ public class FullPlantStats {
 
     public SunStat getSunStat() {
         return sunStat;
+    }
+
+    public boolean isDead() {
+        return (soilStat.isDead() || waterStat.isDead() || sunStat.isDead()) || (!soilStat.isHealthy() && !waterStat.isHealthy() && !sunStat.isHealthy());
     }
 }

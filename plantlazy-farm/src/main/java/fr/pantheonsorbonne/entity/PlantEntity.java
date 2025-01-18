@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.entity;
 
 import fr.pantheonsorbonne.camel.processors.plant.PlantType;
+import fr.pantheonsorbonne.camel.processors.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SoilStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.SunStat;
 import fr.pantheonsorbonne.camel.processors.plant.stat.WaterStat;
@@ -63,5 +64,19 @@ public class PlantEntity {
         this.isDead = true;
         this.causeOfDeath = cause;
         this.timeOfDeath = System.currentTimeMillis();
+    }
+    private boolean isDead() {
+        return new FullPlantStats(this.water, this.soil, this.sun).isDead();
+    }
+    public void grow() {
+        if (isDead) {
+            return;
+        }
+        this.water.tick();
+        this.sun.tick();
+        this.soil.tick();
+        if(this.isDead()) {
+            this.markAsDead("Plant is dead");
+        }
     }
 }

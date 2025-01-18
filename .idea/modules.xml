@@ -3,11 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plantlazy-compost/plantlazy-compost.iml" filepath="$PROJECT_DIR$/plantlazy-compost/plantlazy-compost.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plantlazy-history/plantlazy-history.iml" filepath="$PROJECT_DIR$/plantlazy-history/plantlazy-history.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plantlazy-plant-generator/plantlazy-plant-generator.iml" filepath="$PROJECT_DIR$/plantlazy-plant-generator/plantlazy-plant-generator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plantlazy-surveillance/plantlazy-surveillance.iml" filepath="$PROJECT_DIR$/plantlazy-surveillance/plantlazy-surveillance.iml" />
-      <module fileurl="file://$PROJECT_DIR$/server-ticks/server-ticks.iml" filepath="$PROJECT_DIR$/server-ticks/server-ticks.iml" />
     </modules>
   </component>
 </project>
