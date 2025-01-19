@@ -1,9 +1,7 @@
 package fr.pantheonsorbonne.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
+import fr.pantheonsorbonne.entity.enums.PlantType;
+import jakarta.persistence.*;
 
 @Entity
 public class SeedEntity {
@@ -12,14 +10,16 @@ public class SeedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // Exemple : "Tomate", "Courgette", "Concombre"
+    @Enumerated(EnumType.STRING) // Stocker l'énumération sous forme de chaîne
+    private PlantType type; // Remplace le champ String par l'énumération PlantType
+
     private double price; // Prix unitaire de la graine
     private int quantity; // Quantité disponible pour l'offre quotidienne
 
     public SeedEntity() {
     }
 
-    public SeedEntity(String type, double price, int quantity) {
+    public SeedEntity(PlantType type, double price, int quantity) {
         this.type = type;
         this.price = price;
         this.quantity = quantity;
@@ -33,11 +33,11 @@ public class SeedEntity {
         this.id = id;
     }
 
-    public String getType() {
+    public PlantType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PlantType type) {
         this.type = type;
     }
 

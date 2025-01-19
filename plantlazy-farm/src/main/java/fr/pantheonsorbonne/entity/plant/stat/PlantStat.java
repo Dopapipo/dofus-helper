@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.camel.processors.plant.stat;
+package fr.pantheonsorbonne.entity.plant.stat;
 
 
 public interface PlantStat {

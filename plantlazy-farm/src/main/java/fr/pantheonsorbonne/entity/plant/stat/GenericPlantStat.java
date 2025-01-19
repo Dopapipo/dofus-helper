@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.camel.processors.plant.stat;
+package fr.pantheonsorbonne.entity.plant.stat;
 // REGLES METIER : si une stat arrive a 0, mort automatique; si une stat arrive a threshold, plante en bonne sante
 
 import jakarta.persistence.Embeddable;
@@ -56,6 +56,7 @@ public class GenericPlantStat implements PlantStat {
 
     }
 
+
     @Override
     public boolean isHealthy() {
         return this.value >= this.threshold;
@@ -80,5 +81,7 @@ public class GenericPlantStat implements PlantStat {
     public void tick() {
         this.decrease(decayRate);
     }
+
+
 
 }
