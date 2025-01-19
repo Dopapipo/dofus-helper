@@ -8,41 +8,41 @@ import jakarta.inject.Named;
 
 
 @ApplicationScoped
-@Named("dashboardService")
+@Named("dashboardService") // pour accéder à la méthode depuis le route Camel
 public class DashboardService {
     private final Dashboard dashboard = new Dashboard();
 
 
     public void processResourceUpdate(ResourceUpdateDTO resourceUpdate) {
         dashboard.updateResource(resourceUpdate.getResourceType(), resourceUpdate.getAfter());
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.display();
     }
 
     public void processStoreSellableSeeds(SeedSaleUpdateDTO storeSellablePlants) {
         dashboard.updateSeedsForSale(storeSellablePlants.getSeeds());
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.display();
     }
 
 
     public void processStoreSellablePlants(PlantSaleUpdateDTO dailyOffer) {
         dashboard.updatePlantsForSale(dailyOffer.getPlants());
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.display();
     }
 
     public void processDeadPlantUpdate(DeadPlantUpdateDTO deadPlantUpdate) {
-        dashboard.updateDeadPlants(deadPlantUpdate.getPlants()); // Met à jour les plantes mortes
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.updateDeadPlants(deadPlantUpdate.getPlants());
+        dashboard.display();
     }
 
 
     public void processPlantUpdate(PlantUpdateDTO plantUpdate) {
-        dashboard.updatePlantsInProgress(plantUpdate.getPlants()); // Met à jour les plantes en cours
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.updatePlantsInProgress(plantUpdate.getPlants());
+        dashboard.display();
     }
 
     public void processTick(TickMessage tick) {
         String tickType = tick.getTickType().name();
-        dashboard.updateTick(tickType); // Met à jour le tableau de bord en fonction du type de tick
-        dashboard.display(); // Affiche l'état mis à jour du tableau de bord
+        dashboard.updateTick(tickType);
+        dashboard.display();
     }
 }

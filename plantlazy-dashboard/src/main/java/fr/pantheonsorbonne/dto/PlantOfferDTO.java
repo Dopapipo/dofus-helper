@@ -1,9 +1,9 @@
 package fr.pantheonsorbonne.dto;
 
 public class PlantOfferDTO {
-    private String plantType; // Type de plante (Tomate, Courgette, etc.)
-    private double sellingPrice; // Prix de vente
-    private int quantity; // Quantité disponible
+    private String plantType;
+    private double sellingPrice;
+    private int quantity;
 
     public String getPlantType() {
         return plantType;

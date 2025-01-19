@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.dto;
 
 public class DeadPlantDTO {
-    private int id; // ID de la plante
+    private int id;
     private String name; // Nom de la plante
 
     public int getId() {

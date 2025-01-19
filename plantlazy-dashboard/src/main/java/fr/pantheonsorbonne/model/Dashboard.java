@@ -16,10 +16,10 @@ public class Dashboard {
 
 
     private final Map<String, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
-    private final Map<String, ResourceData> resources = new HashMap<>(); // Ressources par type
+    private final Map<String, ResourceData> resources = new HashMap<>(); // Ressources
     private final Map<String, PlantData> seedsForSale = new HashMap<>(); // Graines en vente
     private final Map<String, PlantData> plantsForSale = new HashMap<>(); // Plantes en vente
-    private final Map<Integer, String> deadPlants = new HashMap<>(); // Plantes mortes (ID, nom)
+    private final Map<Integer, String> deadPlants = new HashMap<>(); // Plantes mortes
 
 
 
@@ -38,14 +38,14 @@ public class Dashboard {
         if (resource != null) {
             resource.setCurrentValue(newValue);
         } else {
-            System.err.println("Resource type not recognized: " + resourceType);
+            System.err.println("Type de ressource non reconu : " + resourceType);
         }
     }
 
 
 
     public void updateSeedsForSale(List<SeedOfferDTO> seeds) {
-        seedsForSale.clear(); // Réinitialise les graines en vente
+        seedsForSale.clear();
         for (SeedOfferDTO seed : seeds) {
             PlantData plant = new PlantData();
             plant.setName(seed.getSeedType());
@@ -69,23 +69,23 @@ public class Dashboard {
 
 
     public void updateDeadPlants(List<DeadPlantDTO> deadPlantsList) {
-        deadPlants.clear(); // Réinitialise la liste des plantes mortes
+        deadPlants.clear();
         for (DeadPlantDTO deadPlant : deadPlantsList) {
-            deadPlants.put(deadPlant.getId(), deadPlant.getName()); // Ajoute les plantes mortes reçues
+            deadPlants.put(deadPlant.getId(), deadPlant.getName());
         }
     }
 
 
 
     public void updatePlantsInProgress(List<PlantDTO> plantList) {
-        plantsInProgress.clear(); // Réinitialise les plantes en cours
+        plantsInProgress.clear();
         for (PlantDTO plant : plantList) {
             PlantData plantData = new PlantData();
             plantData.setName(plant.getType());
             plantData.setWaterLevel(plant.getWaterStat());
             plantData.setEnergyLevel(plant.getSunStat());
             plantData.setFertilizerLevel(plant.getSoilStat());
-            plantsInProgress.put(plant.getId(), plantData); // Ajoute la plante par son ID
+            plantsInProgress.put(plant.getId(), plantData);
         }
     }
 
@@ -105,10 +105,6 @@ public class Dashboard {
 
 
 
-
-
-
-    // Méthode pour afficher le tableau de bord dans la console
     public void display() {
         System.out.println("\n================== 🌱 DASHBOARD 🌱 ==================");
 
@@ -159,6 +155,4 @@ public class Dashboard {
 
         System.out.println("=====================================================\n");
     }
-
-
 }

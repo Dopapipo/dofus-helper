@@ -9,7 +9,6 @@ public class PlantData {
     private int price;
     private int quantity;
 
-    // Getters et setters
     public String getId() {
         return id;
     }

@@ -1,11 +1,11 @@
 package fr.pantheonsorbonne.dto;
 
 public class PlantDTO {
-    private String id; // Identifiant unique de la plante
-    private String type; // Type de plante (Tomato, Carrot, etc.)
-    private int waterStat; // Statistique d'eau
-    private int sunStat; // Statistique de lumière
-    private int soilStat; // Statistique de fertilité du sol
+    private String id;
+    private String type; // Type de plante
+    private int waterStat;
+    private int sunStat;
+    private int soilStat;
 
     public String getId() {
         return id;

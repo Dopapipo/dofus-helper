@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PlantUpdateDTO {
     private String type; // PLANT_UPDATE
-    private List<PlantDTO> plants; // Liste des plantes mises à jour
+    private List<PlantDTO> plants; // Liste des plantes
 
     public String getType() {
         return type;

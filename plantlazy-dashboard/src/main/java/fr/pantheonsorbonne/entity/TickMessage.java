@@ -15,7 +15,6 @@ public class TickMessage implements Serializable {
         this.timestamp = timestamp;
     }
 
-    // Getters et Setters
     public TickType getTickType() {
         return tickType;
     }

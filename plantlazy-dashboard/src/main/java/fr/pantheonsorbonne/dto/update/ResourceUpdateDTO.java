@@ -6,7 +6,6 @@ public class ResourceUpdateDTO {
     private int before;
     private int after;
 
-    // Getters et setters
     public String getType() {
         return type;
     }

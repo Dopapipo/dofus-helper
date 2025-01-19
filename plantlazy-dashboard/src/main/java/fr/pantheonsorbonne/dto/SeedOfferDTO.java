@@ -1,9 +1,9 @@
 package fr.pantheonsorbonne.dto;
 
 public class SeedOfferDTO {
-    private String seedType; // Type de graine (Tomate, Courgette, etc.)
-    private int quantity; // Quantité en vente
-    private double price; // Prix par unité
+    private String seedType;
+    private int quantity;
+    private double price;
 
     public String getSeedType() {
         return seedType;

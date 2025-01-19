@@ -1,47 +1,56 @@
 package fr.pantheonsorbonne.camel;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+@ApplicationScoped
 public class LogsRoute extends RouteBuilder {
+
+    @Inject
+    @ConfigProperty(name = "log.endpoint")
+    String logEndpoint;
+
 
     @Override
     public void configure() {
-        from("file:data/log?noop=true") // Lecture des fichiers JSON depuis le système de fichiers
+        from(logEndpoint)
                 .convertBodyTo(String.class) // Convertit le fichier en chaîne JSON
                 .choice()
 
-                // RESOURCE_UPDATE
+                // Update des ressources
                 .when(simple("${body} contains 'RESOURCE_UPDATE'"))
                 .unmarshal().json(JsonLibrary.Jackson, fr.pantheonsorbonne.dto.update.ResourceUpdateDTO.class)
                 .log("Processing resource update: ${body}")
                 .bean("dashboardService", "processResourceUpdate")
 
-                // STORE_SELLABLE_SEEDS
+                // Update des graines en vente
                 .when(simple("${body} contains 'STORE_SELLABLE_SEEDS'"))
                 .unmarshal().json(JsonLibrary.Jackson, fr.pantheonsorbonne.dto.update.SeedSaleUpdateDTO.class)
                 .log("Processing store sellable seeds: ${body}")
                 .bean("dashboardService", "processStoreSellableSeeds")
 
-                // STORE_SELLABLE_PLANTS
+                // Update des plantes en vente
                 .when(simple("${body} contains 'STORE_SELLABLE_PLANTS'"))
                 .unmarshal().json(JsonLibrary.Jackson, fr.pantheonsorbonne.dto.update.PlantSaleUpdateDTO.class)
                 .log("Processing store sellable plants: ${body}")
                 .bean("dashboardService", "processStoreSellablePlants")
 
-                // DEAD_PLANT_UPDATE
+                // Update des plantes mortes
                 .when(simple("${body} contains 'DEAD_PLANT_UPDATE'"))
                 .unmarshal().json(JsonLibrary.Jackson, fr.pantheonsorbonne.dto.update.DeadPlantUpdateDTO.class)
                 .log("Processing dead plant update: ${body}")
                 .bean("dashboardService", "processDeadPlantUpdate")
 
-                // PLANT_UPDATE
+                // Update des plantes
                 .when(simple("${body} contains 'PLANT_UPDATE'"))
                 .unmarshal().json(JsonLibrary.Jackson, fr.pantheonsorbonne.dto.update.PlantUpdateDTO.class)
                 .log("Processing plant update: ${body}")
                 .bean("dashboardService", "processPlantUpdate")
 
-                // Unsupported log types
+                // Log non reconnu
                 .otherwise()
                 .log("Unsupported log type: ${body}");
 
