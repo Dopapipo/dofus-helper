@@ -14,5 +14,4 @@ public class MessageProducerService {
     public void sendMessageToRoute(String endpointUri, Object message) {
         producerTemplate.sendBody(endpointUri, message);
     }
-
 }

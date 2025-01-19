@@ -2,22 +2,7 @@ package fr.pantheonsorbonne.dto;
 
 import java.io.Serializable;
 
-public class TickMessage implements Serializable {
-    private final TickType tickType;
-    private final long timestamp;
-
-    public TickMessage(TickType tickType, long timestamp) {
-        this.tickType = tickType;
-        this.timestamp = timestamp;
-    }
-
-    public TickType getTickType() {
-        return tickType;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
+public record TickMessage(TickType tickType, long timestamp) implements Serializable {
 
     @Override
     public String toString() {
@@ -25,5 +10,9 @@ public class TickMessage implements Serializable {
                 "tickType=" + tickType +
                 ", timestamp=" + timestamp +
                 '}';
+    }
+
+    public String getTickType() {
+        return tickType.name();
     }
 }

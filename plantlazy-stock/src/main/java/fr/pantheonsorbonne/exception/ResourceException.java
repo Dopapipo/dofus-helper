@@ -1,7 +1,8 @@
 package fr.pantheonsorbonne.exception;
 
 
-public abstract class ResourceException extends RuntimeException {
+public abstract class
+ResourceException extends RuntimeException {
     private final ResourceExceptionCode code;
 
     protected ResourceException(ResourceExceptionCode code, String message) {
