@@ -1,50 +1,35 @@
 package fr.pantheonsorbonne.model;
 
 public class ResourceData {
-    private int water;
-    private int energy;
-    private int fertilizer;
-    private int money;
+    private String resourceType; // WATER, LIGHT, etc.
+    private int currentValue;
 
-    public int getWater() {
-        return water;
+    public ResourceData(String resourceType, int currentValue) {
+        this.resourceType = resourceType;
+        this.currentValue = currentValue;
     }
 
-    public void setWater(int water) {
-        this.water = water;
+    public String getResourceType() {
+        return resourceType;
     }
 
-    public int getEnergy() {
-        return energy;
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 
-    public void setEnergy(int energy) {
-        this.energy = energy;
+    public int getCurrentValue() {
+        return currentValue;
     }
 
-    public int getFertilizer() {
-        return fertilizer;
-    }
-
-    public void setFertilizer(int fertilizer) {
-        this.fertilizer = fertilizer;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
+    public void setCurrentValue(int currentValue) {
+        this.currentValue = currentValue;
     }
 
     @Override
     public String toString() {
         return "ResourceData{" +
-                "water=" + water +
-                ", energy=" + energy +
-                ", fertilizer=" + fertilizer +
-                ", money=" + money +
+                "resourceType='" + resourceType + '\'' +
+                ", currentValue=" + currentValue +
                 '}';
     }
 }

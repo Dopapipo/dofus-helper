@@ -1,0 +1,15 @@
+{
+  "type": "STORE_SELLABLE_PLANTS",
+  "plants": [
+    {
+      "plantType": "Rose",
+      "sellingPrice": 120.0,
+      "quantity": 3
+    },
+    {
+      "plantType": "Tulip",
+      "sellingPrice": 80.0,
+      "quantity": 5
+    }
+  ]
+}

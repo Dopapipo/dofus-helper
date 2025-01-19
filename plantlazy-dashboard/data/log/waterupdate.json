@@ -1,0 +1,6 @@
+{
+  "type": "RESOURCE_UPDATE",
+  "resourceType": "WATER",
+  "before": 500,
+  "after": 1000
+}

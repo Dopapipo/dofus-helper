@@ -1,105 +1,164 @@
 package fr.pantheonsorbonne.model;
 
+import fr.pantheonsorbonne.dto.DeadPlantDTO;
+import fr.pantheonsorbonne.dto.PlantDTO;
+import fr.pantheonsorbonne.dto.PlantOfferDTO;
+import fr.pantheonsorbonne.dto.SeedOfferDTO;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Dashboard {
 
-    private int day = 1; // Jour actuel
-    private int tick = 0; // Tick actuel dans la journée
-    private final Map<String, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
-    private int deadPlantsCount = 0; // Nombre de plantes mortes
-    private final Map<String, PlantData> plantsForSale = new HashMap<>(); // Plantes en vente
-    private final ResourceData resources = new ResourceData(); // Ressources globales
+    private int day = 0;
+    private int tick = 0;
 
-    // Méthode pour incrémenter le tick
-    public void incrementTick() {
-        tick++;
-        if (tick > 10) {
-            tick = 1;
-            day++;
+
+    private final Map<String, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
+    private final Map<String, ResourceData> resources = new HashMap<>(); // Ressources par type
+    private final Map<String, PlantData> seedsForSale = new HashMap<>(); // Graines en vente
+    private final Map<String, PlantData> plantsForSale = new HashMap<>(); // Plantes en vente
+    private final Map<Integer, String> deadPlants = new HashMap<>(); // Plantes mortes (ID, nom)
+
+
+
+    public Dashboard() {
+        resources.put("WATER", new ResourceData("WATER", 0));
+        resources.put("ENERGY", new ResourceData("ENERGY", 0));
+        resources.put("FERTILIZER", new ResourceData("FERTILIZER", 0));
+        resources.put("MONEY", new ResourceData("MONEY", 0));
+    }
+
+
+
+
+    public void updateResource(String resourceType, int newValue) {
+        ResourceData resource = resources.get(resourceType.toUpperCase());
+        if (resource != null) {
+            resource.setCurrentValue(newValue);
+        } else {
+            System.err.println("Resource type not recognized: " + resourceType);
         }
     }
 
-    // Méthode pour mettre à jour les ressources
-    public void updateResources(int water, int energy, int fertilizer, int money) {
-        resources.setWater(water);
-        resources.setEnergy(energy);
-        resources.setFertilizer(fertilizer);
-        resources.setMoney(money);
+
+
+    public void updateSeedsForSale(List<SeedOfferDTO> seeds) {
+        seedsForSale.clear(); // Réinitialise les graines en vente
+        for (SeedOfferDTO seed : seeds) {
+            PlantData plant = new PlantData();
+            plant.setName(seed.getSeedType());
+            plant.setPrice((int) seed.getPrice());
+            plant.setQuantity(seed.getQuantity());
+            seedsForSale.put(seed.getSeedType(), plant);
+        }
     }
 
-    // Méthode pour mettre à jour une plante
-    public void updatePlant(String plantId, String name, int watering, int energy, int fertilizer, int health) {
-        PlantData plant = plantsInProgress.computeIfAbsent(plantId, id -> new PlantData());
-        plant.setName(name);
-        plant.setWateringLevel(watering);
-        plant.setEnergyLevel(energy);
-        plant.setFertilizerLevel(fertilizer);
-        plant.setHealthLevel(health);
+    public void updatePlantsForSale(List<PlantOfferDTO> plants) {
+        plantsForSale.clear();
+        for (PlantOfferDTO plant : plants) {
+            PlantData plantData = new PlantData();
+            plantData.setName(plant.getPlantType());
+            plantData.setPrice((int) plant.getSellingPrice());
+            plantData.setQuantity(plant.getQuantity());
+            plantsForSale.put(plant.getPlantType(), plantData);
+        }
     }
 
-    // Méthode pour ajouter une plante en vente
-    public void addPlantForSale(String plantId, String name, int price, int salesRate) {
-        PlantData plant = new PlantData();
-        plant.setName(name);
-        plant.setPrice(price);
-        plant.setSalesRate(salesRate);
-        plantsForSale.put(plantId, plant);
+
+
+    public void updateDeadPlants(List<DeadPlantDTO> deadPlantsList) {
+        deadPlants.clear(); // Réinitialise la liste des plantes mortes
+        for (DeadPlantDTO deadPlant : deadPlantsList) {
+            deadPlants.put(deadPlant.getId(), deadPlant.getName()); // Ajoute les plantes mortes reçues
+        }
     }
 
-    // Méthode pour marquer une plante comme morte
-    public void incrementDeadPlants(String plantId) {
-        plantsInProgress.remove(plantId);
-        deadPlantsCount++;
+
+
+    public void updatePlantsInProgress(List<PlantDTO> plantList) {
+        plantsInProgress.clear(); // Réinitialise les plantes en cours
+        for (PlantDTO plant : plantList) {
+            PlantData plantData = new PlantData();
+            plantData.setName(plant.getType());
+            plantData.setWaterLevel(plant.getWaterStat());
+            plantData.setEnergyLevel(plant.getSunStat());
+            plantData.setFertilizerLevel(plant.getSoilStat());
+            plantsInProgress.put(plant.getId(), plantData); // Ajoute la plante par son ID
+        }
     }
+
+
+    public void updateTick(String tickType) {
+        if ("HOURLY".equals(tickType)) {
+            tick++;
+        }
+        else if ("DAILY".equals(tickType)) {
+            day++;
+            tick = 0;
+        }
+        else {
+            System.err.println("Type de tick non reconnu : " + tickType);
+        }
+    }
+
+
+
+
+
 
     // Méthode pour afficher le tableau de bord dans la console
     public void display() {
-        System.out.println("\n================== Tableau de bord ==================");
-        System.out.println("Jour : " + day + " | Tick : " + tick);
-        System.out.println("Plantes en cours :");
-        plantsInProgress.values().forEach(plant -> System.out.println(" - " + plant));
-        System.out.println("Nombre de plantes mortes : " + deadPlantsCount);
-        System.out.println("Plantes en vente :");
-        plantsForSale.values().forEach(plant -> System.out.println(" - " + plant));
-        System.out.println("Ressources : " + resources);
+        System.out.println("\n================== 🌱 DASHBOARD 🌱 ==================");
+
+        System.out.printf("📅 Jour : %d | ⏱️ Heure : %d%n", day, tick);
+
+        System.out.println("\n🌿 Plantes en cours :");
+        if (plantsInProgress.isEmpty()) {
+            System.out.println("   Pas de plantes en cours.");
+        } else {
+            plantsInProgress.values().forEach(plant ->
+                    System.out.printf("   - %s | 💧 Eau : %d | ☀️ Énergie : %d | \uD83C\uDF30 Fertilizer : %d%n",
+                            plant.getName(), plant.getWaterLevel(), plant.getEnergyLevel(), plant.getFertilizerLevel()));
+        }
+
+        System.out.println("\n💀 Plantes au compost :");
+        if (deadPlants.isEmpty()) {
+            System.out.println("   Pas de plantes au compost.");
+        } else {
+            deadPlants.forEach((id, name) ->
+                    System.out.printf("   - %s%n", name));
+        }
+
+        System.out.println("\n🛒 Plantes en vente :");
+        if (plantsForSale.isEmpty()) {
+            System.out.println("   Pas de plantes en vente.");
+        } else {
+            plantsForSale.values().forEach(plant ->
+                    System.out.printf("   - %s | 💵 Prix : %d | 📦 Quantité : %d%n",
+                            plant.getName(), plant.getPrice(), plant.getQuantity()));
+        }
+
+        System.out.println("\n🌱 Graines en vente :");
+        if (seedsForSale.isEmpty()) {
+            System.out.println("   Pas de graines en vente.");
+        } else {
+            seedsForSale.values().forEach(seed ->
+                    System.out.printf("   - %s | 💵 Prix : %d | 📦 Quantité : %d%n",
+                            seed.getName(), seed.getQuantity(), seed.getPrice()));
+        }
+
+        System.out.println("\n⚙️ Ressources :");
+        if (resources.isEmpty()) {
+            System.out.println("   Pas de ressources disponibles.");
+        } else {
+            resources.values().forEach(resource ->
+                    System.out.printf("   - %s : %d%n", resource.getResourceType(), resource.getCurrentValue()));
+        }
+
         System.out.println("=====================================================\n");
     }
 
-    public int getDay() {
-        return day;
-    }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
-
-    public int getTick() {
-        return tick;
-    }
-
-    public void setTick(int tick) {
-        this.tick = tick;
-    }
-
-    public Map<String, PlantData> getPlantsInProgress() {
-        return plantsInProgress;
-    }
-
-    public int getDeadPlantsCount() {
-        return deadPlantsCount;
-    }
-
-    public void setDeadPlantsCount(int deadPlantsCount) {
-        this.deadPlantsCount = deadPlantsCount;
-    }
-
-    public Map<String, PlantData> getPlantsForSale() {
-        return plantsForSale;
-    }
-
-    public ResourceData getResources() {
-        return resources;
-    }
 }
