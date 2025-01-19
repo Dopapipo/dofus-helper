@@ -38,7 +38,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeed(String seedType, int quantity) {
+    public void sellSeed(PlantType seedType, int quantity) {
         SeedEntity seed = seedDAO.getSeedByType(seedType)
                 .orElseThrow(() -> new IllegalArgumentException("Seed type not found: " + seedType));
 
