@@ -5,9 +5,9 @@ import fr.pantheonsorbonne.entity.plant.stat.StatType;
 public class ResourceRequest {
     private StatType type;
     private int quantity;
-    private String operationTag;
+    private OperationTag operationTag;
 
-    public ResourceRequest(StatType type, int quantity, String operationTag) {
+    public ResourceRequest(StatType type, int quantity, OperationTag operationTag) {
         this.type = type;
         this.quantity = quantity;
         this.operationTag = operationTag;
@@ -29,11 +29,11 @@ public class ResourceRequest {
         this.quantity = quantity;
     }
 
-    public String getOperationTag() {
+    public OperationTag getOperationTag() {
         return operationTag;
     }
 
-    public void setOperationTag(String operationTag) {
+    public void setOperationTag(OperationTag operationTag) {
         this.operationTag = operationTag;
     }
 }
