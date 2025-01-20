@@ -19,7 +19,7 @@ public class Dashboard {
     private final Map<String, ResourceData> resources = new HashMap<>(); // Ressources
     private final Map<String, PlantData> seedsForSale = new HashMap<>(); // Graines en vente
     private final Map<String, PlantData> plantsForSale = new HashMap<>(); // Plantes en vente
-    private final Map<Integer, String> deadPlants = new HashMap<>(); // Plantes mortes
+    private final Map<String, String> deadPlants = new HashMap<>(); // Plantes mortes
 
 
 
@@ -77,16 +77,41 @@ public class Dashboard {
 
 
 
-    public void updatePlantsInProgress(List<PlantDTO> plantList) {
-        plantsInProgress.clear();
-        for (PlantDTO plant : plantList) {
-            PlantData plantData = new PlantData();
-            plantData.setName(plant.getType());
-            plantData.setWaterLevel(plant.getWaterStat());
-            plantData.setEnergyLevel(plant.getSunStat());
-            plantData.setFertilizerLevel(plant.getSoilStat());
-            plantsInProgress.put(plant.getId(), plantData);
+    public void updatePlantStats(String plantId, int energy, int fertilizer, int water, int growth) {
+        PlantData plant = plantsInProgress.get(plantId);
+        if (plant != null) {
+            plant.setEnergyLevel(energy);
+            plant.setFertilizerLevel(fertilizer);
+            plant.setWaterLevel(water);
+            plant.setGrowthLevel(growth);
+        } else {
+            System.err.println("❌ Plante introuvable : " + plantId);
         }
+    }
+
+    public void markPlantAsDead(String plantId) {
+        PlantData plant = plantsInProgress.remove(plantId);
+        if (plant == null) {
+            System.err.println("❌ Impossible de marquer comme morte une plante introuvable : " + plantId);
+        }
+    }
+
+    public void markPlantAsGrown(String plantId) {
+        PlantData plant = plantsInProgress.remove(plantId);
+        if (plant == null) {
+            System.err.println("❌ Impossible de marquer comme mature une plante introuvable : " + plantId);
+        }
+    }
+
+    public void addNewPlant(String plantId, String plantName, int energy, int fertilizer, int water, int growth) {
+        PlantData newPlant = new PlantData();
+        newPlant.setId(plantId);
+        newPlant.setName(plantName);
+        newPlant.setEnergyLevel(energy);
+        newPlant.setFertilizerLevel(fertilizer);
+        newPlant.setWaterLevel(water);
+        newPlant.setGrowthLevel(growth);
+        plantsInProgress.put(plantId, newPlant);
     }
 
 
