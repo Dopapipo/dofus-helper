@@ -16,7 +16,8 @@ public class LogsRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from(logEndpoint)
+        // from(logEndpoint)
+        from("file:data/log?noop=true")
                 .convertBodyTo(String.class) // Convertit le fichier en chaîne JSON
                 .choice()
 
