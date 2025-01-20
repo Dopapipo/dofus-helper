@@ -1,9 +1,12 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dao.ResourceDAO;
-import fr.pantheonsorbonne.dto.ResourceDTO;
+import fr.pantheonsorbonne.dto.OperationTag;
+import fr.pantheonsorbonne.dto.ResourceLevelDTO;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -26,8 +29,7 @@ public class StockService {
 
     private static final EnumSet<ResourceType> REFILLABLE_TYPES = EnumSet.of(ResourceType.WATER, ResourceType.ENERGY);
 
-    public ResourceDTO updateResource(ResourceType type, Double quantity, String operationTag) {
-        validationService.validateQuantity(quantity);
+    private ResourceUpdateDTO handleUpdate(ResourceType type, Double quantity, OperationTag operationTag) {
         Resource resource = validationService.getResourceOrThrow(type, resourceDAO);
         Double quantityBefore = resource.getQuantity();
 
@@ -36,7 +38,17 @@ public class StockService {
 
         notificationService.notifyResourceUpdate(type, quantityBefore, quantity, updatedResource.getQuantity(), operationTag);
 
-        return ResourceDTO.fromEntity(updatedResource, operationTag);
+        resourceDAO.save(updatedResource);
+
+        return ResourceUpdateDTO.fromEntity(updatedResource, operationTag);
+    }
+
+    public ResourceUpdateDTO updateResource(ResourceUpdateDTO resourceUpdateDTO) {
+        if (resourceUpdateDTO.getOperationTag() == OperationTag.STOCK_RECEIVED) {
+            return this.handleUpdate(resourceUpdateDTO.getType(), resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        } else {
+            return this.handleUpdate(resourceUpdateDTO.getType(), -resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        }
     }
 
     public void refillDailyResource() {
@@ -50,5 +62,11 @@ public class StockService {
     private Resource updateResourceQuantity(Resource resource, Double quantity) {
         resource.setQuantity(resource.getQuantity() + quantity);
         return resourceDAO.save(resource);
+    }
+
+    public ResourceLevelDTO getResourceValue(ResourceType resourceType) {
+        Resource resource = resourceDAO.findByType(resourceType)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found: " + resourceType));
+        return ResourceLevelDTO.fromEntity(resource);
     }
 }

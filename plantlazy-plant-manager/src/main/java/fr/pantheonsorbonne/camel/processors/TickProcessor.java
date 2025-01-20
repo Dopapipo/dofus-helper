@@ -1,10 +1,11 @@
 
 package fr.pantheonsorbonne.camel.processors;
 
-import fr.pantheonsorbonne.dto.TickMessageDTO;
-import fr.pantheonsorbonne.dto.SeedPriceRequestDTO;
+import fr.pantheonsorbonne.camel.client.PlantLazyClient;
+import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -12,16 +13,11 @@ import org.apache.camel.Processor;
 public class TickProcessor implements Processor {
     @Inject
     PlantLazyClient client;
+
     @Override
     public void process(Exchange exchange) throws Exception {
         List<DailySeedOfferDTO> availableSeeds = client.requestDailySeedOffer();
-        RetourDeRomain moneyDisponible = client.requestAvailableMoney();
+        Integer moneyDisponible = client.requestMoneyAvailable().quantity();
 
-        ... machin
-
-        List<Seed> achetees = client.acheterGraines();
-
-
-        exchange.getIn().setBody(achetees);
     }
 }

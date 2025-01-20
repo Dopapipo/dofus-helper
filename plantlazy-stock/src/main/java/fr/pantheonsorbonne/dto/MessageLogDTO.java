@@ -2,15 +2,15 @@ package fr.pantheonsorbonne.dto;
 
 import fr.pantheonsorbonne.entity.ResourceType;
 
-public record ResourceMessage(
+public record MessageLogDTO(
         String resourceType,
         Double quantityBefore,
         Double quantityChange,
         Double quantityAfter,
-        String operationTag,
+        OperationTag operationTag,
         String type
 ) {
-    public ResourceMessage(ResourceType type, Double quantityBefore, Double quantityChange, Double quantityAfter, String operationTag) {
+    public MessageLogDTO(ResourceType type, Double quantityBefore, Double quantityChange, Double quantityAfter, OperationTag operationTag) {
         this(type.name(), quantityBefore, quantityChange, quantityAfter, operationTag, "UPDATE_RESOURCE");
     }
 

@@ -6,9 +6,9 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public record ErrorResponse(String code, String message, String timestamp) {
+public record ErrorResponseDTO(String code, String message, String timestamp) {
 
-    public ErrorResponse(ResourceException ex) {
+    public ErrorResponseDTO(ResourceException ex) {
         this(
                 ex.getCode().getCode(),
                 ex.getMessage(),
@@ -17,4 +17,5 @@ public record ErrorResponse(String code, String message, String timestamp) {
                         .format(Instant.now())
         );
     }
+
 }

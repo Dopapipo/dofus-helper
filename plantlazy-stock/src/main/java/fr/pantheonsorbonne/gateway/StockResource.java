@@ -1,14 +1,13 @@
 package fr.pantheonsorbonne.gateway;
 
-import fr.pantheonsorbonne.dto.ErrorResponse;
-import fr.pantheonsorbonne.dto.ResourceDTO;
+import fr.pantheonsorbonne.dto.ErrorResponseDTO;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
+import fr.pantheonsorbonne.dto.ResourceLevelDTO;
+import fr.pantheonsorbonne.entity.ResourceType;
 import fr.pantheonsorbonne.exception.ResourceException;
 import fr.pantheonsorbonne.service.StockService;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -22,15 +21,29 @@ public class StockResource {
 
     @POST
     @Path("/update")
-    public Response updateResource(ResourceDTO resourceDTO) {
+    public Response updateResource(ResourceUpdateDTO resourceUpdateDTO) {
         try {
-            String operationTag = resourceDTO.getOperationTag();
-            ResourceDTO updatedResource = stockService.updateResource(resourceDTO.getType(), resourceDTO.getQuantity(), operationTag);
-            return Response.ok(updatedResource).build();
+            ResourceUpdateDTO resourceUpdated = stockService.updateResource(resourceUpdateDTO);
+            return Response.accepted(resourceUpdated).build();
         } catch (ResourceException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorResponse(e))
+                    .entity(new ErrorResponseDTO(e))
                     .build();
         }
     }
+
+    @GET
+    @Path("/{resourceType}")
+    public Response getResourceValue(@PathParam("resourceType") ResourceType resourceType) {
+        try {
+            ResourceLevelDTO resourceLevelDTO = stockService.getResourceValue(resourceType);
+            return Response.ok(resourceLevelDTO).build();
+        } catch (ResourceException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new ErrorResponseDTO(e))
+                    .build();
+        }
+    }
+
+
 }
