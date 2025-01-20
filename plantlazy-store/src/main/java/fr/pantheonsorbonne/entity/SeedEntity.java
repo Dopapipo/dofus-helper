@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.entity;
 
 import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.SeedQuality;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +15,7 @@ public class SeedEntity {
     private PlantType type; // Remplace le champ String par l'énumération PlantType
 
     private double price; // Prix unitaire de la graine
-    private int quantity; // Quantité disponible pour l'offre quotidienne
+    private int availableQuantity; // Quantité disponible pour l'offre quotidienne
 
     public SeedEntity() {
     }
@@ -22,7 +23,7 @@ public class SeedEntity {
     public SeedEntity(PlantType type, double price, int quantity) {
         this.type = type;
         this.price = price;
-        this.quantity = quantity;
+        this.availableQuantity = availableQuantity;
     }
 
     public Long getId() {
@@ -50,12 +51,20 @@ public class SeedEntity {
     }
 
     public int getQuantity() {
-        return quantity;
+        return availableQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantity(int availableQuantity) {
+        this.availableQuantity = availableQuantity;
     }
+
+/*    public SeedQuality getSeedType() {
+        return seedType;
+    }
+
+    public void setSeedType(SeedQuality seedType) {
+        this.seedType = seedType;
+    }*/
 
     @Override
     public String toString() {
@@ -63,7 +72,10 @@ public class SeedEntity {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", price=" + price +
-                ", quantity=" + quantity +
+                ", quantity=" + availableQuantity +
                 '}';
     }
+
+
+
 }
