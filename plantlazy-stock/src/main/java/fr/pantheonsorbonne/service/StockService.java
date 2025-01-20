@@ -44,7 +44,11 @@ public class StockService {
     }
 
     public ResourceUpdateDTO updateResource(ResourceUpdateDTO resourceUpdateDTO) {
-        return this.handleUpdate(resourceUpdateDTO.getType(), -resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        if (resourceUpdateDTO.getOperationTag() == OperationTag.STOCK_RECEIVED) {
+            return this.handleUpdate(resourceUpdateDTO.getType(), resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        } else {
+            return this.handleUpdate(resourceUpdateDTO.getType(), -resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        }
     }
 
     public void refillDailyResource() {

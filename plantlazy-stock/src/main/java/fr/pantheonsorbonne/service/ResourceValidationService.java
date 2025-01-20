@@ -13,9 +13,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 class ResourceValidationService {
 
     public void validateResourceUpdate(Resource resource, ResourceType type, Double quantity) {
-        if (resource.getQuantity() + quantity > StockService.DAILY_LIMIT) {
-            throw new DailyLimitExceededException("Daily limit exceeded for type: " + type);
-        }
         if (resource.getQuantity() + quantity < 0) {
             throw new InsufficientResourceException("Not enough resource of type: " + type);
         }
