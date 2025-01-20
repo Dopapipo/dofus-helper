@@ -1,6 +1,9 @@
 package fr.pantheonsorbonne.camel.processors;
 
+import fr.pantheonsorbonne.dto.LogMessage;
 import fr.pantheonsorbonne.dto.SeedDTO;
+import fr.pantheonsorbonne.entity.PlantEntity;
+import fr.pantheonsorbonne.mapper.PlantMapper;
 import fr.pantheonsorbonne.service.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +17,9 @@ public class SeedProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         SeedDTO seedDTO = exchange.getIn().getBody(SeedDTO.class);
-        seedService.growSeed(seedDTO);
+        PlantEntity plant = seedService.growSeed(seedDTO);
+        LogMessage plantCreated = PlantMapper.toPlantCreatedLog(plant);
+        exchange.getIn().setBody(plantCreated);
     }
 }
 

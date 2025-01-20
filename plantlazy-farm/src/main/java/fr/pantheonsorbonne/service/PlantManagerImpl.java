@@ -19,12 +19,11 @@ public class PlantManagerImpl implements PlantManager {
     PlantRepository plantRepository;
 
     @Override
-    public void sendSoilFromDeadPlants(Iterable<PlantEntity> plants) {
+    public void sendDeadPlants(Iterable<PlantEntity> plants) {
         for (PlantEntity plant : plants) {
             if (plant.isDead()) {
                 plantTransportService.send(plant);
                 logService.sendLog(PlantMapper.toPlantDiedLog(plant));
-                plantRepository.delete(plant);
             }
         }
     }
@@ -39,6 +38,17 @@ public class PlantManagerImpl implements PlantManager {
                     plantRepository.save(updatedPlant);
                     logService.sendLog(PlantMapper.toPlantUpdatedLog(updatedPlant));
                 }
+            }
+        }
+    }
+
+    @Override
+    public void triggerPlantGrowth(Iterable<PlantEntity> plants) {
+        for (PlantEntity plant : plants) {
+            if (!plant.isDead()) {
+                plant.grow();
+                PlantEntity updatedPlant = plantRepository.save(plant);
+                logService.sendLog(PlantMapper.toPlantUpdatedLog(updatedPlant));
             }
         }
     }
