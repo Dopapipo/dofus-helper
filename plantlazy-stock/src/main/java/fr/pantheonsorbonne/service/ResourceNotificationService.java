@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.service;
 
-import fr.pantheonsorbonne.dto.ResourceMessage;
+import fr.pantheonsorbonne.dto.MessageLogDTO;
+import fr.pantheonsorbonne.dto.OperationTag;
 import fr.pantheonsorbonne.entity.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -10,13 +11,13 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 class ResourceNotificationService {
 
     @Inject
-    MessageProducerService producerTemplate;
+    MessageProducerServiceLog messageProducerServiceLog;
 
     @ConfigProperty(name = "log.endpoint")
     String logEndpoint;
 
-    public void notifyResourceUpdate(ResourceType type, Double quantityBefore, Double quantity, Double updatedQuantity, String operationTag) {
-        ResourceMessage message = new ResourceMessage(type, quantityBefore, quantity, updatedQuantity, operationTag);
-        producerTemplate.sendMessageToRoute(logEndpoint, message);
+    public void notifyResourceUpdate(ResourceType type, Double quantityBefore, Double quantity, Double updatedQuantity, OperationTag operationTag) {
+        MessageLogDTO ressourceMessageDTO = new MessageLogDTO(type, quantityBefore, quantity, updatedQuantity, operationTag);
+        messageProducerServiceLog.sendMessageToRoute(logEndpoint, ressourceMessageDTO);
     }
 }

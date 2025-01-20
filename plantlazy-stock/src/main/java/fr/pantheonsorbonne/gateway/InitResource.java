@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/stock-init")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ResourceInitApi {
+public class InitResource {
 
     @Inject
     ResourceInitializerService resourceInitializerService;

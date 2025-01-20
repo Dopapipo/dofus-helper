@@ -3,19 +3,19 @@ package fr.pantheonsorbonne.dto;
 import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.ResourceType;
 
-public class ResourceDTO {
+public class ResourceUpdateDTO {
     private ResourceType type;
     private Double quantity;
-    private String operationTag;
+    private OperationTag operationTag;
 
-    public ResourceDTO(ResourceType type, Double quantity, String operationTag) {
+    public ResourceUpdateDTO(ResourceType type, Double quantity, OperationTag operationTag) {
         this.type = type;
         this.quantity = quantity;
         this.operationTag = operationTag;
     }
 
-    public static ResourceDTO fromEntity(Resource resource, String operationTag) {
-        return new ResourceDTO(
+    public static ResourceUpdateDTO fromEntity(Resource resource, OperationTag operationTag) {
+        return new ResourceUpdateDTO(
                 resource.getType(),
                 resource.getQuantity(),
                 operationTag
@@ -30,8 +30,8 @@ public class ResourceDTO {
         return quantity;
     }
 
-    public String getOperationTag() {
-        return operationTag;
+    public OperationTag getOperationTag() {
+        return this.operationTag;
     }
 
     public void setType(ResourceType type) {
@@ -42,16 +42,7 @@ public class ResourceDTO {
         this.quantity = quantity;
     }
 
-    public void setOperationTag(String operationTag) {
+    public void setOperationTag(OperationTag operationTag) {
         this.operationTag = operationTag;
-    }
-
-    @Override
-    public String toString() {
-        return "ResourceDTO{" +
-                ", type=" + type +
-                ", quantity=" + quantity +
-                ", operationTag='" + operationTag + '\'' +
-                '}';
     }
 }
