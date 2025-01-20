@@ -23,7 +23,7 @@ public interface StoreService {
     @POST
     @Path("/seeds/sell/{type}/{quantity}")
     @Consumes(MediaType.APPLICATION_JSON)
-    void sellSeed(@PathParam("type") PlantType type, @PathParam("quantity") int quantity);
+    void buySeed(@PathParam("type") PlantType type, @PathParam("quantity") int quantity);
 
 
 }

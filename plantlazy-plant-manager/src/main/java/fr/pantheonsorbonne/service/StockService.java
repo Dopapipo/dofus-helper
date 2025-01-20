@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dto.ResourceResponseDTO;
+import fr.pantheonsorbonne.dto.ResourceType;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -21,5 +22,5 @@ public interface StockService {
     @GET
     @Path("/money")
     @Consumes(MediaType.APPLICATION_JSON)
-    ResourceResponseDTO getMoney();
+    ResourceResponseDTO getMoney(ResourceType resourceType);
 }
