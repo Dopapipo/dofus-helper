@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.service;
 
-import fr.pantheonsorbonne.camel.producers.PlantTransportProducer;
 import fr.pantheonsorbonne.dao.PlantRepository;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.plant.stat.PlantStat;
@@ -36,7 +35,9 @@ public class PlantManagerImpl implements PlantManager {
             for (PlantStat stat : plant.getStats()) {
                 if (plantNeedsNourishmentForStat(plant, stat)) {
                     int requiredResourceQuantity = stat.getOptimalRessourceQuantityToFeed();
-                    plantRessourceManager.feedPlant(plant, requiredResourceQuantity, stat);
+                    PlantEntity updatedPlant = plantRessourceManager.feedPlant(plant, requiredResourceQuantity, stat);
+                    plantRepository.save(updatedPlant);
+                    logService.sendLog(PlantMapper.toPlantUpdatedLog(updatedPlant));
                 }
             }
         }
