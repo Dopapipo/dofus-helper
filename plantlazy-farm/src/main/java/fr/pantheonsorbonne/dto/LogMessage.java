@@ -8,6 +8,7 @@ public class LogMessage {
         this.type = type;
         this.plantDTO = plantDTO;
     }
+
     public LogType getType() {
         return type;
     }

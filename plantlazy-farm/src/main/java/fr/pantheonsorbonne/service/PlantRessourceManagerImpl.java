@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.camel.client.ResourceStockClient;
 import fr.pantheonsorbonne.entity.PlantEntity;
-import fr.pantheonsorbonne.entity.exception.ResourceRequestDeniedException;
+import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.entity.plant.stat.PlantStat;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -26,5 +26,6 @@ public class PlantRessourceManagerImpl implements PlantRessourceManager {
             logger.warn("Resource request denied for {}: {}", stat.getType(), e.getMessage());
         }
         return plant;
-    }}
+    }
+}
 

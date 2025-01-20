@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.camel.client;
 import fr.pantheonsorbonne.dto.OperationTag;
 import fr.pantheonsorbonne.dto.ResourceRequest;
-import fr.pantheonsorbonne.entity.exception.ResourceRequestDeniedException;
+import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;

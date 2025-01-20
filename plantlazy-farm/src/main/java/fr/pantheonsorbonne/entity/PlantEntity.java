@@ -7,9 +7,14 @@ import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +51,7 @@ public class PlantEntity {
 
     protected PlantEntity() {
     }
+
     public PlantEntity(PlantType type, FullPlantStats stats) {
         this(type, stats.getWaterStat(), stats.getSunStat(), stats.getSoilStat());
     }
@@ -122,9 +128,11 @@ public class PlantEntity {
         this.causeOfDeath = cause;
         this.timeOfDeath = System.currentTimeMillis();
     }
+
     public boolean isDead() {
         return new FullPlantStats(this.water, this.soil, this.sun).isDead();
     }
+
     public void grow() {
         if (isDead) {
             return;
@@ -132,7 +140,7 @@ public class PlantEntity {
         this.water.tick();
         this.sun.tick();
         this.soil.tick();
-        if(this.isDead()) {
+        if (this.isDead()) {
             this.markAsDead("Lack of ressources");
         }
     }
@@ -157,7 +165,6 @@ public class PlantEntity {
             case SUN -> this.sun;
         };
     }
-
 
 
 }
