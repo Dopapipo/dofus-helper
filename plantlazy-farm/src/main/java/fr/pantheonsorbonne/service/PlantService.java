@@ -17,6 +17,7 @@ public class PlantService {
             plant.grow();
             plantRepository.save(plant);
         }
+        this.takeCareOfPlants();
     }
     // envoyer engrais
     public void processDailyCycle() {

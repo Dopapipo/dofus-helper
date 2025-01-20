@@ -122,7 +122,7 @@ public class PlantEntity {
         this.causeOfDeath = cause;
         this.timeOfDeath = System.currentTimeMillis();
     }
-    private boolean isDead() {
+    public boolean isDead() {
         return new FullPlantStats(this.water, this.soil, this.sun).isDead();
     }
     public void grow() {
