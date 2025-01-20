@@ -13,18 +13,13 @@ public class PlantService {
     PlantManager plantManager;
     public void processPlantLifecycle() {
         Iterable<PlantEntity> plants = plantRepository.findAll();
-        for (PlantEntity plant : plants) {
-            plant.grow();
-            plantRepository.save(plant);
-        }
+        plantManager.triggerPlantGrowth(plants);
         this.takeCareOfPlants();
     }
-    // envoyer engrais
     public void processDailyCycle() {
         Iterable<PlantEntity> plants = plantRepository.findAll();
-        plantManager.sendSoilFromDeadPlants(plants);
+        plantManager.sendDeadPlants(plants);
     }
-    // nourrir plantes
     public void takeCareOfPlants() {
         Iterable<PlantEntity> plants = plantRepository.findAll();
         plantManager.triggerPlantNourishment(plants);

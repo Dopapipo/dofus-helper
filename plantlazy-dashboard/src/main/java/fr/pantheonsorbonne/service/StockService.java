@@ -7,8 +7,8 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import fr.pantheonsorbonne.dto.InitMoneyDTO;
 
-@Path("/api")
 @RegisterRestClient(configKey = "stock-service")
+@Path("/api")
 public interface StockService {
 
     @POST
