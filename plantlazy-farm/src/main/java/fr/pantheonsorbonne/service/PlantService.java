@@ -9,6 +9,8 @@ import jakarta.inject.Inject;
 public class PlantService {
     @Inject
     PlantRepository plantRepository;
+    @Inject
+    PlantManager plantManager;
     public void processPlantLifecycle() {
         Iterable<PlantEntity> plants = plantRepository.findAll();
         for (PlantEntity plant : plants) {
@@ -16,7 +18,14 @@ public class PlantService {
             plantRepository.save(plant);
         }
     }
+    // envoyer engrais
     public void processDailyCycle() {
-
+        Iterable<PlantEntity> plants = plantRepository.findAll();
+        plantManager.sendSoilFromDeadPlants(plants);
+    }
+    // nourrir plantes
+    public void takeCareOfPlants() {
+        Iterable<PlantEntity> plants = plantRepository.findAll();
+        plantManager.triggerPlantNourishment(plants);
     }
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class WaterStat extends GenericPlantStat {
     public WaterStat(int value) {
-        super(value,60,10);
+        super(value, 60, 8, StatType.WATER);
     }
 
     public WaterStat() {
