@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -37,7 +38,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeed(String seedType, int quantity) {
+    public void sellSeed(PlantType seedType, int quantity) {
         SeedEntity seed = seedDAO.getSeedByType(seedType)
                 .orElseThrow(() -> new IllegalArgumentException("Seed type not found: " + seedType));
 
@@ -54,9 +55,9 @@ public class SeedServiceImpl implements SeedService {
     @Transactional
     public void initializeSeedData() {
         if (seedDAO.getAllSeeds().isEmpty()) {
-            seedDAO.saveSeed(new SeedEntity("Tomate", 50, 0));
-            seedDAO.saveSeed(new SeedEntity("Courgette", 75, 0));
-            seedDAO.saveSeed(new SeedEntity("Concombre", 60, 0));
+            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, 0));
+            seedDAO.saveSeed(new SeedEntity(PlantType.FLOWER, 75, 0));
+            seedDAO.saveSeed(new SeedEntity(PlantType.TREE, 60, 0));
         }
     }
 }

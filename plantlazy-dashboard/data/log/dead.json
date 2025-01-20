@@ -1,0 +1,17 @@
+{
+  "type": "DEAD_PLANT_UPDATE",
+  "plants": [
+    {
+      "id": 1,
+      "name": "Rose"
+    },
+    {
+      "id": 2,
+      "name": "Tulip"
+    },
+    {
+      "id": 3,
+      "name": "Daisy"
+    }
+  ]
+}

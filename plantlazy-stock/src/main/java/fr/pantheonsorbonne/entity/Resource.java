@@ -13,7 +13,6 @@ public class Resource {
     private ResourceType type;
     private Double quantity;
 
-
     public Long getId() {
         return id;
     }
@@ -24,6 +23,10 @@ public class Resource {
 
     public ResourceType getType() {
         return type;
+    }
+
+    public void setType(ResourceType type) {
+        this.type = type;
     }
 
     public Double getQuantity() {

@@ -1,13 +1,21 @@
 package fr.pantheonsorbonne.model;
 
 public class PlantData {
+    private String id;
     private String name;
-    private int wateringLevel;
+    private int waterLevel;
     private int energyLevel;
     private int fertilizerLevel;
-    private int healthLevel;
     private int price;
-    private int salesRate;
+    private int quantity;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -17,12 +25,12 @@ public class PlantData {
         this.name = name;
     }
 
-    public int getWateringLevel() {
-        return wateringLevel;
+    public int getWaterLevel() {
+        return waterLevel;
     }
 
-    public void setWateringLevel(int wateringLevel) {
-        this.wateringLevel = wateringLevel;
+    public void setWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
     }
 
     public int getEnergyLevel() {
@@ -41,14 +49,6 @@ public class PlantData {
         this.fertilizerLevel = fertilizerLevel;
     }
 
-    public int getHealthLevel() {
-        return healthLevel;
-    }
-
-    public void setHealthLevel(int healthLevel) {
-        this.healthLevel = healthLevel;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -57,24 +57,25 @@ public class PlantData {
         this.price = price;
     }
 
-    public int getSalesRate() {
-        return salesRate;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setSalesRate(int salesRate) {
-        this.salesRate = salesRate;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
+
 
     @Override
     public String toString() {
         return "PlantData{" +
-                "name='" + name + '\'' +
-                ", wateringLevel=" + wateringLevel +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", waterLevel=" + waterLevel +
                 ", energyLevel=" + energyLevel +
                 ", fertilizerLevel=" + fertilizerLevel +
-                ", healthLevel=" + healthLevel +
                 ", price=" + price +
-                ", salesRate=" + salesRate +
+                ", quantity=" + quantity +
                 '}';
     }
 }

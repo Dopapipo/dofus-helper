@@ -1,0 +1,15 @@
+{
+  "type": "STORE_SELLABLE_SEEDS",
+  "seeds": [
+    {
+      "seedType": "Tomato",
+      "quantity": 10,
+      "price": 50.0
+    },
+    {
+      "seedType": "Carrot",
+      "quantity": 5,
+      "price": 30.0
+    }
+  ]
+}

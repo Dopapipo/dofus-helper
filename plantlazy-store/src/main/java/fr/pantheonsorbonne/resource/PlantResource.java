@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.resource;
 
 import fr.pantheonsorbonne.dto.PlantSaleDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.services.PlantService;
 
 import jakarta.inject.Inject;
@@ -30,7 +31,7 @@ public class PlantResource {
 
     @POST
     @Path("/sell/{type}/{quantity}")
-    public Response sellPlant(@PathParam("type") String type, @PathParam("quantity") int quantity) {
+    public Response sellPlant(@PathParam("type") PlantType type, @PathParam("quantity") int quantity) {
         try {
             plantService.sellPlant(type, quantity);
             return Response.ok("Plant sold successfully").build();

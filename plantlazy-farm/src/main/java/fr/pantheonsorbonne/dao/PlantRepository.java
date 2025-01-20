@@ -2,7 +2,12 @@ package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.PlantEntity;
 import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PlantRepository extends CrudRepository<PlantEntity, UUID> {
+@Repository
+public interface PlantRepository {
+    PlantEntity save(PlantEntity plantEntity);
+    PlantEntity findById(UUID id);
+    Iterable<PlantEntity> findAll();
+    void delete(PlantEntity plantEntity);
 }

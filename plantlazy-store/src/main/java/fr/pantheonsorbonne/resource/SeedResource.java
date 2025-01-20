@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.resource;
 
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.services.SeedService;
 
 import jakarta.inject.Inject;
@@ -37,7 +38,7 @@ public class SeedResource {
 
     @POST
     @Path("/sell/{type}/{quantity}")
-    public Response sellSeed(@PathParam("type") String seedType, @PathParam("quantity") int quantity) {
+    public Response sellSeed(@PathParam("type") PlantType seedType, @PathParam("quantity") int quantity) {
         try {
             seedService.sellSeed(seedType, quantity);
             return Response.ok("Seed sold successfully").build();

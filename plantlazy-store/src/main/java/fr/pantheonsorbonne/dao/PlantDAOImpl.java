@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.PlantEntity;
 
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -22,7 +23,7 @@ public class PlantDAOImpl implements PlantDAO {
     }
 
     @Override
-    public Optional<PlantEntity> getPlantByType(String type) {
+    public Optional<PlantEntity> getPlantByType(PlantType type) {
         return entityManager.createQuery("SELECT p FROM PlantEntity p WHERE p.type = :type", PlantEntity.class)
                 .setParameter("type", type)
                 .getResultStream()

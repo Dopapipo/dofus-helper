@@ -4,42 +4,54 @@ import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.ResourceType;
 
 public class ResourceDTO {
-    private final Long id;
     private ResourceType type;
     private Double quantity;
+    private String operationTag;
 
-
-    public ResourceDTO(Long id, ResourceType type, Double quantity) {
-        this.id = id;
+    public ResourceDTO(ResourceType type, Double quantity, String operationTag) {
         this.type = type;
         this.quantity = quantity;
+        this.operationTag = operationTag;
     }
 
-    public static ResourceDTO fromEntity(Resource resource) {
+    public static ResourceDTO fromEntity(Resource resource, String operationTag) {
         return new ResourceDTO(
-                resource.getId(),
                 resource.getType(),
-                resource.getQuantity()
+                resource.getQuantity(),
+                operationTag
         );
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public ResourceType getType() {
         return type;
     }
 
-    public void setType(ResourceType type) {
-        this.type = type;
-    }
-
     public Double getQuantity() {
         return quantity;
     }
 
+    public String getOperationTag() {
+        return operationTag;
+    }
+
+    public void setType(ResourceType type) {
+        this.type = type;
+    }
+
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public void setOperationTag(String operationTag) {
+        this.operationTag = operationTag;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourceDTO{" +
+                ", type=" + type +
+                ", quantity=" + quantity +
+                ", operationTag='" + operationTag + '\'' +
+                '}';
     }
 }

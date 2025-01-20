@@ -1,0 +1,26 @@
+{
+  "type": "PLANT_UPDATE",
+  "plants": [
+    {
+      "id": "plant001",
+      "type": "Tomato",
+      "waterStat": 75,
+      "sunStat": 60,
+      "soilStat": 80
+    },
+    {
+      "id": "plant002",
+      "type": "Carrot",
+      "waterStat": 65,
+      "sunStat": 55,
+      "soilStat": 70
+    },
+    {
+      "id": "plant003",
+      "type": "Lettuce",
+      "waterStat": 85,
+      "sunStat": 50,
+      "soilStat": 90
+    }
+  ]
+}

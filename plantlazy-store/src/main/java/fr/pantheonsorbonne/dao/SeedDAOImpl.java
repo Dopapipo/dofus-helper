@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.SeedEntity;
 
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -23,7 +24,7 @@ public class SeedDAOImpl implements SeedDAO {
     }
 
     @Override
-    public Optional<SeedEntity> getSeedByType(String type) {
+    public Optional<SeedEntity> getSeedByType(PlantType type) {
         return entityManager.createQuery("SELECT s FROM SeedEntity s WHERE s.type = :type", SeedEntity.class)
                 .setParameter("type", type)
                 .getResultStream()

@@ -16,31 +16,21 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StockResource {
+
     @Inject
     StockService stockService;
 
     @POST
-    @Path("/request")
-    public Response requestResource(ResourceDTO resourceDTO) {
+    @Path("/update")
+    public Response updateResource(ResourceDTO resourceDTO) {
         try {
-            ResourceDTO updatedResource = stockService.updateResource(resourceDTO.getType(), -resourceDTO.getQuantity());
+            String operationTag = resourceDTO.getOperationTag();
+            ResourceDTO updatedResource = stockService.updateResource(resourceDTO.getType(), resourceDTO.getQuantity(), operationTag);
             return Response.ok(updatedResource).build();
         } catch (ResourceException e) {
-            return Response.status(getStatusCode(e))
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorResponse(e))
                     .build();
         }
-    }
-
-    private int getStatusCode(ResourceException e) {
-        return switch (e.getCode()) {
-            case INSUFFICIENT_RESOURCE -> 400;
-            case DAILY_LIMIT_EXCEEDED -> 429;
-            case RESOURCE_NOT_FOUND -> 404;
-            case INVALID_QUANTITY -> 400;
-            case DATABASE_ERROR -> 500;
-            default -> 500;
-        };
-
     }
 }

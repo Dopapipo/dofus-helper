@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.exception.InsufficientStockException;
 import fr.pantheonsorbonne.exception.PlantNotFoundException;
 import fr.pantheonsorbonne.exception.SaleNotCompletedException;
@@ -25,12 +26,12 @@ public class PlantServiceImpl implements PlantService {
     private static final Random random = new Random();
 
     // Probabilités de vente par type de plante (en pourcentage)
-    private static final Map<String, Integer> SALE_PROBABILITIES = new HashMap<>();
+    private static final Map<PlantType, Integer> SALE_PROBABILITIES = new HashMap<>();
 
     static {
-        SALE_PROBABILITIES.put("Tomate", 70);    // 70% de chances de vente
-        SALE_PROBABILITIES.put("Courgette", 50); // 50% de chances de vente
-        SALE_PROBABILITIES.put("Concombre", 30); // 30% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.CACTUS, 70);    // 70% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.TREE, 50); // 50% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.FLOWER, 30); // 30% de chances de vente
     }
 
     @Override
@@ -40,7 +41,7 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     @Transactional
-    public void sellPlant(String type, int quantity) {
+    public void sellPlant(PlantType type, int quantity) {
         PlantEntity plant = plantDAO.getPlantByType(type)
                 .orElseThrow(() -> new PlantNotFoundException(type));
 
@@ -68,9 +69,9 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public void initializePlants() {
         if (plantDAO.getAllPlants().isEmpty()) {
-            plantDAO.savePlant(new PlantEntity("Tomate", 100, 0));
-            plantDAO.savePlant(new PlantEntity("Courgette", 150, 0));
-            plantDAO.savePlant(new PlantEntity("Concombre", 120, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.CACTUS, 100, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.FLOWER, 150, 0));
+            plantDAO.savePlant(new PlantEntity(PlantType.TREE, 120, 0));
         }
     }
 
