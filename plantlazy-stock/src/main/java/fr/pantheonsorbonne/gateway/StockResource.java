@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Response;
 public class StockResource {
 
     @Inject
-    private StockService stockService;
+    StockService stockService;
 
     @POST
     @Path("/update")

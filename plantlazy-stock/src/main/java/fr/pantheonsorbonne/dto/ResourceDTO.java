@@ -4,13 +4,11 @@ import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.ResourceType;
 
 public class ResourceDTO {
-    private final Long id;
     private ResourceType type;
     private Double quantity;
     private String operationTag;
 
-    public ResourceDTO(Long id, ResourceType type, Double quantity, String operationTag) {
-        this.id = id;
+    public ResourceDTO(ResourceType type, Double quantity, String operationTag) {
         this.type = type;
         this.quantity = quantity;
         this.operationTag = operationTag;
@@ -18,15 +16,10 @@ public class ResourceDTO {
 
     public static ResourceDTO fromEntity(Resource resource, String operationTag) {
         return new ResourceDTO(
-                resource.getId(),
                 resource.getType(),
                 resource.getQuantity(),
                 operationTag
         );
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public ResourceType getType() {
@@ -56,7 +49,6 @@ public class ResourceDTO {
     @Override
     public String toString() {
         return "ResourceDTO{" +
-                "id=" + id +
                 ", type=" + type +
                 ", quantity=" + quantity +
                 ", operationTag='" + operationTag + '\'' +
