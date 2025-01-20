@@ -17,7 +17,7 @@ public class TickConsumer extends RouteBuilder {
     TickMessageProcessor tickMessageProcessor;
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from(tickEndpoint)
                 .unmarshal().json(TickMessage.class)
                 .filter(exchange -> {

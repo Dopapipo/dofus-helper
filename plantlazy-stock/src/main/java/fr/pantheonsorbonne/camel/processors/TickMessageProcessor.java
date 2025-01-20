@@ -13,7 +13,7 @@ public class TickMessageProcessor implements Processor {
     StockService stockService;
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
         stockService.refillDailyResource();
     }
 }

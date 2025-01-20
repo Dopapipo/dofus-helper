@@ -16,8 +16,8 @@ class ResourceNotificationService {
     @ConfigProperty(name = "log.endpoint")
     String logEndpoint;
 
-    public void notifyResourceUpdate(ResourceType type, Double quantityBefore, Double quantity, Double updatedQuantity, OperationTag operationTag) {
-        MessageLogDTO ressourceMessageDTO = new MessageLogDTO(type, quantityBefore, quantity, updatedQuantity, operationTag);
+    public void notifyResourceUpdate(ResourceType ressourceType, Double quantityBefore, Double quantity, Double updatedQuantity, OperationTag operationTag) {
+        MessageLogDTO ressourceMessageDTO = new MessageLogDTO(ressourceType, quantityBefore, quantity, updatedQuantity, operationTag);
         messageProducerServiceLog.sendMessageToRoute(logEndpoint, ressourceMessageDTO);
     }
 }

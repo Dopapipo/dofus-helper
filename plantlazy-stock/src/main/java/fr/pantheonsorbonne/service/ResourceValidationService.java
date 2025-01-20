@@ -3,9 +3,7 @@ package fr.pantheonsorbonne.service;
 import fr.pantheonsorbonne.dao.ResourceDAO;
 import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.ResourceType;
-import fr.pantheonsorbonne.exception.DailyLimitExceededException;
 import fr.pantheonsorbonne.exception.InsufficientResourceException;
-import fr.pantheonsorbonne.exception.InvalidQuantityException;
 import fr.pantheonsorbonne.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 

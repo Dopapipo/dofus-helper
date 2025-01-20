@@ -1,9 +1,4 @@
 package fr.pantheonsorbonne.dto;
 
-public class InitRequestDTO {
-    private Double money;
-
-    public Double getMoney() {
-        return money;
-    }
+public record InitRequestDTO(Double money) {
 }

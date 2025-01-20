@@ -29,14 +29,14 @@ public class StockService {
 
     private static final EnumSet<ResourceType> REFILLABLE_TYPES = EnumSet.of(ResourceType.WATER, ResourceType.ENERGY);
 
-    private ResourceUpdateDTO handleUpdate(ResourceType type, Double quantity, OperationTag operationTag) {
-        Resource resource = validationService.getResourceOrThrow(type, resourceDAO);
+    private ResourceUpdateDTO handleUpdate(ResourceType ressourceType, Double quantity, OperationTag operationTag) {
+        Resource resource = validationService.getResourceOrThrow(ressourceType, resourceDAO);
         Double quantityBefore = resource.getQuantity();
 
-        validationService.validateResourceUpdate(resource, type, quantity);
+        validationService.validateResourceUpdate(resource, ressourceType, quantity);
         Resource updatedResource = updateResourceQuantity(resource, quantity);
 
-        notificationService.notifyResourceUpdate(type, quantityBefore, quantity, updatedResource.getQuantity(), operationTag);
+        notificationService.notifyResourceUpdate(ressourceType, quantityBefore, quantity, updatedResource.getQuantity(), operationTag);
 
         resourceDAO.save(updatedResource);
 
@@ -44,10 +44,10 @@ public class StockService {
     }
 
     public ResourceUpdateDTO updateResource(ResourceUpdateDTO resourceUpdateDTO) {
-        if (resourceUpdateDTO.getOperationTag() == OperationTag.STOCK_RECEIVED) {
-            return this.handleUpdate(resourceUpdateDTO.getType(), resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+        if (resourceUpdateDTO.operationTag() == OperationTag.STOCK_RECEIVED) {
+            return this.handleUpdate(resourceUpdateDTO.type(), resourceUpdateDTO.quantity(), resourceUpdateDTO.operationTag());
         } else {
-            return this.handleUpdate(resourceUpdateDTO.getType(), -resourceUpdateDTO.getQuantity(), resourceUpdateDTO.getOperationTag());
+            return this.handleUpdate(resourceUpdateDTO.type(), -resourceUpdateDTO.quantity(), resourceUpdateDTO.operationTag());
         }
     }
 

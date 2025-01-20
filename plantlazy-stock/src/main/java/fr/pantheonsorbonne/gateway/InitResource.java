@@ -22,7 +22,7 @@ public class InitResource {
 
     @POST
     public Response initializeResources(InitRequestDTO initRequest) {
-        resourceInitializerService.initializeResources(initRequest.getMoney());
+        resourceInitializerService.initializeResources(initRequest.money());
         return Response.ok().build();
     }
 }
