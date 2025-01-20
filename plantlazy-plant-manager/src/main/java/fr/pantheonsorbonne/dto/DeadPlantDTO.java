@@ -1,23 +1,28 @@
 
 package fr.pantheonsorbonne.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class DeadPlantDTO {
-    @JsonProperty("plantId")
-    private String plantId;
+    private String plantType;
+    private int quantity;
 
-    public DeadPlantDTO() {}
-
-    public DeadPlantDTO(String plantId) {
-        this.plantId = plantId;
+    public DeadPlantDTO(String plantType, int quantity) {
+        this.plantType = plantType;
+        this.quantity = quantity;
     }
 
-    public String getPlantId() {
-        return plantId;
+    public String getPlantType() {
+        return plantType;
     }
 
-    public void setPlantId(String plantId) {
-        this.plantId = plantId;
+    public void setPlantType(String plantType) {
+        this.plantType = plantType;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

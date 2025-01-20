@@ -10,6 +10,8 @@ import jakarta.inject.Named;
 @ApplicationScoped
 @Named("dashboardService") // pour accéder à la méthode depuis le route Camel
 public class DashboardService {
+
+
     private final Dashboard dashboard = new Dashboard();
 
 
@@ -35,10 +37,40 @@ public class DashboardService {
     }
 
 
-    public void processPlantUpdate(PlantUpdateDTO plantUpdate) {
-        dashboard.updatePlantsInProgress(plantUpdate.getPlants());
+    public void processPlantUpdate(LivePlantUpdateDTO plantUpdate) {
+        dashboard.updatePlantStats(
+                plantUpdate.getPlantId(),
+                plantUpdate.getEnergyLevel(),
+                plantUpdate.getFertilizerLevel(),
+                plantUpdate.getWaterLevel(),
+                plantUpdate.getGrowthLevel()
+        );
         dashboard.display();
     }
+
+    public void processPlantDeleted(LivePlantDeletedUpdateDTO plantDeleted) {
+        dashboard.markPlantAsDead(plantDeleted.getPlantId());
+        dashboard.display();
+    }
+
+    public void processPlantGrown(LivePlantGrownUpdateDTO plantGrown) {
+        dashboard.markPlantAsGrown(plantGrown.getPlantId());
+        dashboard.display();
+    }
+
+    public void processPlantCreated(LivePlantCreatedUpdateDTO plantCreated) {
+        dashboard.addNewPlant(
+                plantCreated.getPlantId(),
+                plantCreated.getPlantName(),
+                plantCreated.getEnergyLevel(),
+                plantCreated.getFertilizerLevel(),
+                plantCreated.getWaterLevel(),
+                plantCreated.getGrowthLevel()
+        );
+        dashboard.display();
+
+    }
+
 
     public void processTick(TickMessage tick) {
         String tickType = tick.getTickType().name();

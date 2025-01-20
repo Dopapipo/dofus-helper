@@ -6,8 +6,10 @@ public class PlantData {
     private int waterLevel;
     private int energyLevel;
     private int fertilizerLevel;
+    private int growthLevel;
     private int price;
     private int quantity;
+
 
     public String getId() {
         return id;
@@ -65,6 +67,13 @@ public class PlantData {
         this.quantity = quantity;
     }
 
+    public int getGrowthLevel() {
+        return growthLevel;
+    }
+
+    public void setGrowthLevel(int growthLevel) {
+        this.growthLevel = growthLevel;
+    }
 
     @Override
     public String toString() {

@@ -9,14 +9,22 @@ import jakarta.inject.Inject;
 public class PlantService {
     @Inject
     PlantRepository plantRepository;
+    @Inject
+    PlantManager plantManager;
+
     public void processPlantLifecycle() {
         Iterable<PlantEntity> plants = plantRepository.findAll();
-        for (PlantEntity plant : plants) {
-            plant.grow();
-            plantRepository.save(plant);
-        }
+        plantManager.triggerPlantGrowth(plants);
+        this.takeCareOfPlants();
     }
-    public void processDailyCycle() {
 
+    public void processDailyCycle() {
+        Iterable<PlantEntity> plants = plantRepository.findAll();
+        plantManager.sendDeadPlants(plants);
+    }
+
+    public void takeCareOfPlants() {
+        Iterable<PlantEntity> plants = plantRepository.findAll();
+        plantManager.triggerPlantNourishment(plants);
     }
 }

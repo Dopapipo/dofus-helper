@@ -29,6 +29,7 @@
       <module name="plantlazy-farm" options="-parameters" />
       <module name="plantlazy-history" options="-parameters" />
       <module name="plantlazy-plant-generator" options="" />
+      <module name="plantlazy-plant-manager" options="-parameters" />
       <module name="plantlazy-server-ticks" options="-parameters" />
       <module name="plantlazy-stock" options="-parameters" />
       <module name="plantlazy-store" options="-parameters" />

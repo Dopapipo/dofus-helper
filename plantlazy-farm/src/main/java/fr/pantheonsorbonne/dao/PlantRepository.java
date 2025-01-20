@@ -9,4 +9,5 @@ public interface PlantRepository {
     PlantEntity save(PlantEntity plantEntity);
     PlantEntity findById(UUID id);
     Iterable<PlantEntity> findAll();
+    void delete(PlantEntity plantEntity);
 }

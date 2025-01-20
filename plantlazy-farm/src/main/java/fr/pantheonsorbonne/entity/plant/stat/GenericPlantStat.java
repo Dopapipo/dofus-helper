@@ -1,14 +1,13 @@
 package fr.pantheonsorbonne.entity.plant.stat;
 // REGLES METIER : si une stat arrive a 0, mort automatique; si une stat arrive a threshold, plante en bonne sante
 
-import jakarta.persistence.Embeddable;
 
-@Embeddable
 public class GenericPlantStat implements PlantStat {
     private int value;
-    private  int threshold;
-    private  int MAX_VALUE = 100;
-    private int decayRate = 10;
+    private int threshold;
+    private int MAX_VALUE = 100;
+    private int decayRate = 2;
+    private StatType statType;
 
     public int getValue() {
         return value;
@@ -42,11 +41,12 @@ public class GenericPlantStat implements PlantStat {
         this.decayRate = decayRate;
     }
 
-    public GenericPlantStat(int value, int threshold) {
+    public GenericPlantStat(int value, int threshold, StatType statType) {
         this.value = value;
         this.threshold = threshold;
     }
-    public GenericPlantStat(int value, int threshold, int decayRate) {
+
+    public GenericPlantStat(int value, int threshold, int decayRate, StatType statType) {
         this.value = value;
         this.threshold = threshold;
         this.decayRate = decayRate;
@@ -66,15 +66,18 @@ public class GenericPlantStat implements PlantStat {
     public boolean isDead() {
         return this.value == 0;
     }
+
     protected void increase(int value) {
         this.value = Math.min(this.value + value, MAX_VALUE);
     }
+
     protected void decrease(int value) {
         this.value = Math.max(this.value - value, 0);
     }
 
-    public void giveNutriment(int quantity, double conversionRate) {
-        this.increase((int) (quantity * conversionRate));
+    @Override
+    public void feed(int quantity) {
+        this.increase(quantity);
     }
 
     @Override
@@ -82,6 +85,28 @@ public class GenericPlantStat implements PlantStat {
         this.decrease(decayRate);
     }
 
+    @Override
+    public int getRemainingTicksOfHealthy() {
+        return Math.max((this.value - this.threshold) / this.decayRate, 0);
+    }
+
+    // 2 ticks above threshold
+    @Override
+    public int getOptimalRessourceQuantityToFeed() {
+        return Math.max((this.threshold + 2 * this.decayRate) - this.value, 0);
+    }
+
+    @Override
+    public StatType getType() {
+        return this.statType;
+    }
 
 
+    public StatType getStatType() {
+        return statType;
+    }
+
+    public void setStatType(StatType statType) {
+        this.statType = statType;
+    }
 }

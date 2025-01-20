@@ -28,4 +28,9 @@ public class PlantRepositoryImpl implements PlantRepository {
     public Iterable<PlantEntity> findAll() {
         return em.createQuery("SELECT p FROM PlantEntity p", PlantEntity.class).getResultList();
     }
+
+    @Override
+    public void delete(PlantEntity plantEntity) {
+        em.remove(plantEntity);
+    }
 }
