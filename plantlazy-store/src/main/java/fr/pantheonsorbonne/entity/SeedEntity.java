@@ -14,16 +14,18 @@ public class SeedEntity {
     @Enumerated(EnumType.STRING) // Stocker l'énumération sous forme de chaîne
     private PlantType type; // Remplace le champ String par l'énumération PlantType
 
+    @Enumerated(EnumType.STRING)
+    private SeedQuality quality;
+
     private double price; // Prix unitaire de la graine
-    private int availableQuantity; // Quantité disponible pour l'offre quotidienne
 
     public SeedEntity() {
     }
 
-    public SeedEntity(PlantType type, double price, int quantity) {
+    public SeedEntity(PlantType type, double price, int availableQuantity, SeedQuality quality) {
         this.type = type;
         this.price = price;
-        this.availableQuantity = availableQuantity;
+        this.quality = quality;
     }
 
     public Long getId() {
@@ -50,12 +52,12 @@ public class SeedEntity {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return availableQuantity;
+    public SeedQuality getQuality() {
+        return quality;
     }
 
-    public void setQuantity(int availableQuantity) {
-        this.availableQuantity = availableQuantity;
+    public void setQuality(SeedQuality quality) {
+        this.quality = quality;
     }
 
 /*    public SeedQuality getSeedType() {
@@ -72,10 +74,6 @@ public class SeedEntity {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", price=" + price +
-                ", quantity=" + availableQuantity +
                 '}';
     }
-
-
-
 }

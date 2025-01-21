@@ -42,4 +42,11 @@ public class SeedDAOImpl implements SeedDAO {
     public void saveSeed(SeedEntity seed) {
         entityManager.persist(seed);
     }
+
+    @Override
+    @Transactional
+    public void deleteSeed(SeedEntity seed) {
+        entityManager.remove(entityManager.contains(seed) ? seed : entityManager.merge(seed));
+    }
+
 }

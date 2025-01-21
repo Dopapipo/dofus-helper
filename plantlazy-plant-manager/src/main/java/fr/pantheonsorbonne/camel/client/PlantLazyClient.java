@@ -9,15 +9,19 @@ import fr.pantheonsorbonne.service.StockService;
 import fr.pantheonsorbonne.service.StoreService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import java.util.List;
 
 @ApplicationScoped
 public class PlantLazyClient {
 
     @Inject
+    @RestClient
     StoreService storeService;
 
     @Inject
+    @RestClient
     StockService stockService;
 
     public List<DailySeedOfferDTO> requestDailySeedOffer() {
@@ -31,8 +35,6 @@ public class PlantLazyClient {
     public SeedSaleDTO buySeed(SeedPurchaseRequestDTO purchaseRequest) {
         return storeService.buySeed(purchaseRequest.seedType(), purchaseRequest.quantity());
     }
-
-
 
 
 }
