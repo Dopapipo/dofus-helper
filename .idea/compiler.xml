@@ -11,7 +11,6 @@
         <module name="plantlazy-stock" />
         <module name="plantlazy-farm" />
         <module name="plantlazy-dashboard" />
-        <module name="plantlazy-plant-manager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,6 +18,7 @@
       <module name="plantlazy-compost" target="21" />
       <module name="plantlazy-history" target="21" />
       <module name="plantlazy-plant-generator" target="1.8" />
+      <module name="plantlazy-plant-manager" target="21" />
       <module name="plantlazy-surveillance" target="21" />
       <module name="server-ticks" target="21" />
     </bytecodeTargetLevel>
