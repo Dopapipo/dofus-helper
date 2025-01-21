@@ -63,7 +63,7 @@ class PlantRepositoryImplTest {
         assertTrue(plantList.contains(savedPlant), "Saved plant should be in the result list");
 
         // Validate that the retrieved plant has all stats
-        PlantEntity retrievedPlant = plantList.get(0);
+        PlantEntity retrievedPlant = plantList.getFirst();
         assertNotNull(retrievedPlant.getId(), "Plant ID should not be null");
         assertNotNull(retrievedPlant.getWater(), "WaterStat should not be null");
         assertNotNull(retrievedPlant.getSoil(), "SoilStat should not be null");

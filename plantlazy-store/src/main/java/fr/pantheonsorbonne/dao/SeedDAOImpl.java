@@ -49,4 +49,8 @@ public class SeedDAOImpl implements SeedDAO {
         entityManager.remove(entityManager.contains(seed) ? seed : entityManager.merge(seed));
     }
 
+    @Override
+    public void deleteAllSeeds() {
+        entityManager.createQuery("DELETE FROM SeedEntity").executeUpdate();
+    }
 }

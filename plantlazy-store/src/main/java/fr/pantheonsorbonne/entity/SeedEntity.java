@@ -22,7 +22,7 @@ public class SeedEntity {
     public SeedEntity() {
     }
 
-    public SeedEntity(PlantType type, double price, int availableQuantity, SeedQuality quality) {
+    public SeedEntity(PlantType type, double price, SeedQuality quality) {
         this.type = type;
         this.price = price;
         this.quality = quality;

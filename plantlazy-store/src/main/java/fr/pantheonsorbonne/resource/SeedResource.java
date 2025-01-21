@@ -4,11 +4,10 @@ import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
-import fr.pantheonsorbonne.dto.SeedSaleResponseDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
-import fr.pantheonsorbonne.entity.enums.SeedQuality;
+import fr.pantheonsorbonne.exception.InsufficientStockException;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -60,17 +59,41 @@ public class SeedResource {
     }
 
     @POST
-    @Path("/sell/{type}/{quantity}")
-    public Response sellSeed(@PathParam("type") PlantType seedType, @PathParam("quantity") int quantity) {
+    @Path("/sell/{quantity}")
+    public Response sellSeed(@PathParam("quantity") int quantity) {
         try {
-            Response response = stockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seedService.getPriceForTypeAndQuantity(seedType, quantity), PlantType.OperationTag.STOCK_QUERIED));
-            if (response.getStatus() != Response.Status.ACCEPTED.getStatusCode()) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Not enough money to buy seeds").build();
+            // Vendre les graines via le service et récupérer la liste des graines vendues
+            List<DailySeedOfferDTO> soldSeeds = seedService.sellSeed(quantity);
+
+            // Vérifier si des graines ont été vendues
+            if (soldSeeds.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("No seeds were available to sell.").build();
             }
-            seedService.sellSeed(seedType, quantity);
-            return Response.ok(new SeedSaleResponseDTO(seedType, quantity, SeedQuality.HIGH)).build();
+
+            // Calculer le prix total des graines à vendre
+            double totalPrice = seedService.getCalculateTotalPrice(quantity);
+
+            // Appeler le microservice Stock pour mettre à jour les ressources (argent)
+            Response response = stockClient.updateResource(
+                    new ResourceUpdateDTO(ResourceType.MONEY, totalPrice, PlantType.OperationTag.STOCK_QUERIED)
+            );
+
+            // Vérifier la réponse du microservice Stock
+            if (response.getStatus() != Response.Status.ACCEPTED.getStatusCode()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Not enough money to buy seeds").build();
+            }
+
+            // Créer une réponse avec succès contenant la liste des graines vendues
+            return Response.ok(soldSeeds).build();
+        } catch (InsufficientStockException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Not enough seeds available: " + e.getMessage()).build();
         } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage()).build();
         }
     }
+
 }
