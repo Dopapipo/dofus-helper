@@ -9,6 +9,8 @@ import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import fr.pantheonsorbonne.service.PlantService;
+import fr.pantheonsorbonne.service.StockService;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -29,12 +31,11 @@ public class PlantLifecycleConsumerTest {
 
     @Inject
     PlantRepository plantRepository;
-
     @Inject
     @ConfigProperty(name = "tick.endpoint")
     String tickEndpoint;
     @Inject
-    @ConfigProperty(name = "plant.transport.endpoint")
+    @ConfigProperty(name = "dead.plant.transport.endpoint")
     String transportEndpoint;
     @Inject
     @ConfigProperty(name = "log.endpoint")
@@ -60,7 +61,7 @@ public class PlantLifecycleConsumerTest {
         em.flush();
 
         // Act - Simulate expected changes
-        plantService.processPlantLifecycle(); // Calls triggerPlantGrowth internally
+        plantService.processHourlyLifecycle(); // Calls triggerPlantGrowth internally
         camelContext.createProducerTemplate().sendBody(tickEndpoint, new TickMessage(TickType.HOURLY, System.currentTimeMillis()));
 
         // Assert
