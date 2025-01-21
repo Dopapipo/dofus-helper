@@ -1,18 +1,24 @@
 package fr.pantheonsorbonne.resource;
 
+import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
+import fr.pantheonsorbonne.dto.SeedSaleResponseDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
+import fr.pantheonsorbonne.entity.enums.SeedQuality;
 import fr.pantheonsorbonne.services.SeedService;
-
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +27,8 @@ import java.util.stream.Collectors;
 @Consumes(MediaType.APPLICATION_JSON)
 public class SeedResource {
 
+    @Inject
+    StockClient stockClient;
     @Inject
     SeedService seedService;
 
@@ -48,39 +56,17 @@ public class SeedResource {
     }
 
     @POST
-    @Path("/sell")
-    public Response sellSeed(@QueryParam("quantity") int quantity) {
+    @Path("/sell/{type}/{quantity}")
+    public Response sellSeed(@PathParam("type") PlantType seedType, @PathParam("quantity") int quantity) {
         try {
-            List<SeedEntity> availableSeeds = seedService.getAvailableSeeds().stream()
-                    .sorted(Comparator.comparingDouble(SeedEntity::getPrice)) // Trier par prix croissant
-                    .toList();
-
-            int remainingQuantity = quantity;
-            double totalAmount = 0;
-            List<PurchaseRequestDTO> purchasedSeeds = new ArrayList<>();
-
-            for (SeedEntity seed : availableSeeds) {
-                if (remainingQuantity <= 0) {
-                    break;
-                }
-
-                int soldQuantity = Math.min(seed.getQuantity(), remainingQuantity);
-                totalAmount += soldQuantity * seed.getPrice();
-                remainingQuantity -= soldQuantity;
-
-                // Ajouter au DTO des achats
-                if (soldQuantity > 0) {
-                    purchasedSeeds.add(new PurchaseRequestDTO(seed.getType(), soldQuantity, soldQuantity * seed.getPrice()));
-                }
-
-                // Mettre à jour la quantité en stock
-                seedService.sellSeed(seed.getType(), soldQuantity);
+            Response response = stockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seedService.getPriceForTypeAndQuantity(seedType, quantity), PlantType.OperationTag.STOCK_QUERIED));
+            if (response.getStatus() != Response.Status.ACCEPTED.getStatusCode()) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not enough money to buy seeds").build();
             }
-
-            // Construire la réponse finale avec les détails de l'achat
-            return Response.ok(purchasedSeeds).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected error occurred").build();
+            seedService.sellSeed(seedType, quantity);
+            return Response.ok(new SeedSaleResponseDTO(seedType, quantity, SeedQuality.HIGH)).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 }

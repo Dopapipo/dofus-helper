@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PlantType;
+import fr.pantheonsorbonne.dto.SeedSaleDTO;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -23,7 +24,7 @@ public interface StoreService {
     @POST
     @Path("/seeds/sell/{type}/{quantity}")
     @Consumes(MediaType.APPLICATION_JSON)
-    void buySeed(@PathParam("type") PlantType type, @PathParam("quantity") int quantity);
+    SeedSaleDTO buySeed(@PathParam("type") PlantType type, @PathParam("quantity") int quantity);
 
 
 }

@@ -4,8 +4,7 @@ package fr.pantheonsorbonne.camel.processors;
 import fr.pantheonsorbonne.camel.client.PlantLazyClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PlantType;
-import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
-import fr.pantheonsorbonne.entity.SeedType;
+import fr.pantheonsorbonne.dto.SeedSaleDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Comparator;
@@ -23,12 +22,11 @@ public class TickProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         List<DailySeedOfferDTO> availableSeeds = client.requestDailySeedOffer();
         Integer moneyAvailable = client.requestMoneyAvailable().quantity();
-
-        availableSeeds.sort(Comparator.comparingDouble(DailySeedOfferDTO::price));
-
         Tuple<Integer,PlantType> bestBuy = getMaxBuyable(availableSeeds, moneyAvailable);
-        PurchaseRequestDTO purchaseRequest = new PurchaseRequestDTO(bestBuy.getVal2(), bestBuy.getVal1());
-        client.buySeed(purchaseRequest);
+        SeedSaleDTO purchaseRequest = new SeedSaleDTO(bestBuy.getVal2(), bestBuy.getVal1());
+        SeedSaleDTO response = client.buySeed(purchaseRequest);
+        exchange.getIn().setBody(response);
+
     }
 
     private Tuple<Integer,PlantType> getMaxBuyable(List<DailySeedOfferDTO> availableSeeds, int moneyAvailable) {
@@ -45,4 +43,5 @@ public class TickProcessor implements Processor {
         }
         return new Tuple<>(maxBuyable, seedType);
     }
+
 }

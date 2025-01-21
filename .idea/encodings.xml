@@ -3,12 +3,22 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/plantlazy-compost/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-compost/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-dashboard/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-dashboard/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-farm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-farm/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-history/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-history/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-plant-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-plant-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-plant-manager/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-plant-manager/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-server-ticks/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-server-ticks/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-stock/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-stock/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/plantlazy-store/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-surveillance/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plantlazy-surveillance/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/server-ticks/src/main/java" charset="UTF-8" />

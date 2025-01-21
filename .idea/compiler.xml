@@ -6,19 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="plantlazy-server-ticks" />
+        <module name="plantlazy-store" />
         <module name="plantlazy-stock" />
+        <module name="plantlazy-farm" />
+        <module name="plantlazy-dashboard" />
+        <module name="plantlazy-plant-manager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="parent" target="1.8" />
       <module name="plantlazy-compost" target="21" />
-      <module name="plantlazy-dashboard" target="21" />
-      <module name="plantlazy-farm" target="21" />
       <module name="plantlazy-history" target="21" />
       <module name="plantlazy-plant-generator" target="1.8" />
-      <module name="plantlazy-plant-manager" target="21" />
-      <module name="plantlazy-server-ticks" target="21" />
-      <module name="plantlazy-store" target="21" />
       <module name="plantlazy-surveillance" target="21" />
       <module name="server-ticks" target="21" />
     </bytecodeTargetLevel>
