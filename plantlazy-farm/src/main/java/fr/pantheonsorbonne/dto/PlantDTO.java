@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.dto;
 
 import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.plant.stat.PlantGrowthLevel;
 import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
@@ -8,6 +9,15 @@ import java.util.UUID;
 
 public class PlantDTO {
     private UUID id;
+
+    public PlantGrowthLevel getGrowthLevel() {
+        return growthLevel;
+    }
+
+    public void setGrowthLevel(PlantGrowthLevel growthLevel) {
+        this.growthLevel = growthLevel;
+    }
+
     private PlantType type;
     private WaterStat water;
     private SunStat sun;
@@ -15,11 +25,31 @@ public class PlantDTO {
     private boolean isDead;
     private Long timeOfDeath;
     private String causeOfDeath;
+    private PlantGrowthLevel growthLevel;
+
+    public int getSoldAtDay() {
+        return soldAtDay;
+    }
+
+    public void setSoldAtDay(int soldAtDay) {
+        this.soldAtDay = soldAtDay;
+    }
+
+    public boolean isComposted() {
+        return composted;
+    }
+
+    public void setComposted(boolean composted) {
+        this.composted = composted;
+    }
+
+    private int soldAtDay;
+    private boolean composted;
 
     public PlantDTO() {
     }
 
-    public PlantDTO(UUID id, PlantType type, WaterStat water, SunStat sun, SoilStat soil, boolean isDead, Long timeOfDeath, String causeOfDeath) {
+    public PlantDTO(UUID id, PlantType type, WaterStat water, SunStat sun, SoilStat soil, boolean isDead, Long timeOfDeath, String causeOfDeath, PlantGrowthLevel growthLevel, int soldAtDay, boolean composted) {
         this.id = id;
         this.type = type;
         this.water = water;
@@ -28,6 +58,9 @@ public class PlantDTO {
         this.isDead = isDead;
         this.timeOfDeath = timeOfDeath;
         this.causeOfDeath = causeOfDeath;
+        this.growthLevel=growthLevel;
+        this.soldAtDay = soldAtDay;
+        this.composted = composted;
     }
 
     public UUID getId() {
