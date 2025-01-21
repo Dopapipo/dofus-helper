@@ -50,6 +50,7 @@ public class GenericPlantStat implements PlantStat {
         this.value = value;
         this.threshold = threshold;
         this.decayRate = decayRate;
+        this.statType = statType;
     }
 
     public GenericPlantStat() {
@@ -109,4 +110,31 @@ public class GenericPlantStat implements PlantStat {
     public void setStatType(StatType statType) {
         this.statType = statType;
     }
+
+
+    @Override
+    public String toString() {
+        return "GenericPlantStat{" +
+                "value=" + this.value +
+                ", threshold=" + threshold +
+                ", MAX_VALUE=" + MAX_VALUE +
+                ", decayRate=" + decayRate +
+                ", statType=" + this.statType +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        GenericPlantStat that = (GenericPlantStat) obj;
+
+        return value == that.value &&
+                threshold == that.threshold &&
+                MAX_VALUE == that.MAX_VALUE &&
+                decayRate == that.decayRate &&
+                statType == that.statType;
+    }
+
 }

@@ -16,7 +16,7 @@ public class PlantLifecycleProcessor implements Processor {
     PlantService plantService;
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
         TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
         if (messageBody.getTickType() == TickType.HOURLY) {
             plantService.processPlantLifecycle();

@@ -4,6 +4,7 @@ import fr.pantheonsorbonne.dao.PlantRepository;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.util.List;
 
 @ApplicationScoped
 public class PlantService {
@@ -13,7 +14,8 @@ public class PlantService {
     PlantManager plantManager;
 
     public void processPlantLifecycle() {
-        Iterable<PlantEntity> plants = plantRepository.findAll();
+        List<PlantEntity> plants = plantRepository.findAll();
+        System.out.println(plants);
         plantManager.triggerPlantGrowth(plants);
         this.takeCareOfPlants();
     }
