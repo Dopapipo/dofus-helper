@@ -5,7 +5,6 @@ import fr.pantheonsorbonne.dto.SeedDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
@@ -18,7 +17,7 @@ public class SeedConsumer extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from(seedEndpoint)
-                .unmarshal().json(JacksonDataFormat.class, SeedDTO.class)
+                .unmarshal().json(SeedDTO.class)
                 .process(seedProcessor)
                 .to("direct:logQueue")
         ;
