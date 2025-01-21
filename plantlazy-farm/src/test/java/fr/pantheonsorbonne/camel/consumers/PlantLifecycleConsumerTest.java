@@ -42,7 +42,7 @@ public class PlantLifecycleConsumerTest {
     }
 
     @Test
-    void testHourlyTickProcessesPlantLifecycle() throws Exception {
+    void testHourlyTickProcessesPlantLifecycle() {
         // Arrange
         PlantEntity expectedPlant = createTestPlant();
         expectedPlant.grow();
