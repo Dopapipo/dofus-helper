@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.camel.client;
 
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
+import fr.pantheonsorbonne.dto.SeedPurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.SeedSaleDTO;
 import fr.pantheonsorbonne.dto.ResourceResponseDTO;
 import fr.pantheonsorbonne.dto.ResourceType;
@@ -27,7 +28,7 @@ public class PlantLazyClient {
         return stockService.getMoney(ResourceType.MONEY);
     }
 
-    public SeedSaleDTO buySeed(SeedSaleDTO purchaseRequest) {
+    public SeedSaleDTO buySeed(SeedPurchaseRequestDTO purchaseRequest) {
         return storeService.buySeed(purchaseRequest.seedType(), purchaseRequest.quantity());
     }
 

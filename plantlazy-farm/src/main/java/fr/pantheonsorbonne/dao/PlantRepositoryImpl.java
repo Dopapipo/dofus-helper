@@ -1,13 +1,14 @@
 package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.PlantEntity;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@ApplicationScoped
 public class PlantRepositoryImpl implements PlantRepository {
     @Inject
     EntityManager em;

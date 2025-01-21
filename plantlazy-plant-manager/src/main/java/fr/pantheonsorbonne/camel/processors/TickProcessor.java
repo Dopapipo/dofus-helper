@@ -4,6 +4,7 @@ package fr.pantheonsorbonne.camel.processors;
 import fr.pantheonsorbonne.camel.client.PlantLazyClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PlantType;
+import fr.pantheonsorbonne.dto.SeedPurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.SeedSaleDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,7 +24,7 @@ public class TickProcessor implements Processor {
         List<DailySeedOfferDTO> availableSeeds = client.requestDailySeedOffer();
         Integer moneyAvailable = client.requestMoneyAvailable().quantity();
         Tuple<Integer,PlantType> bestBuy = getMaxBuyable(availableSeeds, moneyAvailable);
-        SeedSaleDTO purchaseRequest = new SeedSaleDTO(bestBuy.getVal2(), bestBuy.getVal1());
+        SeedPurchaseRequestDTO purchaseRequest = new SeedPurchaseRequestDTO(bestBuy.getVal2(), bestBuy.getVal1());
         SeedSaleDTO response = client.buySeed(purchaseRequest);
         exchange.getIn().setBody(response);
 
