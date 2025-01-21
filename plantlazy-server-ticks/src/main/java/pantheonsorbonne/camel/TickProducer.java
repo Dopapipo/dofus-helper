@@ -1,4 +1,5 @@
 package pantheonsorbonne.camel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -46,9 +47,10 @@ public class TickProducer{
         try (JMSContext context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE)) {
             long timestamp = System.currentTimeMillis();
             TickMessage tickMessage = new TickMessage(tickType, timestamp);
-            ObjectMessage message = context.createObjectMessage(tickMessage);
+            ObjectMapper objectMapper= new ObjectMapper();
+            ObjectMessage message = context.createObjectMessage(objectMapper.writeValueAsString(tickMessage));
 
-            context.createProducer().send(context.createQueue(tickEndpoint), message);
+            context.createProducer().send(context.createQueue(tickEndpoint),message );
             System.out.println("Sent " + tickType + " tick to " + tickEndpoint);
         } catch (Exception e) {
             e.printStackTrace();

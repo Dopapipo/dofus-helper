@@ -4,6 +4,12 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/plantlazy-server-ticks/pom.xml" />
+        <option value="$PROJECT_DIR$/plantlazy-plant-manager/pom.xml" />
+        <option value="$PROJECT_DIR$/plantlazy-dashboard/pom.xml" />
+        <option value="$PROJECT_DIR$/plantlazy-farm/pom.xml" />
+        <option value="$PROJECT_DIR$/plantlazy-store/pom.xml" />
+        <option value="$PROJECT_DIR$/plantlazy-stock/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>

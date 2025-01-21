@@ -1,102 +1,85 @@
-# DofOps - Analyse de marché pour Dofus
-
----
+# PlantLazy - README
 
 ## Acteurs
-- **Joueur Dofus** : Cherche à optimiser son temps et ses bénéfices dans le commerce et la fabrication.
-- **Contributeur** : Ajoute du contenu (ressources, données liées aux quêtes).
-- **Administrateur** : Supervise les contributions et la sécurité des données.
 
----
+### Principaux acteurs :
+- **User** : Configure le système et consulte les résultats de la simulation (argent restant, plantes vendues, compost généré, etc.).
+- **Dashboard** : Interface principale permettant de superviser et gérer les interactions du système.
+- **PlantManager** : Gère les achats, plantations et transformations des plantes.
+- **Farm** : Responsable de la croissance des plantes et de la détection de leur état (croissance, détresse, mort).
+- **Store** : Gère les prix, les ventes et les interactions liées au commerce.
+- **Stock** : Supervise les ressources disponibles (eau, engrais, argent, etc.).
+- **ServerTick** : Envoie des événements périodiques (tick) pour déclencher les cycles du système.
 
 ## Objectifs du système
-Créer un site communautaire d’analyse de marché pour le jeu *Dofus*, permettant :
-- Une gestion optimisée des prix et des ressources.
-- Une expérience utilisateur qui facilite les contributions.
-- Une analyse automatisée et fiable des données du marché, avec une sécurité renforcée.
-
-Le projet s’appuie sur une architecture en microservices déployée avec Quarkus et Apache Camel.
-
----
+- Automatiser la gestion d'une ferme virtuelle tout en simulant les aspects économiques et biologiques.
+- Permettre une configuration et un suivi facile des performances par l'utilisateur via le tableau de bord.
+- Optimiser les ressources disponibles (argent, eau, engrais) pour maximiser les revenus et la productivité de la ferme.
 
 ## Microservices
-
-1. **dofus-price-data**
-    - Reçoit les mises à jour des prix depuis les utilisateurs.
-    - Notifie les autres services des changements de prix.
-
-2. **dofus-securite**
-    - Filtre les contributions incorrectes ou abusives (protection contre trolls et DDoS).
-    - Sert de passerelle entre les utilisateurs et le microservice de gestion des prix.
-
-3. **dofus-data-process**
-    - Centralise le traitement des données du marché.
-    - Fournit des API REST pour le front-end.
-    - Implémente la logique métier pour les fonctionnalités demandées.
-
-4. **dofus-user**
-    - Gère les comptes utilisateurs et leurs permissions.
-    - Permet la gestion de "banques" personnelles (stocks de ressources).
-
----
+Le projet est basé sur une architecture microservices, comprenant les services suivants :
+- **Service PlantManager** : Gestion des achats de graines, des plantations et de la transformation en compost.
+- **Service Farm** : Suivi de la croissance et de l'état des plantes.
+- **Service Store** : Gestion des ventes et définition des prix.
+- **Service Stock** : Gestion des ressources (eau, engrais, compost, argent).
+- **Service Dashboard** : Interface principale pour la configuration et la supervision.
+- **Service ServerTick** : Génération d'événements périodiques pour synchroniser les actions des autres services.
 
 ## Fonctionnalités clés
-
-### Joueur
-- Calcul immédiat du coût de fabrication d’un objet.
-- Analyse des ressources manquantes pour des projets complexes (panoplies, quêtes).
-- Comparaison rapide des prix entre serveurs.
-
-### Contributeur
-- Ajout de contenu lié aux quêtes et ressources.
-- Enrichissement continu des bases de données communautaires.
-
-### Administrateur
-- Gestion des permissions.
-- Surveillance des mises à jour critiques du système.
-
----
+1. Configuration du budget initial et des paramètres de simulation.
+2. Achat automatique de graines selon les besoins et les fonds disponibles.
+3. Suivi de la croissance des plantes et intervention en cas de détresse (eau, engrais, lumière).
+4. Gestion des plantes mortes et transformation en compost.
+5. Vente des plantes à des prix définis dynamiquement.
+6. Logs détaillés pour chaque action majeure dans le système.
+7. Résumé final de la simulation (argent restant, plantes vendues, compost généré, etc.).
 
 ## Exigences fonctionnelles
-
-### Prix des objets
-- Les prix des objets sont mis à jour en temps réel par les utilisateurs.
-- Un mécanisme de validation protège contre les erreurs ou abus.
-
-### Banque utilisateur
-- Les utilisateurs inscrits peuvent renseigner leur stock de ressources une fois.
-- Les calculs prennent automatiquement en compte leur banque personnelle.
-
-### Quêtes et fabrication
-- Calculs des ressources nécessaires pour des quêtes ou fabrications complexes.
-- Prise en charge de plusieurs personnages.
-
----
+- Le système doit être capable de gérer les ressources en temps réel selon les événements envoyés par **ServerTick**.
+- Les transactions (achats de graines, utilisation de ressources, ventes) doivent être validées selon les règles métier.
+- Les plantes doivent passer par plusieurs cycles de croissance jusqu'à la vente ou la mort.
+- Les logs doivent être consultables via le **Dashboard** pour un suivi transparent des opérations.
 
 ## Règles métier
-- Les prix des objets doivent rester cohérents et réalistes.
-- Les contributeurs doivent disposer d’une permission spéciale pour enrichir la base des quêtes.
-- Toute modification des prix ou des ressources est validée par le service **dofus-securite**.
-
----
+1. Une plante ne peut croître que si les ressources nécessaires (eau, engrais, lumière) sont disponibles.
+2. En cas de mort d'une plante, celle-ci est transformée en compost.
+3. Les graines ne peuvent être achetées que si les fonds sont suffisants.
+4. Les ventes de plantes sont soumises aux prix définis par **Store**.
+5. Les ressources doivent être mises à jour après chaque transaction ou événement lié à la ferme.
 
 ## Diagrammes de séquence
-Les diagrammes de séquence illustrent les principaux cas d'utilisation :
+### 1. **Achat de graines**
+- Décrit la demande de prix, la vérification des fonds et l'achat de graines.
+  ![Achat_Graines](Achat_graines.png)
+### 2. **Croissance des plantes**
+- Illustre les cycles de croissance, l'utilisation des ressources, et la gestion des plantes en détresse.
+  ![Croissace_des_plantes](Croissance_des_plantes.png)
+### 3. **Gestion des plantes mortes**
+- Détaille la détection des plantes mortes, leur transformation en compost et la mise à jour des ressources.
+  ![Gestion_Plantes_Moerte](Gestion_plantes_mortes.png)
+### 4. **Vente des plantes**
+- Montre la définition des prix, la mise en vente et le crédit des revenus.
+- ![Ventes_Des_Plantes](Vente_des_plantes.png)
 
-1. **Mise à jour des prix par un utilisateur :**
-   ![Diagramme - Mise à jour des prix](diagrammes/miseAJourPrix.png)
+## Technologies et dépendances
 
-2. **Calcul des ressources manquantes pour un projet :**
-   ![Diagramme - Calcul des ressources manquantes](diagrammes/calculRessourcesManquantes.png)
+### Framework
+- **Quarkus 3.15.2** : Un framework Java natif Kubernetes conçu pour les microservices.
+
+### Dépendances principales
+- **Apache Camel Quarkus** :
+    - `camel-quarkus-core` : Intégration et routage des messages.
+    - `camel-quarkus-jackson` : Support pour JSON via Jackson.
+    - `camel-quarkus-sjms2` : Support JMS pour la messagerie.
+- **Hibernate ORM** : Gestion des bases de données relationnelles.
+- **MariaDB** : Base de données utilisée pour stocker les ressources et les états du système.
+- **SmallRye OpenAPI** : Documentation et exposition des API REST.
+
+### Langage
+- **Java 21** : Version LTS utilisée pour développer le projet.
 
 ---
 
-## Technologies et dépendances
-- **Framework** : Quarkus 3.15.2
-- **Dépendances principales** :
-    - Apache Camel Quarkus : camel-quarkus-core, camel-quarkus-jackson, camel-quarkus-sjms2
-    - Hibernate ORM
-    - MariaDB
-    - SmallRye OpenAPI
+Avec ces informations, vous disposez d'une vue complète du projet **PlantLazy**, de ses objectifs, de sa structure et des technologies utilisées.
 
-- **Langage** : Java 21  
+

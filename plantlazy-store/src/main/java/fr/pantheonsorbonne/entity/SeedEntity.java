@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.entity;
 
 import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.SeedQuality;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,16 +14,18 @@ public class SeedEntity {
     @Enumerated(EnumType.STRING) // Stocker l'énumération sous forme de chaîne
     private PlantType type; // Remplace le champ String par l'énumération PlantType
 
+    @Enumerated(EnumType.STRING)
+    private SeedQuality quality;
+
     private double price; // Prix unitaire de la graine
-    private int quantity; // Quantité disponible pour l'offre quotidienne
 
     public SeedEntity() {
     }
 
-    public SeedEntity(PlantType type, double price, int quantity) {
+    public SeedEntity(PlantType type, double price, SeedQuality quality) {
         this.type = type;
         this.price = price;
-        this.quantity = quantity;
+        this.quality = quality;
     }
 
     public Long getId() {
@@ -49,13 +52,21 @@ public class SeedEntity {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public SeedQuality getQuality() {
+        return quality;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuality(SeedQuality quality) {
+        this.quality = quality;
     }
+
+/*    public SeedQuality getSeedType() {
+        return seedType;
+    }
+
+    public void setSeedType(SeedQuality seedType) {
+        this.seedType = seedType;
+    }*/
 
     @Override
     public String toString() {
@@ -63,7 +74,6 @@ public class SeedEntity {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", price=" + price +
-                ", quantity=" + quantity +
                 '}';
     }
 }

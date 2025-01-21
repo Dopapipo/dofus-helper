@@ -15,6 +15,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="parent" target="1.8" />
       <module name="plantlazy-compost" target="21" />
       <module name="plantlazy-history" target="21" />
       <module name="plantlazy-plant-generator" target="1.8" />
@@ -29,6 +30,7 @@
       <module name="plantlazy-farm" options="-parameters" />
       <module name="plantlazy-history" options="-parameters" />
       <module name="plantlazy-plant-generator" options="" />
+      <module name="plantlazy-plant-manager" options="-parameters" />
       <module name="plantlazy-server-ticks" options="-parameters" />
       <module name="plantlazy-stock" options="-parameters" />
       <module name="plantlazy-store" options="-parameters" />

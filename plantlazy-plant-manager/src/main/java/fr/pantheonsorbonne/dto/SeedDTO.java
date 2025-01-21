@@ -1,35 +1,31 @@
-
 package fr.pantheonsorbonne.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fr.pantheonsorbonne.entity.SeedQuality;
 
 public class SeedDTO {
-    @JsonProperty("type")
-    private String type;
+    private PlantType type;
+    private SeedQuality quality;
 
-    @JsonProperty("quantity")
-    private int quantity;
-
-    public SeedDTO() {}
-
-    public SeedDTO(String type, int quantity) {
+    public SeedDTO(PlantType type, SeedQuality quality) {
         this.type = type;
-        this.quantity = quantity;
+        this.quality = quality;
     }
 
-    public String getType() {
+    public PlantType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PlantType type) {
         this.type = type;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public SeedQuality getQuality() {
+        return quality;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuality(SeedQuality quality) {
+        this.quality = quality;
     }
+
 }

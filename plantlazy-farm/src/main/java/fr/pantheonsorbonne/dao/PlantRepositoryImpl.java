@@ -1,13 +1,15 @@
 package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.PlantEntity;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@ApplicationScoped
 public class PlantRepositoryImpl implements PlantRepository {
     @Inject
     EntityManager em;
@@ -15,17 +17,27 @@ public class PlantRepositoryImpl implements PlantRepository {
     @Transactional
     @Override
     public PlantEntity save(PlantEntity plantEntity) {
+        if (plantEntity.getId() == null) {
+            em.persist(plantEntity);
+            return plantEntity;
+        }
         return em.merge(plantEntity);
-
     }
 
+    @Transactional
     @Override
     public PlantEntity findById(UUID id) {
         return em.find(PlantEntity.class, id);
     }
-
+    @Transactional
     @Override
-    public Iterable<PlantEntity> findAll() {
-        return em.createQuery("SELECT p FROM PlantEntity p", PlantEntity.class).getResultList();
+    public List<PlantEntity> findAll() {
+        List<PlantEntity> plants = em.createQuery("SELECT p FROM PlantEntity p", PlantEntity.class).getResultList();
+        return plants.stream().map(em::merge).toList();
+    }
+    @Transactional
+    @Override
+    public void delete(PlantEntity plantEntity) {
+        em.remove(plantEntity);
     }
 }
