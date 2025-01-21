@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.camel.producers;
 
+import fr.pantheonsorbonne.camel.processors.DeadPlantProcessor;
+import fr.pantheonsorbonne.camel.processors.SoldPlantProcessor;
 import fr.pantheonsorbonne.dto.PlantDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.builder.RouteBuilder;
@@ -16,8 +18,8 @@ public class PlantTransportProducer extends RouteBuilder {
     public void configure() throws Exception {
         from("direct:plantQueue")
                 .marshal().json(PlantDTO.class).choice()
-                .when(header("dead").isEqualTo(true)).to(transportEndpoint)
-                .otherwise().to(storePlantEndpoint);
+                .when(header("dead").isEqualTo(true)).process(new DeadPlantProcessor()).to(transportEndpoint)
+                .otherwise().when(header("sold").isEqualTo(false)).process(new SoldPlantProcessor()).to(storePlantEndpoint);
     }
 }
 

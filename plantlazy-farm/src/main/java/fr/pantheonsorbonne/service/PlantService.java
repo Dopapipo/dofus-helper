@@ -49,13 +49,12 @@ public class PlantService {
                 try {
                     producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", true);
                     logService.sendLog(PlantMapper.toPlantDiedLog(plant));
-                    plantRepository.save(plant);
                 } catch (Exception e) {
                     System.out.println("Failed to send dead plant to transport: " + e.getMessage());
                 }
             }
-            else if (!plant.isDead()) {
-                producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", false);
+            else if (!plant.isDead() && plant.getSoldAtDay()==null) {
+                producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
             }
         }
     }

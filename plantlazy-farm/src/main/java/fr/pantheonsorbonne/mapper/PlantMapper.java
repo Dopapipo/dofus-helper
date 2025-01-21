@@ -34,5 +34,18 @@ public class PlantMapper {
                 plant.getCauseOfDeath()
         );
     }
+    public static PlantEntity toPlantEntity(PlantDTO plantDTO) {
+        PlantEntity plantEntity = new PlantEntity(
+                plantDTO.getType(),
+                plantDTO.getWater(),
+                plantDTO.getSun(),
+                plantDTO.getSoil()
+        );
+        plantEntity.setId(plantDTO.getId());
+        plantEntity.setDead(plantDTO.isDead());
+        plantEntity.setTimeOfDeath(plantDTO.getTimeOfDeath());
+        plantEntity.setCauseOfDeath(plantDTO.getCauseOfDeath());
+        return plantEntity;
+    }
 
 }

@@ -52,6 +52,17 @@ public class PlantEntity {
     @Column(name = "cause_of_death")
     private String causeOfDeath;
 
+    public Integer getSoldAtDay() {
+        return soldAtDay;
+    }
+
+    public void setSoldAtDay(Integer soldAtDay) {
+        this.soldAtDay = soldAtDay;
+    }
+
+    @Column(name = "soldAtDay")
+    private Integer soldAtDay = null;
+
     public Boolean getComposted() {
         return composted;
     }
@@ -161,10 +172,6 @@ public class PlantEntity {
 
     public int getRemainingTicksOfHealthyFor(PlantStat stat) {
         return stat.getRemainingTicksOfHealthy();
-    }
-
-    public int getOptimalRessourceQuantityToFeed(PlantStat stat) {
-        return stat.getOptimalRessourceQuantityToFeed();
     }
 
     public void feed(StatType type, int quantity) {
