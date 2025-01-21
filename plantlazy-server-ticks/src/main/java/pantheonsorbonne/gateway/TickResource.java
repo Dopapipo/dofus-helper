@@ -36,4 +36,21 @@ public class TickResource {
                     .build();
         }
     }
+
+
+    @POST
+    @Path("/tick-stop")
+    public Response stopTickGeneration() {
+        try {
+            tickProducer.stopServerTick();
+
+            return Response.ok("Tick generation stopped successfully").build();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Failed to stop tick generation: " + e.getMessage())
+                    .build();
+        }
+    }
 }

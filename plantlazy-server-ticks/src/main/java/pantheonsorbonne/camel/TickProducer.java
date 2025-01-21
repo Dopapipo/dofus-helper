@@ -35,14 +35,17 @@ public class TickProducer{
 
 
 
-    void onStop(@Observes ShutdownEvent ev) {
-        scheduler.shutdown();
-    }
 
     public void startServerTick() {
         scheduler.scheduleAtFixedRate(() -> sendTick(TickType.HOURLY), 0L, hourlyInterval, TimeUnit.MILLISECONDS);
         scheduler.scheduleAtFixedRate(() -> sendTick(TickType.DAILY), 0L, dailyInterval, TimeUnit.MILLISECONDS);
     }
+
+    public void stopServerTick(){
+        scheduler.shutdown();
+    }
+
+
     public void sendTick(TickType tickType) {
         try (JMSContext context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE)) {
             long timestamp = System.currentTimeMillis();

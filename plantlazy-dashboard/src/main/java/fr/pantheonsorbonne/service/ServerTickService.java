@@ -11,4 +11,8 @@ public interface ServerTickService {
     @POST
     @Path("/tick-init")
     void startTicks();
+
+    @POST
+    @Path("/tick-stop")
+    void stopTicks();
 }
