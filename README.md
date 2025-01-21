@@ -76,4 +76,16 @@ Le projet est basé sur une architecture microservices, comprenant les services 
 ### Langage
 - **Java 21** : Version LTS utilisée pour développer le projet.
 
+## Demarrage
+
+### Étape 1 : Nettoyer et reconstruire le projet avec Maven
+mvn clean install
+
+### Étape 2 : Démarrer la simulation via l'API
+curl -X POST http://localhost:8080/api/simulation/init \
+-H "Content-Type: application/json" \
+-d '{
+  "money": 10
+}'
+
 ---
