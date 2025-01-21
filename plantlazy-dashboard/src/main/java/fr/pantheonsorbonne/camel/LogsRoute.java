@@ -20,8 +20,8 @@ public class LogsRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        // from(logEndpoint)
-        from("file:data/log?noop=true")
+        from(logEndpoint)
+        // from("file:data/log?noop=true")
                 .convertBodyTo(String.class) // Convertit le fichier en chaîne JSON
 
                 .choice()
@@ -51,12 +51,6 @@ public class LogsRoute extends RouteBuilder {
                 .bean("dashboardService", "processDeadPlantUpdate")
 
                 // Update des plantes
-                .when(simple("${body} contains 'PLANT_UPDATE'"))
-                .unmarshal().json(JsonLibrary.Jackson, LivePlantUpdateDTO.class)
-                .log("Processing plant update: ${body}")
-                .bean("dashboardService", "processPlantUpdate")
-
-
                 .when(simple("${body} contains 'PLANT_UPDATE'"))
                 .unmarshal().json(JsonLibrary.Jackson, LivePlantUpdateDTO.class)
                 .log("Processing plant update: ${body}")

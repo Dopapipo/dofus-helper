@@ -12,4 +12,5 @@ public interface SeedService {
     void sellSeed(PlantType seedType, int quantity);
     SeedEntity getCheapestSeed();
     List<PurchaseRequestDTO> getSeedPricingAndStock();
+    double getPriceForTypeAndQuantity(PlantType seedType, int quantity);
 }

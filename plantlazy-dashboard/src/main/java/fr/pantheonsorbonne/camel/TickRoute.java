@@ -20,10 +20,6 @@ public class TickRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-
-
-
-
         from(tickEndpoint)
         // from("file:data/tick?noop=true")
 

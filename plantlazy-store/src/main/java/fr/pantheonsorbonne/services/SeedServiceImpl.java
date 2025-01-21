@@ -58,6 +58,12 @@ public class SeedServiceImpl implements SeedService {
                 .map(seed -> new PurchaseRequestDTO(seed.getType(), seed.getQuantity(), seed.getPrice()))
                 .collect(Collectors.toList());
     }
+    @Override
+    @Transactional
+    public double getPriceForTypeAndQuantity(PlantType seedType, int quantity) {
+        SeedEntity seed = seedDAO.getSeedByType(seedType).orElseThrow(RuntimeException::new);
+        return (seed.getPrice() * quantity);
+    }
 
 
     @Override
