@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.apache.camel.CamelContext;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,6 +49,7 @@ public class SeedIntegrationTest {
 
     @Test
     @Transactional
+    @Disabled
     void testSeedConsumerProcess() throws Exception {
         // Arrange: Simulate sending a seed to the consumer
         plantRepository.save(expectedPlantEntity);

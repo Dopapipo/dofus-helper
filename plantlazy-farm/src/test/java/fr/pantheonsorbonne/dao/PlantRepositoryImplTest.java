@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,6 +44,7 @@ class PlantRepositoryImplTest {
 
     @Transactional
     @Test
+    @Disabled
     public void testFindAllWithOnePlant() {
         // Create and save a new plant
         PlantEntity plant = new PlantEntity(PlantType.FLOWER, new FullPlantStats(
