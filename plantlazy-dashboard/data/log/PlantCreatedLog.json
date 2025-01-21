@@ -1,0 +1,9 @@
+{
+    "type": "PLANT_CREATED",
+    "plantId": "PLANT_124",
+    "name": "Tomato",
+    "energyLevel": 100,
+    "waterLevel": 80,
+    "fertilizerLevel": 60,
+    "growthLevel": 10
+}

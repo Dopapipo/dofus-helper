@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.model;
 
 public class ResourceData {
-    private String resourceType; // WATER, LIGHT, etc.
+    private String resourceType;
     private int currentValue;
 
     public ResourceData(String resourceType, int currentValue) {

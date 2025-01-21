@@ -1,6 +1,0 @@
-{
-  "type": "RESOURCE_UPDATE",
-  "resourceType": "ENERGY",
-  "before": 500,
-  "after": 1000
-}

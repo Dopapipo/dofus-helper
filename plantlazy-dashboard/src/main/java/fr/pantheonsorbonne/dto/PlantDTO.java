@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.dto;
 
 public class PlantDTO {
     private String id;
-    private String type; // Type de plante
+    private String type;
     private int waterStat;
     private int sunStat;
     private int soilStat;

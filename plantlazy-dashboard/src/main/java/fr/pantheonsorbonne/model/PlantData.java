@@ -6,8 +6,10 @@ public class PlantData {
     private int waterLevel;
     private int energyLevel;
     private int fertilizerLevel;
+    private int GrowthLevel;
     private int price;
     private int quantity;
+    private int decompositionLevel;
 
     public String getId() {
         return id;
@@ -65,6 +67,22 @@ public class PlantData {
         this.quantity = quantity;
     }
 
+
+    public int getGrowthLevel() {
+        return GrowthLevel;
+    }
+
+    public void setGrowthLevel(int growthLevel) {
+        GrowthLevel = growthLevel;
+    }
+
+    public int getDecompositionLevel() {
+        return decompositionLevel;
+    }
+
+    public void setDecompositionLevel(int decompositionLevel) {
+        this.decompositionLevel = decompositionLevel;
+    }
 
     @Override
     public String toString() {
