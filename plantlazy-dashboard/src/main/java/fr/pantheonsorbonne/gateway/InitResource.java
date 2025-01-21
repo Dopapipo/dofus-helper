@@ -30,7 +30,7 @@ public class InitResource {
                         .build();
             }
 
-            initService.initializeSimulation(initMoneyDTO);
+            initService.initializeSimulation(initMoneyDTO.getMoney());
             return Response.ok("Simulation initialized successfully").build();
 
         } catch (Exception e) {
