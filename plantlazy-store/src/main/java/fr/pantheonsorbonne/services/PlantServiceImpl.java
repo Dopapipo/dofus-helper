@@ -33,10 +33,12 @@ public class PlantServiceImpl implements PlantService {
     @RestClient
     StockClient stockClient;
 
+    @Inject
+    SendingSeedService sendingSeedService;
+
 
     private static final Random random = new Random();
 
-    // Probabilités de vente par type de plante (en pourcentage)
     private static final Map<PlantType, Integer> SALE_PROBABILITIES = new HashMap<>();
 
     static {
@@ -63,7 +65,11 @@ public class PlantServiceImpl implements PlantService {
         // Appeler le microservice Stock pour mettre à jour les ressources (argent)
          stockClient.updateResource(
                 new ResourceUpdateDTO(ResourceType.MONEY, sellingPrice, PlantType.OperationTag.STOCK_QUERIED)
+
+
         );
+
+        sendingSeedService.sendAllSeedsToQueue();
     }
 
     /*@Override
