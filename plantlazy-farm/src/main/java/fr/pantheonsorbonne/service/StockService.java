@@ -17,4 +17,3 @@ public interface StockService {
     @Consumes(MediaType.APPLICATION_JSON)
     Response requestResource(ResourceRequest resourceRequest);
 }
-

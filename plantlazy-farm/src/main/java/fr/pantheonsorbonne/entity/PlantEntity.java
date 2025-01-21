@@ -39,7 +39,6 @@ public class PlantEntity {
     @Embedded
     protected SoilStat soil;
 
-
     public List<PlantStat> getStats() {
         return List.of(water, sun, soil);
     }
@@ -164,6 +163,9 @@ public class PlantEntity {
         return stat.getRemainingTicksOfHealthy();
     }
 
+    public int getOptimalRessourceQuantityToFeed(PlantStat stat) {
+        return stat.getOptimalRessourceQuantityToFeed();
+    }
 
     public void feed(StatType type, int quantity) {
         PlantStat stat = getStatToFeed(type);

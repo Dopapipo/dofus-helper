@@ -33,15 +33,16 @@ public class TickProducer{
 
     private final ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(2);
 
-    void onStart(@Observes StartupEvent ev) {
-        scheduler.scheduleAtFixedRate(() -> sendTick(TickType.HOURLY), 0L, hourlyInterval, TimeUnit.MILLISECONDS);
-        scheduler.scheduleAtFixedRate(() -> sendTick(TickType.DAILY), 0L, dailyInterval, TimeUnit.MILLISECONDS);
-    }
+
 
     void onStop(@Observes ShutdownEvent ev) {
         scheduler.shutdown();
     }
 
+    public void startServerTick() {
+        scheduler.scheduleAtFixedRate(() -> sendTick(TickType.HOURLY), 0L, hourlyInterval, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(() -> sendTick(TickType.DAILY), 0L, dailyInterval, TimeUnit.MILLISECONDS);
+    }
     public void sendTick(TickType tickType) {
         try (JMSContext context = connectionFactory.createContext(Session.AUTO_ACKNOWLEDGE)) {
             long timestamp = System.currentTimeMillis();

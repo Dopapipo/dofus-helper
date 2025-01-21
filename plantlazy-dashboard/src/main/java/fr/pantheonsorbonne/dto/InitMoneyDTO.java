@@ -4,6 +4,9 @@ public class InitMoneyDTO {
 
     private Double money;
 
+    public InitMoneyDTO() {
+    }
+
     public InitMoneyDTO(Double money) {
         this.money = money;
     }
