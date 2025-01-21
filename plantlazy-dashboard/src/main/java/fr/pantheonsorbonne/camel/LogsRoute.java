@@ -17,7 +17,7 @@ public class LogsRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        from("file:data/log?noop=true")
+        from(logEndpoint)
                 .convertBodyTo(String.class)
                 .choice()
 
