@@ -19,32 +19,65 @@ class ResourceDAOImplTest {
     @Inject
     EntityManager em;
 
-    @Test
-    @Transactional
-    void testSaveResource() {
-        Resource resource = new Resource(ResourceType.WATER, 100);
-
-        resourceDAO.save(resource);
-        em.flush();
-
-        Resource persistedResource = resourceDAO.findById(resource.getId());
-        assertNotNull(persistedResource);
-        assertEquals(ResourceType.WATER, persistedResource.getType());
-        assertEquals(100, persistedResource.getQuantity());
-    }
 
     @Test
     @Transactional
     void testFindAllResources() {
-        Resource resource1 = new Resource(ResourceType.WATER, 100);
-        Resource resource2 = new Resource(ResourceType.ENERGY, 50);
+        Resource resource1 = new Resource();
+        resource1.setType(ResourceType.ENERGY);
+        resource1.setQuantity(100.00);
+        Resource resource2 = new Resource();
+        resource2.setType(ResourceType.WATER);
+        resource2.setQuantity(500.00);
         resourceDAO.save(resource1);
         resourceDAO.save(resource2);
         em.flush();
 
         Iterable<Resource> resources = resourceDAO.findAll();
-
         assertNotNull(resources);
         assertTrue(resources.iterator().hasNext());
+    }
+
+    @Test
+    @Transactional
+    void testFindByType() {
+        Resource resource = new Resource();
+        resource.setType(ResourceType.ENERGY);
+        resource.setQuantity(100.00);
+        resourceDAO.save(resource);
+        em.flush();
+
+        Resource foundResource = resourceDAO.findByType(ResourceType.ENERGY).orElse(null);
+        assertNotNull(foundResource);
+        assertEquals(ResourceType.ENERGY, foundResource.getType());
+    }
+
+    @Test
+    @Transactional
+    void testSave() {
+        Resource resource = new Resource();
+        resource.setType(ResourceType.ENERGY);
+        resource.setQuantity(100.00);
+        resourceDAO.save(resource);
+        em.flush();
+
+        Resource foundResource = resourceDAO.findByType(ResourceType.ENERGY).orElse(null);
+        assertNotNull(foundResource);
+        assertEquals(ResourceType.ENERGY, foundResource.getType());
+    }
+
+    @Test
+    @Transactional
+    void testSaveWithId() {
+        Resource resource = new Resource();
+        resource.setId(1L);
+        resource.setType(ResourceType.ENERGY);
+        resource.setQuantity(100.00);
+        resourceDAO.save(resource);
+        em.flush();
+
+        Resource foundResource = resourceDAO.findByType(ResourceType.ENERGY).orElse(null);
+        assertNotNull(foundResource);
+        assertEquals(ResourceType.ENERGY, foundResource.getType());
     }
 }

@@ -19,12 +19,13 @@ public class ResourceInitializerService {
         initializeResource(ResourceType.ENERGY, 1000.0);
         initializeResource(ResourceType.FERTILIZER, 0.0);
         initializeResource(ResourceType.MONEY, initialMoney);
-        System.out.println("initalfgzggggggggggggggggggggggggggggggggg");
     }
 
     private void initializeResource(ResourceType type, double initialQuantity) {
         resourceDAO.findByType(type).orElseGet(() -> {
-            Resource resource = new Resource(type, initialQuantity);
+            Resource resource = new Resource();
+            resource.setType(type);
+            resource.setQuantity(initialQuantity);
             return resourceDAO.save(resource);
         });
     }
