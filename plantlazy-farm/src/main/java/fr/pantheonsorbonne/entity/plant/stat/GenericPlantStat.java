@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.entity.plant.stat;
 // REGLES METIER : si une stat arrive a 0, mort automatique; si une stat arrive a threshold, plante en bonne sante
 
 
-public class GenericPlantStat implements PlantStat {
+public abstract class GenericPlantStat implements PlantStat {
     private int value;
     private int threshold;
     private int MAX_VALUE = 100;

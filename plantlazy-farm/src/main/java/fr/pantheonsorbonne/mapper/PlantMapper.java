@@ -23,16 +23,10 @@ public class PlantMapper {
     }
 
     public static PlantDTO toPlantDTO(PlantEntity plant) {
-        return new PlantDTO(
-                plant.getId(),
-                plant.getType(),
-                plant.getWater(),
-                plant.getSun(),
-                plant.getSoil(),
-                plant.isDead(),
-                plant.getTimeOfDeath(),
-                plant.getCauseOfDeath()
-        );
+        return new PlantDTO(plant);
+    }
+    public static PlantEntity toPlantEntity(PlantDTO plantDTO) {
+        return new PlantEntity(plantDTO);
     }
 
 }

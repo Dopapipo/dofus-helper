@@ -1,96 +1,35 @@
 package fr.pantheonsorbonne.dto;
 
+import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.plant.stat.PlantGrowthLevel;
 import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import java.util.UUID;
 
-public class PlantDTO {
-    private UUID id;
-    private PlantType type;
-    private WaterStat water;
-    private SunStat sun;
-    private SoilStat soil;
-    private boolean isDead;
-    private Long timeOfDeath;
-    private String causeOfDeath;
-
-    public PlantDTO() {
-    }
-
-    public PlantDTO(UUID id, PlantType type, WaterStat water, SunStat sun, SoilStat soil, boolean isDead, Long timeOfDeath, String causeOfDeath) {
-        this.id = id;
-        this.type = type;
-        this.water = water;
-        this.sun = sun;
-        this.soil = soil;
-        this.isDead = isDead;
-        this.timeOfDeath = timeOfDeath;
-        this.causeOfDeath = causeOfDeath;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public PlantType getType() {
-        return type;
-    }
-
-    public void setType(PlantType type) {
-        this.type = type;
-    }
-
-    public WaterStat getWater() {
-        return water;
-    }
-
-    public void setWater(WaterStat water) {
-        this.water = water;
-    }
-
-    public SunStat getSun() {
-        return sun;
-    }
-
-    public void setSun(SunStat sun) {
-        this.sun = sun;
-    }
-
-    public SoilStat getSoil() {
-        return soil;
-    }
-
-    public void setSoil(SoilStat soil) {
-        this.soil = soil;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
-    public Long getTimeOfDeath() {
-        return timeOfDeath;
-    }
-
-    public void setTimeOfDeath(Long timeOfDeath) {
-        this.timeOfDeath = timeOfDeath;
-    }
-
-    public String getCauseOfDeath() {
-        return causeOfDeath;
-    }
-
-    public void setCauseOfDeath(String causeOfDeath) {
-        this.causeOfDeath = causeOfDeath;
+public record PlantDTO(PlantType type,
+                       WaterStat water,
+                       SunStat sun,
+                       SoilStat soil,
+                       boolean isDead,
+                       Long timeOfDeath,
+                       String causeOfDeath,
+                       PlantGrowthLevel growthLevel,
+                       boolean sold,
+                       UUID id,
+                       boolean composted) {
+    public PlantDTO(PlantEntity plant) {
+        this(plant.getType(),
+             plant.getWater(),
+             plant.getSun(),
+             plant.getSoil(),
+             plant.isDead(),
+             plant.getTimeOfDeath(),
+             plant.getCauseOfDeath(),
+             plant.getGrowthLevel(),
+             plant.isSold(),
+             plant.getId(),
+             plant.getComposted());
     }
 }
