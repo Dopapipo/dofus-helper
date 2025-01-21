@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.camel.consumers;
+package fr.pantheonsorbonne.camel.consumer;
 
-import fr.pantheonsorbonne.camel.processors.InitProcessor;
+import fr.pantheonsorbonne.camel.processor.InitProcessor;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

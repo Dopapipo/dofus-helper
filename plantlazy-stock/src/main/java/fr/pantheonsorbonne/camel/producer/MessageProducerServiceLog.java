@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.service;
+package fr.pantheonsorbonne.camel.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.pantheonsorbonne.dto.MessageLogDTO;
