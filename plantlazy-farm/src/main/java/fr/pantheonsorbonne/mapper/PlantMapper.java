@@ -12,6 +12,10 @@ public class PlantMapper {
         return new LogMessage(LogType.PLANT_DEAD, plantDTO);
     }
 
+    public static LogMessage toPlantSoldLog(PlantEntity plant) {
+        PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
+        return new LogMessage(LogType.PLANT_SOLD, plantDTO);
+    }
     public static LogMessage toPlantCreatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
         return new LogMessage(LogType.PLANT_CREATED, plantDTO);

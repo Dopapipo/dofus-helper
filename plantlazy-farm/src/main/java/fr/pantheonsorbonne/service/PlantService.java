@@ -55,6 +55,7 @@ public class PlantService {
             }
             else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                 producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
+                logService.sendLog(PlantMapper.toPlantSoldLog(plant));
             }
         }
     }
