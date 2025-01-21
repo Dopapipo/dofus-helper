@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.pantheonsorbonne.dto.InitMoneyDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,6 +17,8 @@ public class InitService {
     @ConfigProperty(name = "init.endpoint")
     String initEndpoint;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Inject
     @RestClient
     ServerTickService serverTickService;
@@ -26,8 +29,12 @@ public class InitService {
     }
 
     private void initMoney(InitMoneyDTO initMoneyDTO) {
-        System.out.println("Sending to initEndpoint:" + initMoneyDTO);
-        producerTemplate.sendBody(initEndpoint, initMoneyDTO);
-
+        try {
+            String json = objectMapper.writeValueAsString(initMoneyDTO);
+            System.out.println("Sending JSON to initEndpoint: " + json);
+            producerTemplate.sendBodyAndHeader(initEndpoint, json, "Content-Type", "application/json");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize InitMoneyDTO", e);
+        }
     }
 }
