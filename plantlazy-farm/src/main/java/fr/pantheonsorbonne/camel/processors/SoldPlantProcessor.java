@@ -15,7 +15,7 @@ public class SoldPlantProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         PlantDTO plantDTO = exchange.getIn().getBody(PlantDTO.class);
         PlantEntity plantEntity = PlantMapper.toPlantEntity(plantDTO);
-        plantEntity.setSoldAtDay(1);
+        plantEntity.setSold(1);
         plantRepository.save(plantEntity);
     }
 }

@@ -53,7 +53,7 @@ public class PlantService {
                     System.out.println("Failed to send dead plant to transport: " + e.getMessage());
                 }
             }
-            else if (!plant.isDead() && plant.getSoldAtDay()==null) {
+            else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                 producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
             }
         }

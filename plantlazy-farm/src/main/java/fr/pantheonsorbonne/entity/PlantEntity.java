@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.entity;
 
+import fr.pantheonsorbonne.dto.PlantDTO;
 import fr.pantheonsorbonne.entity.plant.PlantType;
 import fr.pantheonsorbonne.entity.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.entity.plant.stat.PlantGrowthLevel;
@@ -63,17 +64,34 @@ public class PlantEntity {
 
     @Column(name = "cause_of_death")
     private String causeOfDeath;
+    @Column(name = "composted")
+    private Boolean composted = false;
 
-    public Integer getSoldAtDay() {
-        return soldAtDay;
+
+    @Column(name = "sold")
+    private boolean sold = false;
+
+    public PlantEntity(PlantDTO plantDTO) {
+        this.id = plantDTO.id();
+        this.type = plantDTO.type();
+        this.water = plantDTO.water();
+        this.sun = plantDTO.sun();
+        this.soil = plantDTO.soil();
+        this.growthLevel = plantDTO.growthLevel();
+        this.isDead = plantDTO.isDead();
+        this.timeOfDeath = plantDTO.timeOfDeath();
+        this.causeOfDeath = plantDTO.causeOfDeath();
+        this.sold = plantDTO.sold();
+        this.composted = plantDTO.composted();
     }
 
-    public void setSoldAtDay(Integer soldAtDay) {
-        this.soldAtDay = soldAtDay;
+    public boolean isSold() {
+        return isSold();
     }
 
-    @Column(name = "soldAtDay")
-    private Integer soldAtDay = null;
+    public void setSold(boolean sold) {
+        this.sold = sold;
+    }
 
     public Boolean getComposted() {
         return composted;
@@ -82,9 +100,6 @@ public class PlantEntity {
     public void setComposted(Boolean composted) {
         this.composted = composted;
     }
-
-    @Column(name = "composted")
-    private Boolean composted = false;
 
     protected PlantEntity() {
     }
@@ -160,7 +175,8 @@ public class PlantEntity {
         this.soil = soil;
     }
 
-    public PlantEntity(UUID id, PlantType type, WaterStat water, SunStat sun, SoilStat soil, PlantGrowthLevel growthLevel, boolean isDead, Long timeOfDeath, String causeOfDeath, Integer soldAtDay, Boolean composted) {
+    public PlantEntity(UUID id, PlantType type, WaterStat water, SunStat sun, SoilStat soil, PlantGrowthLevel growthLevel,
+                       boolean isDead, Long timeOfDeath, String causeOfDeath, Integer soldAtDay, Boolean composted) {
         this.id = id;
         this.type = type;
         this.water = water;
@@ -170,7 +186,7 @@ public class PlantEntity {
         this.isDead = isDead;
         this.timeOfDeath = timeOfDeath;
         this.causeOfDeath = causeOfDeath;
-        this.soldAtDay = soldAtDay;
+        this.sold = soldAtDay != null;
         this.composted = composted;
     }
 
@@ -212,6 +228,10 @@ public class PlantEntity {
             case SOIL -> this.soil;
             case SUN -> this.sun;
         };
+    }
+
+    public boolean isMature() {
+        return this.growthLevel.isMature();
     }
 
     @Override

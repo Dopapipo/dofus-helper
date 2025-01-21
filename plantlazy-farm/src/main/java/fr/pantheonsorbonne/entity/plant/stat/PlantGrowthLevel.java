@@ -13,6 +13,13 @@ public class PlantGrowthLevel implements Serializable {
         this.value = value;
     }
 
+    public boolean isMature() {
+        return this.getGrowthPercentage()>0.7;
+    }
+
+    private double getGrowthPercentage() {
+        return (double) value / MAX_VALUE;
+    }
     public PlantGrowthLevel() {
 
     }
