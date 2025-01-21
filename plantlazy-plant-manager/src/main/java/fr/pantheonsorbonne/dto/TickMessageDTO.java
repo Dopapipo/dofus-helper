@@ -2,22 +2,7 @@ package fr.pantheonsorbonne.dto;
 
 import java.io.Serializable;
 
-public class TickMessageDTO implements Serializable {
-    private final TickType tickType;
-    private final long timestamp;
-
-    public TickMessageDTO(TickType tickType, long timestamp) {
-        this.tickType = tickType;
-        this.timestamp = timestamp;
-    }
-
-    public TickType getTickType() {
-        return tickType;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
+public record TickMessageDTO(TickType tickType, long timestamp) implements Serializable {
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 
 package fr.pantheonsorbonne.camel.processors;
 
+import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.dto.DeadPlantDTO;
 import fr.pantheonsorbonne.service.CompostService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,7 +18,6 @@ public class CompostProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         DeadPlantDTO deadPlant = exchange.getIn().getBody(DeadPlantDTO.class);
-        int compostQuantity = compostService.transformToCompost(deadPlant);
-        System.out.println("Processed dead plant to compost: " + compostQuantity + " units.");
-    }
+        compostService.processDeadPlant();
+        }
 }

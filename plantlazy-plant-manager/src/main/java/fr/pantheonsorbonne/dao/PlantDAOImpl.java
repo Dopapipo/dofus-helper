@@ -2,16 +2,18 @@
 package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.Plant;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class PlantDAOImpl implements PlantDAO {
     private final List<Plant> plantDatabase = new ArrayList<>();
 
     @Override
     public void savePlant(Plant plant) {
         plantDatabase.add(plant);
-        System.out.println("Plant saved: " + plant.getType());
     }
 
     @Override
@@ -33,6 +35,5 @@ public class PlantDAOImpl implements PlantDAO {
             throw new IllegalArgumentException("Invalid plant ID");
         }
         Plant removed = plantDatabase.remove(id);
-        System.out.println("Plant deleted: " + removed.getType());
     }
 }

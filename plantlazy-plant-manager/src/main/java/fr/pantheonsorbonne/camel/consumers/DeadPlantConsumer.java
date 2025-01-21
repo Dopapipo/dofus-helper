@@ -13,7 +13,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class DeadPlantConsumer extends RouteBuilder {
 
     @Inject
-    @ConfigProperty(name = "deadplant.endpoint")
+    @ConfigProperty(name = "plant.delivery.endpoint")
     String deadPlantEndpoint;
 
     @Inject
@@ -22,9 +22,7 @@ public class DeadPlantConsumer extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from(deadPlantEndpoint)
-                .log(LoggingLevel.INFO, "Received dead plant data: ${body}")
                 .unmarshal().json(DeadPlantDTO.class)
-                .process(compostProcessor)
-                .log(LoggingLevel.INFO, "Dead plant processed successfully.");
+                .process(compostProcessor);
     }
 }
