@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.camel.processor;
 
-import fr.pantheonsorbonne.dto.InitRequestDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.pantheonsorbonne.dto.InitMoneyDTO;
 import fr.pantheonsorbonne.service.ResourceInitializerService;
 import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
@@ -9,9 +10,11 @@ import org.apache.camel.Processor;
 public class InitProcessor implements Processor {
     @Inject
     ResourceInitializerService resourceInitializerService;
+    @Inject
+    ObjectMapper objectMapper;
     @Override
     public void process(Exchange exchange) throws Exception {
-        InitRequestDTO money = exchange.getIn().getBody(InitRequestDTO.class);
+        InitMoneyDTO money = objectMapper.readValue(exchange.getIn().getBody(String.class), InitMoneyDTO.class);
         resourceInitializerService.initializeResources(money);
     }
 }
