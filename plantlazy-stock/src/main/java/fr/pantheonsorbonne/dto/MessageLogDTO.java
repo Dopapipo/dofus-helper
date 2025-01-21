@@ -7,7 +7,9 @@ public record MessageLogDTO(
         Double quantityBefore,
         Double quantityChange,
         Double quantityAfter,
-        OperationTag operationTag
+        OperationTag operationTag,
+        String type
+
 ) {
 
 }
