@@ -14,6 +14,13 @@ public class Resource {
     private ResourceType type;
     private Double quantity;
 
+    public Resource() {
+    }
+
+    public Resource(ResourceType type, double quantity) {
+
+    }
+
     public Long getId() {
         return id;
     }

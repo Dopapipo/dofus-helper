@@ -32,6 +32,13 @@ public class ResourceDAOImpl implements ResourceDAO {
                 .getResultList();
     }
 
+    @Transactional
+    @Override
+    public Resource findById(Long id) {
+        return entityManager.find(Resource.class, id);
+    }
+
+
     @Override
     @Transactional
     public Resource save(Resource resource) {
