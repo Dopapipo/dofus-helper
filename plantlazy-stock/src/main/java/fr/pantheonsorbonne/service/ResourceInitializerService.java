@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dao.ResourceDAO;
+import fr.pantheonsorbonne.dto.InitRequestDTO;
 import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,11 +15,11 @@ public class ResourceInitializerService {
     ResourceDAO resourceDAO;
 
     @Transactional
-    public void initializeResources(Double initialMoney) {
+    public void initializeResources(InitRequestDTO initRequestDTO) {
         initializeResource(ResourceType.WATER, 1000.0);
         initializeResource(ResourceType.ENERGY, 1000.0);
         initializeResource(ResourceType.FERTILIZER, 0.0);
-        initializeResource(ResourceType.MONEY, initialMoney);
+        initializeResource(ResourceType.MONEY, initRequestDTO.money());
     }
 
     private void initializeResource(ResourceType type, double initialQuantity) {

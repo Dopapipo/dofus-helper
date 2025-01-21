@@ -69,6 +69,5 @@ public class DashboardService {
     public void processTick(TickMessage tick) {
         String tickType = tick.getTickType().name();
         dashboard.updateTick(tickType);
-        dashboard.display();
     }
 }
