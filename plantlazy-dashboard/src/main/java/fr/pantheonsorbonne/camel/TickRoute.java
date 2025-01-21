@@ -21,7 +21,7 @@ public class TickRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("file:data/tick?noop=true")
+        from(tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .log("Processing tick: ${body}")
                 .bean("dashboardService", "processTick");
