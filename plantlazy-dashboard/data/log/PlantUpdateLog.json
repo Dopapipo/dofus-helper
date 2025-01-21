@@ -1,9 +1,0 @@
-{
-    "type": "PLANT_UPDATE",
-    "plantId": "PLANT_124",
-    "energyLevel": 90,
-    "waterLevel": 70,
-    "fertilizerLevel": 50,
-    "growthLevel": 100
-  }
-  

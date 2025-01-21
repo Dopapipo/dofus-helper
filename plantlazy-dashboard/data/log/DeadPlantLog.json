@@ -1,7 +1,0 @@
-{
-    "type": "DEAD_PLANT_UPDATE",
-    "plantId": "PLANT_123",
-    "name": "Tree",
-    "decompositionLevel": 45 
-  }
-  
