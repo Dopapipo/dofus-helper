@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.camel.consumers;
 
 import fr.pantheonsorbonne.camel.processors.TickMessageProcessor;
-import fr.pantheonsorbonne.dto.TickMessage;
+import fr.pantheonsorbonne.dto.TickMessageDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
@@ -19,10 +19,10 @@ public class TickConsumer extends RouteBuilder {
     @Override
     public void configure() {
         from(tickEndpoint)
-                .unmarshal().json(TickMessage.class)
+                .unmarshal().json(TickMessageDTO.class)
                 .filter(exchange -> {
-                    TickMessage tickMessage = exchange.getIn().getBody(TickMessage.class);
-                    return "DAILY".equalsIgnoreCase(tickMessage.getTickType());
+                    TickMessageDTO tickMessageDTO = exchange.getIn().getBody(TickMessageDTO.class);
+                    return "DAILY".equalsIgnoreCase(tickMessageDTO.getTickType());
                 })
                 .process(tickMessageProcessor);
     }
