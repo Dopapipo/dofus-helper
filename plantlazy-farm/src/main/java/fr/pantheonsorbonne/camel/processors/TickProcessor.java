@@ -10,7 +10,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 @ApplicationScoped
-public class PlantLifecycleProcessor implements Processor {
+public class TickProcessor implements Processor {
 
     @Inject
     PlantService plantService;
@@ -19,7 +19,7 @@ public class PlantLifecycleProcessor implements Processor {
     public void process(Exchange exchange) {
         TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
         if (messageBody.getTickType() == TickType.HOURLY) {
-            plantService.processPlantLifecycle();
+            plantService.processHouryPlantLifecycle();
         }
         if(messageBody.getTickType() == TickType.DAILY){
             plantService.processDailyCycle();

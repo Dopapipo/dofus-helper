@@ -17,11 +17,6 @@ public class PlantMapper {
         return new LogMessage(LogType.PLANT_CREATED, plantDTO);
     }
 
-    public static LogMessage toPlantGrownLog(PlantEntity plant) {
-        PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessage(LogType.PLANT_GROWN, plantDTO);
-    }
-
     public static LogMessage toPlantUpdatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
         return new LogMessage(LogType.PLANT_UPDATE, plantDTO);

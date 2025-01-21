@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.camel.consumers;
 
 import fr.pantheonsorbonne.camel.processors.SeedProcessor;
 import fr.pantheonsorbonne.dto.SeedDTO;
+import fr.pantheonsorbonne.exception.SeedGrowException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
@@ -19,6 +20,7 @@ public class SeedConsumer extends RouteBuilder {
         from(seedEndpoint)
                 .unmarshal().json(SeedDTO.class)
                 .process(seedProcessor)
+                .onException(SeedGrowException.class).to("direct:logQueue")
                 .to("direct:logQueue")
         ;
     }

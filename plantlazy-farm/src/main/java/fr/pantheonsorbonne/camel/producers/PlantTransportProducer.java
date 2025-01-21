@@ -7,14 +7,17 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class PlantTransportProducer extends RouteBuilder {
-    @ConfigProperty(name = "plant.transport.endpoint")
+    @ConfigProperty(name = "dead.plant.transport.endpoint")
     String transportEndpoint;
+    @ConfigProperty(name = "store.plant.transport.endpoint")
+    String storePlantEndpoint;
+
     @Override
     public void configure() throws Exception {
         from("direct:plantQueue")
-                .log("Sending log message: ${body}")
-                .marshal().json(PlantDTO.class)
-                .to(transportEndpoint);
+                .marshal().json(PlantDTO.class).choice()
+                .when(header("dead").isEqualTo(true)).to(transportEndpoint)
+                .otherwise().to(storePlantEndpoint);
     }
 }
 
