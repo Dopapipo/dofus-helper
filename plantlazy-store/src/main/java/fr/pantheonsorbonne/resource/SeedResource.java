@@ -8,6 +8,7 @@ import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.exception.InsufficientStockException;
+import fr.pantheonsorbonne.services.SeedNotificationService;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

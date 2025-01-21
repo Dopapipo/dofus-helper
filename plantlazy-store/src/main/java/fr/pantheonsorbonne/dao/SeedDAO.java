@@ -11,6 +11,8 @@ public interface SeedDAO {
 
     Optional<SeedEntity> getSeedByType(PlantType type);
 
+    long countSeedsByType(PlantType type);
+
     void updateSeed(SeedEntity seed);
 
     void saveSeed(SeedEntity seed);

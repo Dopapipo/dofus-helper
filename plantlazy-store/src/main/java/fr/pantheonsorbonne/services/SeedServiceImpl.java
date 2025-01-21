@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
+import fr.pantheonsorbonne.dto.SeedLogDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 
 import fr.pantheonsorbonne.entity.enums.PlantType;
@@ -24,6 +25,9 @@ public class SeedServiceImpl implements SeedService {
 
     @Inject
     SeedDAO seedDAO;
+
+    @Inject
+    SeedNotificationService seedNotificationService;
 
     private static final Random random = new Random();
 
@@ -50,8 +54,15 @@ public class SeedServiceImpl implements SeedService {
 
             seedDAO.saveSeed(seed); // Sauvegarde la nouvelle graine
         }
+        sendSeedLog();
     }
 
+
+    private void sendSeedLog() {
+        for (PlantType type : PlantType.values()) { // Parcourt tous les types de l'énum PlantType
+            seedNotificationService.notifySeedUpdate(type, seedDAO.countSeedsByType(type)); // Appelle la fonction pour chaque type
+        }
+    }
 
     private PlantType generateRandomPlantType() {
         PlantType[] types = PlantType.values();
@@ -86,6 +97,7 @@ public class SeedServiceImpl implements SeedService {
         SeedEntity seed = seedDAO.getSeedByType(seedType).orElseThrow(RuntimeException::new);
         return (seed.getPrice() * quantity);
     }
+
 
 
     @Override
