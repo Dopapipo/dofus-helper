@@ -1,11 +1,11 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dao.ResourceDAO;
-import fr.pantheonsorbonne.dto.OperationTag;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.dto.ResourceLevelDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.Resource;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

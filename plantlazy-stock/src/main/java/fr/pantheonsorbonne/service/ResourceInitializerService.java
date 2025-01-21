@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dao.ResourceDAO;
 import fr.pantheonsorbonne.entity.Resource;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.Resource;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import java.util.List;
 import java.util.Optional;
 

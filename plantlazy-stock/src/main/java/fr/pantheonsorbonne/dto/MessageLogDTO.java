@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.dto;
 
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 
 public record MessageLogDTO(
         ResourceType resourceType,

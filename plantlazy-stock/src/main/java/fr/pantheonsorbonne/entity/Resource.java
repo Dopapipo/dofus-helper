@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.entity;
 
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.persistence.*;
 
 @Entity

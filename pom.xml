@@ -12,7 +12,6 @@
         <module>plantlazy-farm</module>
         <module>plantlazy-dashboard</module>
         <module>plantlazy-store</module>
-        <module>plantlazy-plant-manager</module>
         <module>plantlazy-server-ticks</module>
     </modules>
     <dependencyManagement>

@@ -1,9 +1,8 @@
 package fr.pantheonsorbonne.gateway;
 
-import fr.pantheonsorbonne.dto.ErrorResponseDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.dto.ResourceLevelDTO;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.exception.ResourceException;
 import fr.pantheonsorbonne.service.StockService;
 import jakarta.inject.Inject;
@@ -27,7 +26,6 @@ public class StockResource {
             return Response.accepted(resourceUpdated).build();
         } catch (ResourceException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorResponseDTO(e))
                     .build();
         }
     }
@@ -40,7 +38,6 @@ public class StockResource {
             return Response.ok(resourceLevelDTO).build();
         } catch (ResourceException e) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity(new ErrorResponseDTO(e))
                     .build();
         }
     }

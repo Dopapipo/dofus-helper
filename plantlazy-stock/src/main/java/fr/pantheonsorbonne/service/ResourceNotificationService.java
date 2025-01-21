@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dto.MessageLogDTO;
-import fr.pantheonsorbonne.dto.OperationTag;
-import fr.pantheonsorbonne.entity.ResourceType;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

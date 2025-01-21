@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.dto;
+package fr.pantheonsorbonne.entity.enums;
 
 public enum TickType {
     DAILY,
