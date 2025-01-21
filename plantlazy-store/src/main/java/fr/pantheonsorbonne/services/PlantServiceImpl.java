@@ -36,6 +36,9 @@ public class PlantServiceImpl implements PlantService {
     @Inject
     SendingSeedService sendingSeedService;
 
+    @Inject
+    SeedNotificationService seedNotificationService;
+
 
     private static final Random random = new Random();
 
@@ -46,6 +49,9 @@ public class PlantServiceImpl implements PlantService {
         SALE_PROBABILITIES.put(PlantType.TREE, 50); // 50% de chances de vente
         SALE_PROBABILITIES.put(PlantType.FLOWER, 30); // 30% de chances de vente
     }
+
+    @Inject
+    SendingSeedLogService sendingSeedLogService;
 
     @Override
     public List<PlantEntity> getAvailablePlants() {
@@ -63,12 +69,11 @@ public class PlantServiceImpl implements PlantService {
             sellingPrice = 60;
         }
         // Appeler le microservice Stock pour mettre à jour les ressources (argent)
-         stockClient.updateResource(
+        stockClient.updateResource(
                 new ResourceUpdateDTO(ResourceType.MONEY, sellingPrice, PlantType.OperationTag.STOCK_QUERIED)
-
-
         );
 
+        seedNotificationService.notifyPlantSale(plantDTO.getPlantType(), sellingPrice);
         sendingSeedService.sendAllSeedsToQueue();
     }
 
