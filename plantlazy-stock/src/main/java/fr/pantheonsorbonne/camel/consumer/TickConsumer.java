@@ -1,6 +1,6 @@
-package fr.pantheonsorbonne.camel.consumers;
+package fr.pantheonsorbonne.camel.consumer;
 
-import fr.pantheonsorbonne.camel.processors.TickMessageProcessor;
+import fr.pantheonsorbonne.camel.processor.TickMessageProcessor;
 import fr.pantheonsorbonne.dto.TickMessageDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

@@ -1,7 +1,7 @@
 
-package fr.pantheonsorbonne.camel.consumers;
+package fr.pantheonsorbonne.camel.consumer;
 
-import fr.pantheonsorbonne.camel.processors.CompostProcessor;
+import fr.pantheonsorbonne.camel.processor.CompostProcessor;
 import fr.pantheonsorbonne.dto.DeadPlantDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

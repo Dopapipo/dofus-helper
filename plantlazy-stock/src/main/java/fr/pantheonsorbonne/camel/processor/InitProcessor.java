@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.camel.processors;
+package fr.pantheonsorbonne.camel.processor;
 
 import fr.pantheonsorbonne.dto.InitRequestDTO;
 import fr.pantheonsorbonne.service.ResourceInitializerService;

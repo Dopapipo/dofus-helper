@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.service;
 
+import fr.pantheonsorbonne.camel.producer.MessageProducerServiceLog;
 import fr.pantheonsorbonne.dto.MessageLogDTO;
 import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
