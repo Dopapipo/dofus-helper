@@ -9,8 +9,6 @@ import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import fr.pantheonsorbonne.service.PlantService;
-import fr.pantheonsorbonne.service.StockService;
-import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -54,48 +52,18 @@ public class PlantLifecycleConsumerTest {
     @Test
     @Transactional
     void testHourlyTickProcessesPlantLifecycle() {
-        // Arrange
         PlantEntity expectedPlant = createTestPlant();
         expectedPlant.grow();
         PlantEntity persistedPlant = plantRepository.save(createTestPlant());
         em.flush();
 
-        // Act - Simulate expected changes
-        plantService.processHourlyLifecycle(); // Calls triggerPlantGrowth internally
+        plantService.processHouryPlantLifecycle();
         camelContext.createProducerTemplate().sendBody(tickEndpoint, new TickMessage(TickType.HOURLY, System.currentTimeMillis()));
 
-        // Assert
         PlantEntity updatedPlant = plantRepository.findById(persistedPlant.getId());
         assertEquals(expectedPlant.getStats(), updatedPlant.getStats(), "Plant stats should be updated correctly.");
     }
 
-    @Test
-    @Transactional
-    @Disabled
-    void testDailyTickSendsDeadPlantMessage() throws Exception {
-        // Arrange
-        PlantEntity deadPlant = createTestPlant();
-        deadPlant.setDead(true);
-        plantRepository.save(deadPlant);
-        em.flush();
-
-        // Mocking the transport and log endpoints to capture the messages sent
-        MockEndpoint transportMock = camelContext.getEndpoint("mock:" + transportEndpoint, MockEndpoint.class);
-        MockEndpoint logMock = camelContext.getEndpoint("mock:" + logEndpoint, MockEndpoint.class);
-
-        // Set expectations for the MockEndpoints
-        transportMock.expectedMessageCount(1);
-        logMock.expectedMessageCount(1);
-
-        // Act
-        // Send the daily tick message
-        camelContext.createProducerTemplate().sendBody(tickEndpoint, new TickMessage(TickType.DAILY, System.currentTimeMillis()));
-
-        // Assert
-        // Verify that the correct number of messages were received by each mock endpoint
-        transportMock.assertIsSatisfied();
-        logMock.assertIsSatisfied();
-    }
 }
 
 

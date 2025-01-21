@@ -17,13 +17,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
-public class PlantLifecycleProcessorTest {
+public class TickProcessorTest {
 
     @Mock
     PlantService plantService;
 
     @InjectMocks
-    PlantLifecycleProcessor plantLifecycleProcessor;
+    TickProcessor tickProcessor;
 
     @Mock
     Exchange exchange;
@@ -46,10 +46,10 @@ public class PlantLifecycleProcessorTest {
         when(message.getBody(TickMessage.class)).thenReturn(tickMessage);
 
 
-        plantLifecycleProcessor.process(exchange);
+        tickProcessor.process(exchange);
 
 
-        verify(plantService, times(1)).processHourlyLifecycle();
+        verify(plantService, times(1)).processHouryPlantLifecycle();
     }
  @Test
     void testProcessDailyTick() {
@@ -58,7 +58,7 @@ public class PlantLifecycleProcessorTest {
         when(message.getBody(TickMessage.class)).thenReturn(tickMessage);
 
 
-        plantLifecycleProcessor.process(exchange);
+        tickProcessor.process(exchange);
 
 
         verify(plantService, times(1)).processDailyCycle();

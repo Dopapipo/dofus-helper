@@ -1,5 +1,5 @@
 package fr.pantheonsorbonne.camel.consumers;
-import fr.pantheonsorbonne.camel.processors.PlantLifecycleProcessor;
+import fr.pantheonsorbonne.camel.processors.TickProcessor;
 import fr.pantheonsorbonne.dto.TickMessage;
 import org.apache.camel.builder.RouteBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,7 +16,7 @@ public class PlantLifecycleConsumer extends RouteBuilder {
     String tickEndpoint;
 
     @Inject
-    PlantLifecycleProcessor plantLifecycleProcessor;
+    TickProcessor tickProcessor;
     @Override
     public void configure() throws Exception {
         from(tickEndpoint)
@@ -24,7 +24,7 @@ public class PlantLifecycleConsumer extends RouteBuilder {
 
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
 
-                .process(plantLifecycleProcessor)
+                .process(tickProcessor)
 
                 .log(LoggingLevel.INFO, "Message processed successfully.");
     }
