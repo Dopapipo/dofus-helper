@@ -55,7 +55,7 @@ public class PlantServiceImpl implements PlantService {
 
         // Vérifier la quantité disponible
         if (plant.getQuantity() < quantity) {
-            throw new InsufficientStockException(type, plant.getQuantity(), quantity);
+            throw new InsufficientStockException(quantity);
         }
 
         // Réduction de la quantité en stock

@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.dao.SeedDAO;
+import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 
@@ -12,6 +13,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +35,8 @@ public class SeedServiceImpl implements SeedService {
     @Override
     @Transactional
     public void updateDailySeedOffer() {
+        // Supprimer toutes les graines existantes dans la base de données
+        seedDAO.deleteAllSeeds();
         int numberOfSeedsToGenerate = 10 + random.nextInt(21); // Génère un nombre aléatoire entre 10 et 30
         for (int i = 0; i < numberOfSeedsToGenerate; i++) {
             double dailyPrice = 20 + (30 * random.nextDouble()); // [20, 50]
@@ -86,35 +90,63 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeed(PlantType seedType, int quantity) {
-        // Récupérer toutes les graines du type demandé, triées par prix croissant
+    public double getCalculateTotalPrice(int quantity) {
+        // Récupérer toutes les graines, triées par prix croissant
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
-                .filter(seed -> seed.getType() == seedType)
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
 
-        if (seeds.isEmpty()) {
-            throw new InsufficientStockException(seedType, 0, quantity); // Pas de stock disponible
+        if (seeds.size() < quantity) {
+            throw new InsufficientStockException(quantity); // Pas assez de stock disponible
         }
 
-        int remainingQuantity = quantity;
-
-        for (SeedEntity seed : seeds) {
-            // Supprimer la graine car chaque graine est vendue individuellement
-            seedDAO.deleteSeed(seed);
-
-            remainingQuantity--;
-
-            if (remainingQuantity == 0) {
-                break; // Terminer si la quantité demandée est atteinte
-            }
+        // Calculer le prix total des graines les moins chères
+        double totalPrice = 0.0;
+        for (int i = 0; i < quantity; i++) {
+            totalPrice += seeds.get(i).getPrice();
         }
 
-        // Vérifier s'il reste des quantités non satisfaites
-        if (remainingQuantity > 0) {
-            throw new InsufficientStockException(seedType, quantity - remainingQuantity, quantity);
-        }
+        return totalPrice;
     }
+
+
+    @Override
+    @Transactional
+    public List<DailySeedOfferDTO> sellSeed(int quantity) {
+        // Récupérer toutes les graines, triées par prix croissant
+        List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
+                .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
+                .toList();
+
+        if (seeds.size() < quantity) {
+            throw new InsufficientStockException(quantity); // Pas assez de stock disponible
+        }
+
+        // Préparer la liste des DTO des graines vendues
+        List<DailySeedOfferDTO> soldSeeds = new ArrayList<>();
+
+        // Boucle pour supprimer uniquement la quantité demandée des graines les moins chères
+        for (int i = 0; i < quantity; i++) {
+            SeedEntity seedToSell = seeds.get(i);
+
+            // Convertir l'entité en DTO
+            DailySeedOfferDTO dto = new DailySeedOfferDTO(
+                    seedToSell.getType(),
+                    seedToSell.getQuality(),
+                    seedToSell.getPrice()
+            );
+
+            soldSeeds.add(dto);
+
+            // Supprimer la graine de la base de données
+            seedDAO.deleteSeed(seedToSell);
+        }
+
+        // Retourner la liste des graines vendues
+        return soldSeeds;
+    }
+
+
 
 
     // Initialisation des graines avec des données par défaut au démarrage
@@ -122,9 +154,9 @@ public class SeedServiceImpl implements SeedService {
     @Transactional
     public void initializeSeedData() {
         if (seedDAO.getAllSeeds().isEmpty()) {
-            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, 0, SeedQuality.HIGH ));
-            seedDAO.saveSeed(new SeedEntity(PlantType.FLOWER, 75, 0, SeedQuality.HIGH));
-            seedDAO.saveSeed(new SeedEntity(PlantType.TREE, 60, 0, SeedQuality.HIGH));
+            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, SeedQuality.HIGH ));
+            seedDAO.saveSeed(new SeedEntity(PlantType.FLOWER, 75, SeedQuality.HIGH));
+            seedDAO.saveSeed(new SeedEntity(PlantType.TREE, 60, SeedQuality.HIGH));
         }
     }
 }
