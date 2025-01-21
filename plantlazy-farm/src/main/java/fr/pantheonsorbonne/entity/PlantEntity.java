@@ -8,6 +8,7 @@ import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,11 +30,13 @@ public class PlantEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PlantType type;
-
+    @Embedded
     protected WaterStat water;
 
+    @Embedded
     protected SunStat sun;
 
+    @Embedded
     protected SoilStat soil;
 
     public List<PlantStat> getStats() {
@@ -49,6 +52,17 @@ public class PlantEntity {
     @Column(name = "cause_of_death")
     private String causeOfDeath;
 
+    public Boolean getComposted() {
+        return composted;
+    }
+
+    public void setComposted(Boolean composted) {
+        this.composted = composted;
+    }
+
+    @Column(name = "composted")
+    private Boolean composted = false;
+
     protected PlantEntity() {
     }
 
@@ -57,7 +71,7 @@ public class PlantEntity {
     }
 
     public UUID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(UUID id) {
@@ -130,7 +144,7 @@ public class PlantEntity {
     }
 
     public boolean isDead() {
-        return new FullPlantStats(this.water, this.soil, this.sun).isDead();
+        return (this.soil.isDead() || this.water.isDead() || this.sun.isDead()) || (!this.soil.isHealthy() && !this.water.isHealthy() && !this.sun.isHealthy());
     }
 
     public void grow() {
@@ -166,5 +180,17 @@ public class PlantEntity {
         };
     }
 
-
+    @Override
+    public String toString() {
+        return "PlantEntity{" +
+                "id=" + id +
+                ", type=" + type +
+                ", water=" + water.toString() +
+                ", sun=" + sun.toString() +
+                ", soil=" + soil.toString() +
+                ", isDead=" + isDead +
+                ", timeOfDeath=" + timeOfDeath +
+                ", causeOfDeath='" + causeOfDeath + '\'' +
+                '}';
+    }
 }

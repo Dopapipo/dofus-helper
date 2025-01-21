@@ -19,6 +19,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,9 @@ import java.util.stream.Collectors;
 public class SeedResource {
 
     @Inject
+    @RestClient
     StockClient stockClient;
+
     @Inject
     SeedService seedService;
 
@@ -36,7 +40,7 @@ public class SeedResource {
     public List<DailySeedOfferDTO> getAvailableSeeds() {
         List<SeedEntity> seeds = seedService.getAvailableSeeds();
         return seeds.stream()
-                .map(seed -> new DailySeedOfferDTO(seed.getType(), seed.getQuantity(), seed.getPrice()))
+                .map(seed -> new DailySeedOfferDTO(seed.getType(), seed.getQuality(), seed.getPrice()))
                 .collect(Collectors.toList());
     }
 

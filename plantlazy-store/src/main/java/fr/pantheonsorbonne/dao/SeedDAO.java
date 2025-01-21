@@ -14,4 +14,6 @@ public interface SeedDAO {
     void updateSeed(SeedEntity seed);
 
     void saveSeed(SeedEntity seed);
+
+    void deleteSeed(SeedEntity seed);
 }

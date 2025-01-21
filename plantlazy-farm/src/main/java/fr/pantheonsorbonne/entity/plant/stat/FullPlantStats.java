@@ -19,18 +19,18 @@ public class FullPlantStats {
     }
 
     public WaterStat getWaterStat() {
-        return waterStat;
+        return this.waterStat;
     }
 
     public SoilStat getSoilStat() {
-        return soilStat;
+        return this.soilStat;
     }
 
     public SunStat getSunStat() {
-        return sunStat;
+        return this.sunStat;
     }
 
     public boolean isDead() {
-        return (soilStat.isDead() || waterStat.isDead() || sunStat.isDead()) || (!soilStat.isHealthy() && !waterStat.isHealthy() && !sunStat.isHealthy());
+        return (this.soilStat.isDead() || this.waterStat.isDead() || this.sunStat.isDead()) || (!this.soilStat.isHealthy() && !this.waterStat.isHealthy() && !this.sunStat.isHealthy());
     }
 }

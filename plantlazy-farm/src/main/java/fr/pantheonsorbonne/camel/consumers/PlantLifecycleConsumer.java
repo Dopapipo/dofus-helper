@@ -5,6 +5,7 @@ import org.apache.camel.builder.RouteBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
@@ -21,7 +22,7 @@ public class PlantLifecycleConsumer extends RouteBuilder {
         from(tickEndpoint)
                 .log(LoggingLevel.INFO, "Received message from ${header.CamelJmsMessageID}: ${body}")
 
-                .unmarshal().json(TickMessage.class)
+                .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
 
                 .process(plantLifecycleProcessor)
 
