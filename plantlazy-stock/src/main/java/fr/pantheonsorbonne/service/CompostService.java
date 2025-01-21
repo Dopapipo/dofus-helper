@@ -19,15 +19,14 @@ public class CompostService {
     double totalFertilizer = 0;
 
     public void processDeadPlant(DeadPlantDTO deadPlant) {
-        for (int i = 0; i < deadPlant.getQuantity(); i++) {
-            double fertilizerQuantity = 0;
-            if (deadPlant.getPlantType() == PlantType.TREE) {
-                fertilizerQuantity = ThreadLocalRandom.current().nextInt(80, 101);
-            } else if (deadPlant.getPlantType() == PlantType.CACTUS) {
-                fertilizerQuantity = ThreadLocalRandom.current().nextInt(40, 71);
-            } else if (deadPlant.getPlantType() == PlantType.FLOWER) {
-                fertilizerQuantity = ThreadLocalRandom.current().nextInt(15, 31);
-            }
+
+        double fertilizerQuantity = 0;
+        if (deadPlant.getPlantType() == PlantType.TREE) {
+            fertilizerQuantity = ThreadLocalRandom.current().nextInt(80, 101);
+        } else if (deadPlant.getPlantType() == PlantType.CACTUS) {
+            fertilizerQuantity = ThreadLocalRandom.current().nextInt(40, 71);
+        } else if (deadPlant.getPlantType() == PlantType.FLOWER) {
+            fertilizerQuantity = ThreadLocalRandom.current().nextInt(15, 31);
 
             totalFertilizer += fertilizerQuantity;
         }
