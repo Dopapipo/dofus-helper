@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.camel;
 
+import fr.pantheonsorbonne.camel.processor.TickProcessor;
 import fr.pantheonsorbonne.entity.TickMessage;
 import fr.pantheonsorbonne.model.Dashboard;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -24,7 +25,7 @@ public class TickRoute extends RouteBuilder {
         from(tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .log("Processing tick: ${body}")
-                .bean("dashboardService", "processTick");
+                .process(new TickProcessor());
 
     }
 }
