@@ -22,42 +22,9 @@ public class EventLogService {
     ObjectMapper objectMapper;
 
 
-    public void saveEventLog(DeadPlantLogDTO dto) {
+    public void saveEventLog(LogDTO dto) {
         doSave(dto.getType(), dto);
     }
-
-    public void saveEventLog(PlantCreatedLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(PlantDeadLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(PlantGrownLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(PlantUpdateLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(ResourceUpdateLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(StoreSellablePlantLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(StoreSoldPlantLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
-    public void saveEventLog(StoreSellableSeedsLogDTO dto) {
-        doSave(dto.getType(), dto);
-    }
-
     private void doSave(String eventType, Object dto) {
         try {
             String payload = objectMapper.writeValueAsString(dto);

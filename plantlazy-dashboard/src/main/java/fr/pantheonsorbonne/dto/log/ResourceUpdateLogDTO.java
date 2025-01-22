@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.dto.log;
 
-public class ResourceUpdateLogDTO {
+public class ResourceUpdateLogDTO extends LogDTO{
 
     private String type;
     private String resourceType;

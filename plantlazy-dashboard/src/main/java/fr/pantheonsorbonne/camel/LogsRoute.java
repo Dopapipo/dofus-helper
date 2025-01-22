@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.camel;
 
 import fr.pantheonsorbonne.camel.processor.LogTypeExtractor;
 import fr.pantheonsorbonne.dto.log.DeadPlantLogDTO;
+import fr.pantheonsorbonne.dto.log.LogDTO;
 import fr.pantheonsorbonne.dto.log.PlantCreatedLogDTO;
 import fr.pantheonsorbonne.dto.log.PlantDeadLogDTO;
 import fr.pantheonsorbonne.dto.log.PlantGrownLogDTO;
@@ -10,6 +11,7 @@ import fr.pantheonsorbonne.dto.log.ResourceUpdateLogDTO;
 import fr.pantheonsorbonne.dto.log.StoreSellablePlantLogDTO;
 import fr.pantheonsorbonne.dto.log.StoreSellableSeedsLogDTO;
 import fr.pantheonsorbonne.dto.log.StoreSoldPlantLogDTO;
+import fr.pantheonsorbonne.service.EventLogService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
@@ -23,10 +25,13 @@ public class LogsRoute extends RouteBuilder {
     @ConfigProperty(name = "log.endpoint")
     String logEndpoint;
 
+    @Inject
+    EventLogService eventLogService;
+
     @Override
     public void configure() {
 
-        from("file:data/log?noop=true")
+        from(logEndpoint)
                 .convertBodyTo(String.class)
                 .log("Received log entry: ${body}")
                 .process(new LogTypeExtractor()) // Extrait le type de log et l'ajoute à l'header "logType"
@@ -49,11 +54,14 @@ public class LogsRoute extends RouteBuilder {
 
     }
 
-    private void configureLogRoute(String logType, Class<?> dtoClass, String dashboardMethod) {
+    private void configureLogRoute(String logType, Class<? extends LogDTO> dtoClass, String dashboardMethod) {
         from("direct:" + logType)
                 .unmarshal().json(JsonLibrary.Jackson, dtoClass)
                 .log("Processing " + logType + ": ${body}")
-                .bean("eventLogService", "saveEventLog")
-                .bean("dashboardService", dashboardMethod);
+                .bean("dashboardService", dashboardMethod)
+                .process(exchange -> {
+                    LogDTO logDTO = exchange.getIn().getBody(LogDTO.class);
+                    eventLogService.saveEventLog(logDTO);
+                });
     }
 }

@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.dto.log;
 
-public class StoreSoldPlantLogDTO {
+public class StoreSoldPlantLogDTO extends LogDTO {
 
     private String type;
     private String plantId;
