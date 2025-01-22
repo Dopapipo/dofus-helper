@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.camel.consumers;
 
-import fr.pantheonsorbonne.camel.processor.SellPlantProcessor;
+import fr.pantheonsorbonne.camel.processor.SavePlantProcessor;
 import fr.pantheonsorbonne.dto.PlantSaleDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,12 +14,13 @@ public class PlantDataConsumer extends RouteBuilder {
     String plantSale;
 
     @Inject
-    SellPlantProcessor sellPlantProcessor;
+    SavePlantProcessor savePlantProcessor;
 
     @Override
     public void configure() {
-        from(plantSale)
+        from("file:data/plant?noop=true")
+                .log("{$body}")
                 .unmarshal().json(PlantSaleDTO.class)
-                .process(sellPlantProcessor);
+                .process(savePlantProcessor);
     }
 }

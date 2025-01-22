@@ -41,4 +41,16 @@ public class PlantDAOImpl implements PlantDAO {
     public void savePlant(PlantEntity plant) {
         entityManager.persist(plant);
     }
+
+    @Override
+    @Transactional
+    public void deletePlantById(long plantId) {
+        PlantEntity plant = entityManager.find(PlantEntity.class, plantId);
+        if (plant != null) {
+            entityManager.remove(plant);
+        } else {
+            throw new IllegalArgumentException("Aucune plante trouvée avec l'ID : " + plantId);
+        }
+    }
+
 }

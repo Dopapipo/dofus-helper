@@ -7,5 +7,8 @@ public record PlantSaleDTO(PlantType plantType) {
     public PlantType getPlantType() {
         return plantType;
     }
+
+
+
 }
 
