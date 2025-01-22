@@ -61,12 +61,9 @@ public class PlantServiceImpl implements PlantService {
     @Override
     @Transactional
     public void sellPlants() {
-        // Récupérer toutes les plantes disponibles dans la base
         List<PlantEntity> plants = plantDAO.getAllPlants();
 
-        // Itérer sur chaque plante
         for (PlantEntity plant : plants) {
-            // Récupérer la probabilité de vente pour le type de plante
             int saleProbability = SALE_PROBABILITIES.getOrDefault(plant.getType(), 0);
             int randomValue = random.nextInt(100);
 

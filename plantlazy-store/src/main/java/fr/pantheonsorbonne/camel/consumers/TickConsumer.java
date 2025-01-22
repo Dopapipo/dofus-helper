@@ -29,14 +29,14 @@ public class TickConsumer extends RouteBuilder {
     SendingSeedService sendingSeedService;
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from(tickEndpoint)
-                .log(LoggingLevel.INFO, "Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .process(exchange -> {
                     TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
                     if (messageBody.getTickType() == TickType.DAILY) {
                         seedService.updateDailySeedOffer();
+
                         sendingSeedService.sendAllSeedsToQueue();
 
                     }

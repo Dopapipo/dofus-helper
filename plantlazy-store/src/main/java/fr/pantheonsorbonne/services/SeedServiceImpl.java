@@ -12,6 +12,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.apache.camel.ProducerTemplate;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,6 +25,11 @@ import java.util.stream.Collectors;
 public class SeedServiceImpl implements SeedService {
 
     @Inject
+    @ConfigProperty(name = "plant.seed.endpoint")
+    String seedEndpoint;
+
+
+    @Inject
     SeedDAO seedDAO;
 
     @Inject
@@ -31,6 +38,8 @@ public class SeedServiceImpl implements SeedService {
     @Inject
     StoreService storeService;
 
+    @Inject
+    ProducerTemplate producerTemplate;
 
 
     private static final Random random = new Random();
@@ -125,7 +134,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public List<DailySeedOfferDTO> sellSeed() {
+    public void sellSeed() {
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
@@ -136,26 +145,17 @@ public class SeedServiceImpl implements SeedService {
             throw new InsufficientFundsException("Buying 1 seed is too much for you.");
         }
 
-        List<DailySeedOfferDTO> purchasedSeeds = new ArrayList<>();
-
         for (SeedEntity seed : seeds) {
             if (seed.getPrice() <= availableMoney) {
-                DailySeedOfferDTO dto = new DailySeedOfferDTO(
-                        seed.getType(),
-                        seed.getQuality(),
-                        seed.getPrice()
-                );
-
-                purchasedSeeds.add(dto);
-
                 availableMoney -= seed.getPrice();
 
+                producerTemplate.sendBody(seedEndpoint, seed);
                 seedNotificationService.notifyPlantSale(seed.getType(), seed.getPrice());
                 seedDAO.deleteSeed(seed);
+            } else {
+                break;
             }
         }
-
-        return purchasedSeeds;
     }
 
 

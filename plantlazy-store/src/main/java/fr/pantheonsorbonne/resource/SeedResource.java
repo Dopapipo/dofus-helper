@@ -32,8 +32,6 @@ public class SeedResource {
     @Inject
     SeedService seedService;
 
-    @Inject
-    StoreService storeService;
 
     @GET
     public List<DailySeedOfferDTO> getAvailableSeeds() {
@@ -56,44 +54,6 @@ public class SeedResource {
     public Response updateDailySeedOffer() {
         seedService.updateDailySeedOffer();
         return Response.ok("Daily seed offer updated").build();
-    }
-
-    @POST
-    @Path("/sell")
-    public Response sellSeed() {
-        try {
-            List<DailySeedOfferDTO> soldSeeds = seedService.sellSeed();
-
-            if (soldSeeds.isEmpty()) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("No seeds were available to sell.").build();
-            }
-
-            double totalPrice = soldSeeds.stream()
-                    .mapToDouble(DailySeedOfferDTO::price)
-                    .sum();
-
-            Response response = stockClient.updateResource(
-                    new ResourceUpdateDTO(ResourceType.MONEY, totalPrice, PlantType.OperationTag.STOCK_QUERIED)
-            );
-
-            if (response.getStatus() < 200 || response.getStatus() >= 300) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("Failed to update stock service. Status: " + response.getStatus()).build();
-            }
-
-
-            return Response.ok(soldSeeds).build();
-        } catch (InsufficientFundsException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Not enough money to complete the operation: " + e.getMessage()).build();
-        } catch (InsufficientStockException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Not enough seeds available: " + e.getMessage()).build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage()).build();
-        }
     }
 
 

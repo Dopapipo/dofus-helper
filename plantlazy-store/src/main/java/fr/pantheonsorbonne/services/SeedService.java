@@ -12,7 +12,7 @@ public interface SeedService {
 
     void updateDailySeedOffer();
 
-    List<DailySeedOfferDTO> sellSeed();
+    void sellSeed();
 
     SeedEntity getCheapestSeed();
 
