@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.services;
 
-import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
@@ -12,7 +11,7 @@ public interface SeedService {
 
     void updateDailySeedOffer();
 
-    void sellSeed();
+    void sellSeedsDaily();
 
     SeedEntity getCheapestSeed();
 

@@ -5,23 +5,16 @@ import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.dto.PlantSaleDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
-
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
-import fr.pantheonsorbonne.exception.InsufficientStockException;
-import fr.pantheonsorbonne.exception.PlantNotFoundException;
-import fr.pantheonsorbonne.exception.SaleNotCompletedException;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class PlantServiceImpl implements PlantService {
@@ -32,9 +25,6 @@ public class PlantServiceImpl implements PlantService {
     @Inject
     @RestClient
     StockClient stockClient;
-
-    @Inject
-    SendingSeedService sendingSeedService;
 
     @Inject
     SeedNotificationService seedNotificationService;
