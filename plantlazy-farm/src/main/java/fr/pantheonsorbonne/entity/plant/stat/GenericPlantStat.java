@@ -41,11 +41,6 @@ public abstract class GenericPlantStat implements PlantStat {
         this.decayRate = decayRate;
     }
 
-    public GenericPlantStat(int value, int threshold, StatType statType) {
-        this.value = value;
-        this.threshold = threshold;
-    }
-
     public GenericPlantStat(int value, int threshold, int decayRate, StatType statType) {
         this.value = value;
         this.threshold = threshold;
