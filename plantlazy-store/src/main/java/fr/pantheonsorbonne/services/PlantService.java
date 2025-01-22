@@ -10,4 +10,6 @@ public interface PlantService {
     List<PlantEntity> getAvailablePlants();
 
     void sellPlant(PlantSaleDTO plantSaleDTO);
+
+    void savePlant(PlantSaleDTO plantSaleDTO);
 }

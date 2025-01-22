@@ -14,15 +14,13 @@ public class PlantEntity {
     private PlantType type; // Remplace le champ String par l'énumération PlantType
 
     private double price; // Prix de vente de la plante
-    private int quantity; // Quantité en stock
 
     public PlantEntity() {
     }
 
-    public PlantEntity(PlantType type, double price, int quantity) {
+    public PlantEntity(PlantType type, double price) {
         this.type = type;
         this.price = price;
-        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -49,21 +47,12 @@ public class PlantEntity {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     @Override
     public String toString() {
         return "PlantEntity{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", price=" + price +
-                ", quantity=" + quantity +
                 '}';
     }
 }

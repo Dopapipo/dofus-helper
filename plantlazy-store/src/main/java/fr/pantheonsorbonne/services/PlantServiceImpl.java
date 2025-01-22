@@ -59,58 +59,65 @@ public class PlantServiceImpl implements PlantService {
     }
 
     @Override
+    @Transactional
     public void sellPlant(PlantSaleDTO plantDTO) {
-        double sellingPrice = 0;
-        if (plantDTO.getPlantType() == PlantType.CACTUS) {
-            sellingPrice = 80;
-        } else if (plantDTO.getPlantType() == PlantType.TREE) {
-            sellingPrice = 100;
-        } else if (plantDTO.getPlantType() == PlantType.FLOWER) {
-            sellingPrice = 60;
-        }
-        // Appeler le microservice Stock pour mettre à jour les ressources (argent)
-        stockClient.updateResource(
-                new ResourceUpdateDTO(ResourceType.MONEY, sellingPrice, PlantType.OperationTag.STOCK_QUERIED)
-        );
+        // Obtenir l'entité de plante correspondant au type de plante
+        PlantEntity plant = plantDAO.getPlantByType(plantDTO.getPlantType())
+                .orElseThrow(() -> new IllegalArgumentException("Aucune plante trouvée pour le type : " + plantDTO.getPlantType()));
 
-        seedNotificationService.notifyPlantSale(plantDTO.getPlantType(), sellingPrice);
+        // Probabilité de vente
+        int saleProbability = SALE_PROBABILITIES.getOrDefault(plantDTO.getPlantType(), 0);
+        int randomValue = random.nextInt(100);
+
+        if (randomValue < saleProbability) {
+            // Vente réussie : Mise à jour des ressources
+            stockClient.updateResource(
+                    new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
+            );
+
+            // Supression de la plante
+            plantDAO.deletePlantById(plant.getId());
+
+            // Notifier la vente réussie
+            seedNotificationService.notifyPlantSale(plantDTO.getPlantType(), plant.getPrice());
+        } else {
+            // Vente échouée (on peut loguer ou notifier si besoin)
+            System.out.println("La plante de type {} n'a pas été vendue (probabilité échouée)." + plantDTO.getPlantType());
+        }
+
+        // Notification sur les graines restantes
         sendingSeedService.sendAllSeedsToQueue();
     }
 
-    /*@Override
+
+    /**
+     * Obtenir le prix de vente basé sur le type de plante.
+     */
     @Transactional
-    public void sellPlant(PlantType type, int quantity) {
-        PlantEntity plant = plantDAO.getPlantByType(type)
-                .orElseThrow(() -> new PlantNotFoundException(type));
-
-        // Probabilité de vente
-        int probability = SALE_PROBABILITIES.getOrDefault(type, 0); // 0% si le type est inconnu
-        int randomValue = random.nextInt(100); // Génère un nombre entre 0 et 99
-
-        if (randomValue >= probability) {
-            throw new SaleNotCompletedException(type); // Vente échoue à cause de la probabilité
+    public double getSellingPrice(PlantType plantType) {
+        switch (plantType) {
+            case CACTUS:
+                return 80;
+            case TREE:
+                return 100;
+            case FLOWER:
+                return 60;
+            default:
+                throw new IllegalArgumentException("Type de plante inconnu : " + plantType);
         }
-
-        // Vérifier la quantité disponible
-        if (plant.getQuantity() < quantity) {
-            throw new InsufficientStockException(quantity);
-        }
-
-        // Réduction de la quantité en stock
-        plant.setQuantity(plant.getQuantity() - quantity);
-        plantDAO.updatePlant(plant);
-
-        // Appeler le microservice Stock pour transférer l'argent
     }
-*/
-    @PostConstruct
+
+    @Override
     @Transactional
-    public void initializePlants() {
-        if (plantDAO.getAllPlants().isEmpty()) {
-            plantDAO.savePlant(new PlantEntity(PlantType.CACTUS, 100, 0));
-            plantDAO.savePlant(new PlantEntity(PlantType.FLOWER, 150, 0));
-            plantDAO.savePlant(new PlantEntity(PlantType.TREE, 120, 0));
-        }
+    public void savePlant(PlantSaleDTO plantDTO) {
+        // Déterminer le prix de la plante en fonction de son type
+        double price = getSellingPrice(plantDTO.getPlantType());
+
+        // Créer une nouvelle entité PlantEntity
+        PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
+
+        // Sauvegarder l'entité dans la base de données
+        plantDAO.savePlant(plant);
     }
 
 }
