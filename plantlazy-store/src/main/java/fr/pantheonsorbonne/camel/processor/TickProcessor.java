@@ -6,10 +6,12 @@ import fr.pantheonsorbonne.dto.TickType;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 @ApplicationScoped
+@Transactional
 public class TickProcessor implements Processor {
 
     @Inject

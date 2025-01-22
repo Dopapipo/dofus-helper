@@ -57,6 +57,7 @@ public class SeedDAOImpl implements SeedDAO {
     }
 
     @Override
+    @Transactional
     public void deleteAllSeeds() {
         entityManager.createQuery("DELETE FROM SeedEntity").executeUpdate();
     }

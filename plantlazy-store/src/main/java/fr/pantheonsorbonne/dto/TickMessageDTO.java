@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.dto;
 
-public class TickMesageDTO {
+public class TickMessageDTO {
     private TickTypeDTO tickType;
     private long timestamp;
 
