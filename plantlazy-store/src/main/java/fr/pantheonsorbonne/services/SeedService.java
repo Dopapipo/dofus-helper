@@ -10,7 +10,7 @@ public interface SeedService {
 
     void updateDailySeedOffer();
 
-    void sellSeed();
+    void sellSeedsDaily();
 
     List<PurchaseRequestDTO> getSeedPricingAndStock();
 

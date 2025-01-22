@@ -33,15 +33,26 @@ public class PlantServiceImpl implements PlantService {
     @RestClient
     StockClient stockClient;
 
+    @Inject
+    SeedNotificationService seedNotificationService;
+
 
     private static final Random random = new Random();
 
     private static final Map<PlantType, Integer> SALE_PROBABILITIES = new HashMap<>();
 
     static {
-        SALE_PROBABILITIES.put(PlantType.CACTUS, 70);
-        SALE_PROBABILITIES.put(PlantType.TREE, 50);
-        SALE_PROBABILITIES.put(PlantType.FLOWER, 30);
+        SALE_PROBABILITIES.put(PlantType.CACTUS, 70);    // 70% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.TREE, 50); // 50% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.FLOWER, 30); // 30% de chances de vente
+    }
+
+    @Inject
+    SendingSeedLogService sendingSeedLogService;
+
+    @Override
+    public List<PlantEntity> getAvailablePlants() {
+        return plantDAO.getAllPlants();
     }
 
     @Override
@@ -69,6 +80,9 @@ public class PlantServiceImpl implements PlantService {
         }
     }
 
+    /**
+     * Obtenir le prix de vente basé sur le type de plante.
+     */
     @Transactional
     public double getSellingPrice(PlantType plantType) {
         switch (plantType) {
@@ -86,10 +100,13 @@ public class PlantServiceImpl implements PlantService {
     @Override
     @Transactional
     public void savePlant(PlantSaleDTO plantDTO) {
+        // Déterminer le prix de la plante en fonction de son type
         double price = getSellingPrice(plantDTO.getPlantType());
 
+        // Créer une nouvelle entité PlantEntity
         PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
 
+        // Sauvegarder l'entité dans la base de données
         plantDAO.savePlant(plant);
     }
 

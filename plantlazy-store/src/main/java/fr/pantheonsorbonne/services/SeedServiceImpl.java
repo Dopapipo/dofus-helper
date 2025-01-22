@@ -99,7 +99,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeed() {
+    public void sellSeedsDaily() {
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
