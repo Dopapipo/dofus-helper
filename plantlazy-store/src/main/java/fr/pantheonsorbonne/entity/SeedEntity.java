@@ -4,12 +4,18 @@ import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.UUID;
+
 @Entity
-public class SeedEntity {
+public class SeedEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     private PlantType type;
@@ -28,11 +34,11 @@ public class SeedEntity {
         this.quality = quality;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -4,6 +4,7 @@ import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
+import fr.pantheonsorbonne.dto.SeedToFarmDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
@@ -14,6 +15,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.Comparator;
 import java.util.List;
@@ -39,6 +41,7 @@ public class SeedServiceImpl implements SeedService {
     @Inject
     ProducerTemplate producerTemplate;
 
+    @RestClient
     @Inject
     StockClient StockClient;
 
@@ -114,7 +117,8 @@ public class SeedServiceImpl implements SeedService {
             if (seed.getPrice() <= availableMoney) {
                 availableMoney -= seed.getPrice();
 
-                producerTemplate.sendBody(seedEndpoint, seed);
+
+                producerTemplate.sendBody(seedEndpoint, new SeedToFarmDTO(seed.getType(), seed.getQuality()));
                 seedNotificationService.notifyPlantSale(seed.getType(), seed.getPrice());
                 seedDAO.deleteSeed(seed);
 

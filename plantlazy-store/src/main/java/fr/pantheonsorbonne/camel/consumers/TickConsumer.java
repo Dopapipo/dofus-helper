@@ -27,20 +27,18 @@ public class TickConsumer extends RouteBuilder {
     public void configure() {
         from(tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
+                .choice()
+                .when(simple("${body.tickType} == 'DAILY'"))
                 .process(exchange -> {
-                    TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
-                    if (messageBody.getTickType() == TickType.DAILY) {
-                        seedService.updateDailySeedOffer();
-
-                        seedService.sellSeedsDaily();
-
-                    }
-                    if (messageBody.getTickType() == TickType.HOURLY) {
-                        plantService.sellPlants();
-                    }
-                });
-
-
+                    seedService.updateDailySeedOffer();
+                    seedService.sellSeedsDaily();
+                })
+                .when(simple("${body.tickType} == 'HOURLY'"))
+                .process(exchange -> {
+                    plantService.sellPlants();
+                })
+                .otherwise()
+                .log("Unknown TickType: ${body.tickType}")
+                .endChoice();
     }
-
 }
