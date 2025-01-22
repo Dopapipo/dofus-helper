@@ -40,12 +40,6 @@ public class SeedDAOImpl implements SeedDAO {
 
     @Override
     @Transactional
-    public void updateSeed(SeedEntity seed) {
-        entityManager.merge(seed);
-    }
-
-    @Override
-    @Transactional
     public void saveSeed(SeedEntity seed) {
         entityManager.persist(seed);
     }

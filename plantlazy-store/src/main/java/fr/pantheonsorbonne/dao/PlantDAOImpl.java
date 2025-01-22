@@ -32,12 +32,6 @@ public class PlantDAOImpl implements PlantDAO {
 
     @Override
     @Transactional
-    public void updatePlant(PlantEntity plant) {
-        entityManager.merge(plant);
-    }
-
-    @Override
-    @Transactional
     public void savePlant(PlantEntity plant) {
         entityManager.persist(plant);
     }

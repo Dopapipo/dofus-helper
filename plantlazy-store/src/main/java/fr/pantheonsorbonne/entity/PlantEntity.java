@@ -10,10 +10,10 @@ public class PlantEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING) // Stocker l'énumération sous forme de chaîne
-    private PlantType type; // Remplace le champ String par l'énumération PlantType
+    @Enumerated(EnumType.STRING)
+    private PlantType type;
 
-    private double price; // Prix de vente de la plante
+    private double price;
 
     public PlantEntity() {
     }

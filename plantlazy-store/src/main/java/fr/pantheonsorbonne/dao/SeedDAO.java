@@ -13,8 +13,6 @@ public interface SeedDAO {
 
     long countSeedsByType(PlantType type);
 
-    void updateSeed(SeedEntity seed);
-
     void saveSeed(SeedEntity seed);
 
     void deleteSeed(SeedEntity seed);

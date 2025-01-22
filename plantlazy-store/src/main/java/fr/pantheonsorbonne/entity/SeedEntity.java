@@ -11,13 +11,13 @@ public class SeedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING) // Stocker l'énumération sous forme de chaîne
-    private PlantType type; // Remplace le champ String par l'énumération PlantType
+    @Enumerated(EnumType.STRING)
+    private PlantType type;
 
     @Enumerated(EnumType.STRING)
     private SeedQuality quality;
 
-    private double price; // Prix unitaire de la graine
+    private double price;
 
     public SeedEntity() {
     }
@@ -59,14 +59,6 @@ public class SeedEntity {
     public void setQuality(SeedQuality quality) {
         this.quality = quality;
     }
-
-/*    public SeedQuality getSeedType() {
-        return seedType;
-    }
-
-    public void setSeedType(SeedQuality seedType) {
-        this.seedType = seedType;
-    }*/
 
     @Override
     public String toString() {

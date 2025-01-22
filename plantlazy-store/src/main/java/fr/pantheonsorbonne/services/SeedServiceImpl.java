@@ -1,21 +1,20 @@
 package fr.pantheonsorbonne.services;
 
+import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dao.SeedDAO;
-import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
 import fr.pantheonsorbonne.exception.InsufficientFundsException;
-import fr.pantheonsorbonne.exception.InsufficientStockException;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -28,7 +27,6 @@ public class SeedServiceImpl implements SeedService {
     @ConfigProperty(name = "plant.seed.endpoint")
     String seedEndpoint;
 
-
     @Inject
     SeedDAO seedDAO;
 
@@ -40,6 +38,9 @@ public class SeedServiceImpl implements SeedService {
 
     @Inject
     ProducerTemplate producerTemplate;
+
+    @Inject
+    StockClient StockClient;
 
 
     private static final Random random = new Random();
@@ -69,7 +70,6 @@ public class SeedServiceImpl implements SeedService {
         sendSeedLog();
     }
 
-
     private void sendSeedLog() {
         for (PlantType type : PlantType.values()) {
             seedNotificationService.notifySeedUpdate(type, seedDAO.countSeedsByType(type));
@@ -90,45 +90,10 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public SeedEntity getCheapestSeed() {
-        return seedDAO.getAllSeeds().stream()
-                .min(Comparator.comparingDouble(SeedEntity::getPrice))
-                .orElseThrow(() -> new IllegalArgumentException("No seeds available"));
-    }
-
-    @Override
-    @Transactional
     public List<PurchaseRequestDTO> getSeedPricingAndStock() {
         return seedDAO.getAllSeeds().stream()
                 .map(seed -> new PurchaseRequestDTO(seed.getType(), seed.getQuality(), seed.getPrice()))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public double getPriceForTypeAndQuantity(PlantType seedType, int quantity) {
-        SeedEntity seed = seedDAO.getSeedByType(seedType).orElseThrow(RuntimeException::new);
-        return (seed.getPrice() * quantity);
-    }
-
-
-    @Override
-    @Transactional
-    public double getCalculateTotalPrice(int quantity) {
-        List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
-                .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
-                .toList();
-
-        if (seeds.size() < quantity) {
-            throw new InsufficientStockException(quantity);
-        }
-
-        double totalPrice = 0.0;
-        for (int i = 0; i < quantity; i++) {
-            totalPrice += seeds.get(i).getPrice();
-        }
-
-        return totalPrice;
     }
 
 
@@ -152,20 +117,12 @@ public class SeedServiceImpl implements SeedService {
                 producerTemplate.sendBody(seedEndpoint, seed);
                 seedNotificationService.notifyPlantSale(seed.getType(), seed.getPrice());
                 seedDAO.deleteSeed(seed);
+
             } else {
+                StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, storeService.getAvailableMoney() - (storeService.getAvailableMoney() - availableMoney), PlantType.OperationTag.STOCK_QUERIED));
                 break;
             }
         }
     }
 
-
-    @PostConstruct
-    @Transactional
-    public void initializeSeedData() {
-        if (seedDAO.getAllSeeds().isEmpty()) {
-            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, SeedQuality.HIGH));
-            seedDAO.saveSeed(new SeedEntity(PlantType.FLOWER, 75, SeedQuality.HIGH));
-            seedDAO.saveSeed(new SeedEntity(PlantType.TREE, 60, SeedQuality.HIGH));
-        }
-    }
 }
