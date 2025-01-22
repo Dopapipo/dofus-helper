@@ -9,7 +9,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class PlantLifecycleConsumer extends RouteBuilder {
+public class TickConsumer extends RouteBuilder {
 
     @Inject
     @ConfigProperty(name = "tick.endpoint")
