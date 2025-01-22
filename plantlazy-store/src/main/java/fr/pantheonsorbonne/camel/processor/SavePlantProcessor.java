@@ -17,14 +17,12 @@ public class SavePlantProcessor implements Processor {
     @Override
     @Transactional
     public void process(Exchange exchange) throws Exception {
-        // Récupérer le PlantSaleDTO depuis le corps de l'échange
 
         System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb");
 
         PlantSaleDTO plantDTO = exchange.getIn().getBody(PlantSaleDTO.class);
 
         System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        // Appeler le service pour effectuer la vente
         plantService.savePlant(plantDTO);
     }
 }

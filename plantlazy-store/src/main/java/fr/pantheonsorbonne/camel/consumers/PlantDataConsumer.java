@@ -18,7 +18,7 @@ public class PlantDataConsumer extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("file:data/plant?noop=true")
+        from(plantSale)
                 .log("{$body}")
                 .unmarshal().json(PlantSaleDTO.class)
                 .process(savePlantProcessor);

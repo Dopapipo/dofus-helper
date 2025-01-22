@@ -1,7 +1,10 @@
 package fr.pantheonsorbonne.camel.consumers;
 
-import fr.pantheonsorbonne.camel.processor.TickProcessor;
 import fr.pantheonsorbonne.dto.TickMessage;
+import fr.pantheonsorbonne.dto.TickType;
+import fr.pantheonsorbonne.services.PlantService;
+import fr.pantheonsorbonne.services.SeedService;
+import fr.pantheonsorbonne.services.SendingSeedService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.LoggingLevel;
@@ -17,18 +20,32 @@ public class TickConsumer extends RouteBuilder {
     String tickEndpoint;
 
     @Inject
-    TickProcessor tickProcessor;
+    SeedService seedService;
+
+    @Inject
+    PlantService plantService;
+
+    @Inject
+    SendingSeedService sendingSeedService;
 
     @Override
     public void configure() throws Exception {
         from(tickEndpoint)
-                .log(LoggingLevel.INFO, "Received message from ${header.CamelJmsMessageID}: ${body}")
-
+                .log(LoggingLevel.INFO, "Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
+                .process(exchange -> {
+                    TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
+                    if (messageBody.getTickType() == TickType.DAILY) {
+                        seedService.updateDailySeedOffer();
+                        sendingSeedService.sendAllSeedsToQueue();
 
-                .process(tickProcessor)
+                    }
+                    if (messageBody.getTickType() == TickType.HOURLY) {
+                        plantService.sellPlants();
+                    }
+                });
 
-                .log(LoggingLevel.INFO, "Message processed successfully.");
+
     }
 
 }
