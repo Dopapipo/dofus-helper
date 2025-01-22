@@ -132,7 +132,7 @@ public class SeedServiceImpl implements SeedService {
 
         double availableMoney = storeService.getAvailableMoney();
 
-        if (seeds.isEmpty() || seeds.get(0).getPrice() > availableMoney) {
+        if (seeds.isEmpty() || seeds.getFirst().getPrice() > availableMoney) {
             throw new InsufficientFundsException("Buying 1 seed is too much for you.");
         }
 

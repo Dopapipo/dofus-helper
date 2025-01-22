@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class SoilStat extends GenericPlantStat {
     public SoilStat(int value) {
-        super(value, 70, 4, StatType.SOIL);
+        super(value, 70, 2, StatType.SOIL);
     }
 
     public SoilStat() {

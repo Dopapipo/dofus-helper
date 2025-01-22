@@ -86,7 +86,7 @@ public class PlantEntity {
     }
 
     public boolean isSold() {
-        return isSold();
+        return this.sold;
     }
 
     public void setSold(boolean sold) {
