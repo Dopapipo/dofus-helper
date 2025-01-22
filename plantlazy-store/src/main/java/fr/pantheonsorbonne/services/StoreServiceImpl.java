@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
+import fr.pantheonsorbonne.dto.ResourceMoneyDTO;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,10 +17,18 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public double getAvailableMoney() {
-        Response response = stockClient.getResource(String.valueOf(ResourceType.MONEY));
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            throw new RuntimeException("Unable to fetch available money from stock service.");
+        // Appeler le client REST pour obtenir la ressource MONEY
+        Response resourceMoney = stockClient.getResourceByType(ResourceType.MONEY);
+
+        if (resourceMoney.getStatus() == Response.Status.OK.getStatusCode()) {
+            // Lire la réponse comme un ResourceMoneyDTO
+            ResourceMoneyDTO resourceMoneyDTO = resourceMoney.readEntity(ResourceMoneyDTO.class);
+            return resourceMoneyDTO.quantity(); // Retourne la quantité depuis le DTO
+        } else {
+            // Gérer les erreurs
+            throw new RuntimeException("Failed to fetch MONEY resource. HTTP status: " + resourceMoney.getStatus());
         }
-        return response.readEntity(Integer.class);
     }
+
+
 }

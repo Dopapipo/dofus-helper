@@ -3,11 +3,10 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
-import fr.pantheonsorbonne.dto.SeedLogDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
-
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
+import fr.pantheonsorbonne.exception.InsufficientFundsException;
 import fr.pantheonsorbonne.exception.InsufficientStockException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -28,6 +27,9 @@ public class SeedServiceImpl implements SeedService {
 
     @Inject
     SeedNotificationService seedNotificationService;
+
+    @Inject
+    StoreService storeService;
 
     private static final Random random = new Random();
 
@@ -91,13 +93,13 @@ public class SeedServiceImpl implements SeedService {
                 .map(seed -> new PurchaseRequestDTO(seed.getType(), seed.getQuality(), seed.getPrice()))
                 .collect(Collectors.toList());
     }
+
     @Override
     @Transactional
     public double getPriceForTypeAndQuantity(PlantType seedType, int quantity) {
         SeedEntity seed = seedDAO.getSeedByType(seedType).orElseThrow(RuntimeException::new);
         return (seed.getPrice() * quantity);
     }
-
 
 
     @Override
@@ -124,41 +126,49 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public List<DailySeedOfferDTO> sellSeed(int quantity) {
+    public List<DailySeedOfferDTO> sellSeed() {
         // Récupérer toutes les graines, triées par prix croissant
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
 
-        if (seeds.size() < quantity) {
-            throw new InsufficientStockException(quantity); // Pas assez de stock disponible
+        // Récupérer l'argent disponible
+        double availableMoney = storeService.getAvailableMoney();
+
+        // Vérifier si aucune graine ne peut être achetée
+        if (seeds.isEmpty() || seeds.get(0).getPrice() > availableMoney) {
+            throw new InsufficientFundsException("Buying 1 seed is too much for you."); // Pas assez d'argent disponible
         }
 
-        // Préparer la liste des DTO des graines vendues
-        List<DailySeedOfferDTO> soldSeeds = new ArrayList<>();
+        // Préparer la liste des DTO des graines achetées
+        List<DailySeedOfferDTO> purchasedSeeds = new ArrayList<>();
 
-        // Boucle pour supprimer uniquement la quantité demandée des graines les moins chères
-        for (int i = 0; i < quantity; i++) {
-            SeedEntity seedToSell = seeds.get(i);
+        // Boucle pour acheter les graines tant qu'il reste de l'argent
+        for (SeedEntity seed : seeds) {
+            if (seed.getPrice() <= availableMoney) {
+                // Convertir l'entité en DTO
+                DailySeedOfferDTO dto = new DailySeedOfferDTO(
+                        seed.getType(),
+                        seed.getQuality(),
+                        seed.getPrice()
+                );
 
-            // Convertir l'entité en DTO
-            DailySeedOfferDTO dto = new DailySeedOfferDTO(
-                    seedToSell.getType(),
-                    seedToSell.getQuality(),
-                    seedToSell.getPrice()
-            );
+                purchasedSeeds.add(dto);
 
-            soldSeeds.add(dto);
+                // Déduire le prix de la graine de l'argent disponible
+                availableMoney -= seed.getPrice();
 
-            // Supprimer la graine de la base de données
-            seedDAO.deleteSeed(seedToSell);
+                // Supprimer la graine de la base de données
+                seedDAO.deleteSeed(seed);
+            } else {
+                // Stopper l'achat si la prochaine graine dépasse l'argent disponible
+                break;
+            }
         }
 
-        // Retourner la liste des graines vendues
-        return soldSeeds;
+        // Retourner la liste des graines achetées
+        return purchasedSeeds;
     }
-
-
 
 
     // Initialisation des graines avec des données par défaut au démarrage
@@ -166,7 +176,7 @@ public class SeedServiceImpl implements SeedService {
     @Transactional
     public void initializeSeedData() {
         if (seedDAO.getAllSeeds().isEmpty()) {
-            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, SeedQuality.HIGH ));
+            seedDAO.saveSeed(new SeedEntity(PlantType.CACTUS, 50, SeedQuality.HIGH));
             seedDAO.saveSeed(new SeedEntity(PlantType.FLOWER, 75, SeedQuality.HIGH));
             seedDAO.saveSeed(new SeedEntity(PlantType.TREE, 60, SeedQuality.HIGH));
         }

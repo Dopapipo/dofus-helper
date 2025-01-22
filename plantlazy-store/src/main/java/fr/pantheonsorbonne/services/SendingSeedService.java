@@ -10,7 +10,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class SendingSeedService {
 
     @Inject
-    @ConfigProperty(name="plant.seed.endpoint")
+    @ConfigProperty(name = "plant.seed.endpoint")
     String seedEndpoint;
 
     @Inject

@@ -1,7 +1,8 @@
 package fr.pantheonsorbonne.camel.client;
 
+import fr.pantheonsorbonne.dto.ResourceMoneyDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
-import jakarta.enterprise.context.ApplicationScoped;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -19,5 +20,6 @@ public interface StockClient {
     @GET
     @Path("/{resourceType}")
     @Produces(MediaType.APPLICATION_JSON)
-    Response getResource(@PathParam("resourceType") String resourceType);
+    Response getResourceByType(@PathParam("resourceType") ResourceType resourceType);
+
 }

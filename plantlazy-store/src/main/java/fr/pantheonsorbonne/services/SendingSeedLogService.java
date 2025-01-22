@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.pantheonsorbonne.dto.PlantSaleDTO;
 import fr.pantheonsorbonne.dto.PlantSaleLogDTO;
 import fr.pantheonsorbonne.dto.SeedLogDTO;
 import jakarta.enterprise.context.ApplicationScoped;
