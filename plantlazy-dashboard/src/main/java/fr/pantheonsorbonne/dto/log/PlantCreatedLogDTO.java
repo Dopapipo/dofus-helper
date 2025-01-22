@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.dto.log;
 
 public class PlantCreatedLogDTO extends LogDTO{
 
-    private String type;
     private String plantId;
     private String name;
     private int energyLevel;
@@ -13,13 +12,6 @@ public class PlantCreatedLogDTO extends LogDTO{
     public PlantCreatedLogDTO() {
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getPlantId() {
         return plantId;

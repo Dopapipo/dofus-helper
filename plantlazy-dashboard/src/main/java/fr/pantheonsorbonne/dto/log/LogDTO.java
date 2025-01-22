@@ -1,12 +1,15 @@
 package fr.pantheonsorbonne.dto.log;
 
 public abstract class LogDTO  {
-    String type;
+    LogType type;
 
     public LogDTO() {
     }
 
-    public String getType() {
+    public LogType getType() {
         return type;
+    }
+    public void setType(LogType type) {
+        this.type = type;
     }
 }

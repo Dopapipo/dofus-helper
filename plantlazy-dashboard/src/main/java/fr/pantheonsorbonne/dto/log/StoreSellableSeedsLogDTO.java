@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.dto.log;
 
 import java.util.List;
 
-public class StoreSellableSeedsLogDTO extends LogDTO{
+public class StoreSellableSeedsLogDTO {
 
     private String type;
     private String timestamp;

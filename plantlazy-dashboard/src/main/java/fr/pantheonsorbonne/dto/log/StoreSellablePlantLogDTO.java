@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.dto.log;
 
 public class StoreSellablePlantLogDTO extends LogDTO{
 
-    private String type;
     private String plantId;
     private String name;
     private int price;
@@ -10,13 +9,6 @@ public class StoreSellablePlantLogDTO extends LogDTO{
     public StoreSellablePlantLogDTO() {
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getPlantId() {
         return plantId;
