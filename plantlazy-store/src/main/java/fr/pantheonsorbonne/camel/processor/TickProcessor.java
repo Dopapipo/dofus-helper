@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.camel.processor;
 
 import fr.pantheonsorbonne.dto.TickMessage;
 import fr.pantheonsorbonne.dto.TickType;
+import fr.pantheonsorbonne.services.PlantService;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -17,11 +18,17 @@ public class TickProcessor implements Processor {
     @Inject
     SeedService seedService;
 
+    @Inject
+    PlantService plantService;
+
     @Override
     public void process(Exchange exchange) {
         TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
         if (messageBody.getTickType() == TickType.DAILY) {
             seedService.updateDailySeedOffer();
+        }
+        if (messageBody.getTickType() == TickType.HOURLY) {
+            plantService.sellPlants();
         }
     }
 }

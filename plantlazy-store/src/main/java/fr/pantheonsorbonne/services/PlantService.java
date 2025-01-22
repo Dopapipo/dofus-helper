@@ -9,7 +9,7 @@ import java.util.List;
 public interface PlantService {
     List<PlantEntity> getAvailablePlants();
 
-    void sellPlant(PlantSaleDTO plantSaleDTO);
+    void sellPlants();
 
     void savePlant(PlantSaleDTO plantSaleDTO);
 }

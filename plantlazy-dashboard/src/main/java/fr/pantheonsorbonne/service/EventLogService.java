@@ -23,7 +23,7 @@ public class EventLogService {
 
 
     public void saveEventLog(LogDTO dto) {
-        doSave(dto.getType(), dto);
+        doSave(dto.getType().toString(), dto);
     }
     private void doSave(String eventType, Object dto) {
         try {

@@ -60,35 +60,31 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     @Transactional
-    public void sellPlant(PlantSaleDTO plantDTO) {
-        // Obtenir l'entité de plante correspondant au type de plante
-        PlantEntity plant = plantDAO.getPlantByType(plantDTO.getPlantType())
-                .orElseThrow(() -> new IllegalArgumentException("Aucune plante trouvée pour le type : " + plantDTO.getPlantType()));
+    public void sellPlants() {
+        // Récupérer toutes les plantes disponibles dans la base
+        List<PlantEntity> plants = plantDAO.getAllPlants();
 
-        // Probabilité de vente
-        int saleProbability = SALE_PROBABILITIES.getOrDefault(plantDTO.getPlantType(), 0);
-        int randomValue = random.nextInt(100);
+        // Itérer sur chaque plante
+        for (PlantEntity plant : plants) {
+            // Récupérer la probabilité de vente pour le type de plante
+            int saleProbability = SALE_PROBABILITIES.getOrDefault(plant.getType(), 0);
+            int randomValue = random.nextInt(100);
 
-        if (randomValue < saleProbability) {
-            // Vente réussie : Mise à jour des ressources
-            stockClient.updateResource(
-                    new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
-            );
+            if (randomValue < saleProbability) {
+                stockClient.updateResource(
+                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
+                );
 
-            // Supression de la plante
-            plantDAO.deletePlantById(plant.getId());
+                plantDAO.deletePlantById(plant.getId());
 
-            // Notifier la vente réussie
-            seedNotificationService.notifyPlantSale(plantDTO.getPlantType(), plant.getPrice());
-        } else {
-            // Vente échouée (on peut loguer ou notifier si besoin)
-            System.out.println("La plante de type {} n'a pas été vendue (probabilité échouée)." + plantDTO.getPlantType());
+                System.out.println("La plante de type " + plant.getType() + " n'a a été vendue (probabilité réussie).");
+
+
+            } else {
+                System.out.println("La plante de type " + plant.getType() + " n'a pas été vendue (probabilité échouée).");
+            }
         }
-
-        // Notification sur les graines restantes
-        sendingSeedService.sendAllSeedsToQueue();
     }
-
 
     /**
      * Obtenir le prix de vente basé sur le type de plante.
