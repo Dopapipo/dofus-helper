@@ -17,15 +17,12 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public double getAvailableMoney() {
-        // Appeler le client REST pour obtenir la ressource MONEY
         Response resourceMoney = stockClient.getResourceByType(ResourceType.MONEY);
 
         if (resourceMoney.getStatus() == Response.Status.OK.getStatusCode()) {
-            // Lire la réponse comme un ResourceMoneyDTO
             ResourceMoneyDTO resourceMoneyDTO = resourceMoney.readEntity(ResourceMoneyDTO.class);
-            return resourceMoneyDTO.quantity(); // Retourne la quantité depuis le DTO
+            return resourceMoneyDTO.quantity();
         } else {
-            // Gérer les erreurs
             throw new RuntimeException("Failed to fetch MONEY resource. HTTP status: " + resourceMoney.getStatus());
         }
     }

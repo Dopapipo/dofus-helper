@@ -14,10 +14,10 @@ public class SendingSeedService {
     String seedEndpoint;
 
     @Inject
-    SeedDAO seedDAO; // DAO pour récupérer les graines
+    SeedDAO seedDAO;
 
     @Inject
-    ProducerTemplate producerTemplate; // Template Camel pour envoyer les graines
+    ProducerTemplate producerTemplate;
 
 
     public void sendAllSeedsToQueue() {

@@ -62,33 +62,27 @@ public class SeedResource {
     @Path("/sell")
     public Response sellSeed() {
         try {
-            // Vendre les graines via le service et récupérer la liste des graines vendues
             List<DailySeedOfferDTO> soldSeeds = seedService.sellSeed();
 
-            // Vérifier si des graines ont été vendues
             if (soldSeeds.isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("No seeds were available to sell.").build();
             }
 
-            // Calculer le prix total des graines vendues
             double totalPrice = soldSeeds.stream()
                     .mapToDouble(DailySeedOfferDTO::price)
                     .sum();
 
-            // Appeler le microservice Stock pour mettre à jour les ressources (argent)
             Response response = stockClient.updateResource(
                     new ResourceUpdateDTO(ResourceType.MONEY, totalPrice, PlantType.OperationTag.STOCK_QUERIED)
             );
 
-            // Vérifier si la mise à jour a réussi (statut 2xx)
             if (response.getStatus() < 200 || response.getStatus() >= 300) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity("Failed to update stock service. Status: " + response.getStatus()).build();
             }
 
 
-            // Créer une réponse avec succès contenant la liste des graines vendues
             return Response.ok(soldSeeds).build();
         } catch (InsufficientFundsException e) {
             return Response.status(Response.Status.BAD_REQUEST)
