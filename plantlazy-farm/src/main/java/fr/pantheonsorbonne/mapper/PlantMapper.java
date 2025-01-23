@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.mapper;
 
 import fr.pantheonsorbonne.dto.*;
-import fr.pantheonsorbonne.dto.LogMessage;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
 public class PlantMapper {

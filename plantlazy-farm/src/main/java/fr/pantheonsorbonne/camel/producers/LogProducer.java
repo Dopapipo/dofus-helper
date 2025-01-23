@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.camel.producers;
 
-import fr.pantheonsorbonne.dto.LogMessage;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

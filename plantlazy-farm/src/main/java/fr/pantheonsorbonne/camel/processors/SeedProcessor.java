@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.camel.processors;
 
-import fr.pantheonsorbonne.dto.LogMessage;
 import fr.pantheonsorbonne.dto.SeedDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.mapper.PlantMapper;

@@ -2,6 +2,8 @@ package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dao.PlantDAO;
+import fr.pantheonsorbonne.dto.LogType;
+import fr.pantheonsorbonne.dto.PlantLogDTO;
 import fr.pantheonsorbonne.dto.PlantSaleDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
@@ -10,6 +12,7 @@ import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.HashMap;
@@ -24,8 +27,14 @@ public class PlantServiceImpl implements PlantService {
     PlantDAO plantDAO;
 
     @Inject
+    SendingPlantLogService sendingPlantLogService;
+
+    @Inject
     @RestClient
     StockClient stockClient;
+
+    @ConfigProperty(name = "log.endpoint")
+    String logEndpoint;
 
 
     private static final Random random = new Random();
@@ -81,7 +90,13 @@ public class PlantServiceImpl implements PlantService {
 
         PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
 
+        // Sauvegarde de la plante
         plantDAO.savePlant(plant);
-    }
 
+        // Création du log et envoi
+        PlantLogDTO plantLog = new PlantLogDTO(plant.getId(), plant.getType().toString(), plant.getPrice(), LogType.STORE_SELLABLE_PLANT);
+        sendingPlantLogService.sendPlantLog(logEndpoint, plantLog);
+
+        System.out.println("plante vendu : log enoyéééééééééééééééééééééééééé");
+    }
 }
