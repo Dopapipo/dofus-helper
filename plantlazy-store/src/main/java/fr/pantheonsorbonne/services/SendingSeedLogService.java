@@ -17,21 +17,23 @@ public class SendingSeedLogService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void sendSeedLog(String endpointUri, SeedLogDTO seedPriceDTO) {
+    public void sendSeedLog(String endpointUri, SeedLogDTO seedLogDTO) {
         try {
-            String jsonMessage = objectMapper.writeValueAsString(seedPriceDTO);
-            producerTemplate.sendBody(endpointUri, jsonMessage);
+            String jsonMessage = objectMapper.writeValueAsString(seedLogDTO);
 
             Exchange exchange = producerTemplate.getCamelContext().getEndpoint(endpointUri).createExchange();
             Message message = exchange.getIn();
-
             message.setBody(jsonMessage);
+
             producerTemplate.send(endpointUri, exchange);
 
+            System.out.println("Message sent" + seedLogDTO);
+
         } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize MessageLogDTO to JSON", e);
+            throw new RuntimeException("Failed to serialize SeedLogDTO to JSON", e);
         }
     }
+
 
     public void sendPlantLog(String endpointUri, PlantSaleLogDTO plantDTO) {
         try {

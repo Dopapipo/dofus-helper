@@ -1,11 +1,16 @@
 package fr.pantheonsorbonne.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlantDTO {
     private String id;
     private String type;
-    private int waterStat;
-    private int sunStat;
-    private int soilStat;
+    private int water; // Contiendra water.value
+    private int sun;   // Contiendra sun.value
+    private int soil;  // Contiendra soil.value
+
 
     public String getId() {
         return id;
@@ -23,28 +28,49 @@ public class PlantDTO {
         this.type = type;
     }
 
-    public int getWaterStat() {
-        return waterStat;
+    public int getWater() {
+        return water;
     }
 
-    public void setWaterStat(int waterStat) {
-        this.waterStat = waterStat;
+    // Setter personnalisé pour mapper directement water.value
+    @JsonSetter("water")
+    public void setWater(Object water) {
+        if (water instanceof java.util.Map) {
+            Object value = ((java.util.Map<?, ?>) water).get("value");
+            if (value instanceof Integer) {
+                this.water = (Integer) value;
+            }
+        }
     }
 
-    public int getSunStat() {
-        return sunStat;
+    public int getSun() {
+        return sun;
     }
 
-    public void setSunStat(int sunStat) {
-        this.sunStat = sunStat;
+    // Setter personnalisé pour mapper directement sun.value
+    @JsonSetter("sun")
+    public void setSun(Object sun) {
+        if (sun instanceof java.util.Map) {
+            Object value = ((java.util.Map<?, ?>) sun).get("value");
+            if (value instanceof Integer) {
+                this.sun = (Integer) value;
+            }
+        }
     }
 
-    public int getSoilStat() {
-        return soilStat;
+    public int getSoil() {
+        return soil;
     }
 
-    public void setSoilStat(int soilStat) {
-        this.soilStat = soilStat;
+    // Setter personnalisé pour mapper directement soil.value
+    @JsonSetter("soil")
+    public void setSoil(Object soil) {
+        if (soil instanceof java.util.Map) {
+            Object value = ((java.util.Map<?, ?>) soil).get("value");
+            if (value instanceof Integer) {
+                this.soil = (Integer) value;
+            }
+        }
     }
 
     @Override
@@ -52,9 +78,9 @@ public class PlantDTO {
         return "PlantDTO{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
-                ", waterStat=" + waterStat +
-                ", sunStat=" + sunStat +
-                ", soilStat=" + soilStat +
+                ", water=" + water +
+                ", sun=" + sun +
+                ", soil=" + soil +
                 '}';
     }
 }

@@ -18,9 +18,7 @@ import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -53,28 +51,46 @@ public class SeedServiceImpl implements SeedService {
     @Override
     @Transactional
     public void updateDailySeedOffer() {
+        // Supprimer toutes les graines existantes
         seedDAO.deleteAllSeeds();
+
+        // Définir un prix fixe pour chaque type de plante pour ce tick
+        Map<PlantType, Double> fixedPrices = new HashMap<>();
+        for (PlantType plantType : PlantType.values()) {
+            double price = 20 + (30 * random.nextDouble());
+            fixedPrices.put(plantType, Math.round(price * 100.0) / 100.0); // Arrondi à 2 décimales
+        }
+
+        // Générer les graines
         int numberOfSeedsToGenerate = 10 + random.nextInt(21);
+        List<SeedEntity> generatedSeeds = new ArrayList<>();
         for (int i = 0; i < numberOfSeedsToGenerate; i++) {
-            double dailyPrice = 20 + (30 * random.nextDouble());
             SeedQuality dailyQuality = generateRandomSeedQuality();
             PlantType dailyPlantType = generateRandomPlantType();
 
             SeedEntity seed = new SeedEntity();
-            seed.setPrice(Math.round(dailyPrice * 100.0) / 100.0);
+            seed.setPrice(fixedPrices.get(dailyPlantType)); // Utilise le prix fixe
             seed.setQuality(dailyQuality);
             seed.setType(dailyPlantType);
 
             seedDAO.saveSeed(seed);
+            generatedSeeds.add(seed);
         }
+
+        // Envoyer les logs une fois toutes les graines générées
         sendSeedLog();
+
+        System.out.println("Daily seeds generated");
     }
 
     private void sendSeedLog() {
-        for (PlantType type : PlantType.values()) {
-            seedNotificationService.notifySeedUpdate(type, seedDAO.countSeedsByType(type));
-        }
+        List<SeedEntity> allSeeds = seedDAO.getAllSeeds();
+
+        seedNotificationService.notifySeedUpdate(allSeeds);
+
     }
+
+
 
     private PlantType generateRandomPlantType() {
         PlantType[] types = PlantType.values();

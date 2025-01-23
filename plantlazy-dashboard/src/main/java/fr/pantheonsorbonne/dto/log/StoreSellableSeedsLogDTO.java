@@ -1,11 +1,13 @@
 package fr.pantheonsorbonne.dto.log;
 
+import fr.pantheonsorbonne.dto.SeedDTO;
+
 import java.util.List;
 
 public class StoreSellableSeedsLogDTO extends LogDTO {
 
     private String timestamp;
-    private List<Seed> seeds;
+    private List<SeedDTO> seeds;
 
     public StoreSellableSeedsLogDTO() {
     }
@@ -18,53 +20,11 @@ public class StoreSellableSeedsLogDTO extends LogDTO {
         this.timestamp = timestamp;
     }
 
-    public List<Seed> getSeeds() {
+    public List<SeedDTO> getSeeds() {
         return seeds;
     }
 
-    public void setSeeds(List<Seed> seeds) {
+    public void setSeeds(List<SeedDTO> seeds) {
         this.seeds = seeds;
-    }
-
-    public static class Seed {
-        private String seedId;
-        private String species;
-        private int price;
-        private int quantity;
-
-        public Seed() {
-        }
-
-        public String getSeedId() {
-            return seedId;
-        }
-
-        public void setSeedId(String seedId) {
-            this.seedId = seedId;
-        }
-
-        public String getSpecies() {
-            return species;
-        }
-
-        public void setSpecies(String species) {
-            this.species = species;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
     }
 }

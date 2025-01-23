@@ -31,7 +31,7 @@ public class LogsRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        from("file:data/log?noop=true")
+        from(logEndpoint)
                 .convertBodyTo(String.class)
                 .log("Received log entry: ${body}")
                 .process(new LogTypeExtractor()) // Extrait le type de log et l'ajoute à l'header "logType"

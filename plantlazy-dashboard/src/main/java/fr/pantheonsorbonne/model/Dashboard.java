@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.model;
 
+import fr.pantheonsorbonne.dto.SeedDTO;
 import fr.pantheonsorbonne.dto.log.StoreSellableSeedsLogDTO;
 
 import java.util.HashMap;
@@ -33,16 +34,19 @@ public class Dashboard {
         }
     }
 
-    public void updateSeedsForSale(List<StoreSellableSeedsLogDTO.Seed> seeds) {
+    public void updateSeedsForSale(List<SeedDTO> seeds) {
         seedsForSale.clear();
-        for (StoreSellableSeedsLogDTO.Seed seed : seeds) {
+        for (SeedDTO seed : seeds) {
             PlantData plant = new PlantData();
-            plant.setName(seed.getSpecies());
+            plant.setName(seed.getType()); // Utilise le type comme nom de la plante
             plant.setPrice(seed.getPrice());
-            plant.setQuantity(seed.getQuantity());
-            seedsForSale.put(seed.getSeedId(), plant);
+            plant.setQuantity(1); // Quantité par défaut, car SeedDTO ne contient pas de champ quantity
+            seedsForSale.put(seed.getId(), plant);
         }
+        display();
+
     }
+
 
     public void updatePlantsForSale(String plantId, String name, int price) {
         PlantData plant = new PlantData();
@@ -51,9 +55,9 @@ public class Dashboard {
         plantsForSale.put(plantId, plant);
     }
 
-    public void updateSoldPlants(String plantId, int price) {
-        plantsForSale.remove(plantId); // Retire la plante des ventes
-        System.out.printf("✔️ Plante vendue : %s pour %d 💵%n", plantId, price);
+    public void updateSoldPlants(String plantType, int price) {
+        plantsForSale.remove(plantType); // Retire la plante des ventes
+        System.out.printf("✔️ Plante vendue : %s pour %d 💵%n", plantType, price);
     }
 
     public void updateDeadPlant(String plantId, String name, int decompositionLevel) {
@@ -71,15 +75,19 @@ public class Dashboard {
         return false;
     }
 
-    public void addNewPlant(String plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel, int growthLevel) {
+    public void addNewPlant(String plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel) {
         PlantData plant = new PlantData();
         plant.setName(name);
         plant.setEnergyLevel(energyLevel);
         plant.setWaterLevel(waterLevel);
         plant.setFertilizerLevel(fertilizerLevel);
-        plant.setGrowthLevel(growthLevel);
         plantsInProgress.put(plantId, plant);
     }
+
+    public boolean plantExists(String plantId) {
+        return plantsInProgress.containsKey(plantId);
+    }
+
 
     public void markPlantAsMature(String plantId) {
         PlantData plant = plantsInProgress.get(plantId);
@@ -91,13 +99,12 @@ public class Dashboard {
         }
     }
 
-    public void updatePlantStats(String plantId, int energyLevel, int waterLevel, int fertilizerLevel, int growthLevel) {
+    public void updatePlantStats(String plantId, int energyLevel, int waterLevel, int fertilizerLevel) {
         PlantData plant = plantsInProgress.get(plantId);
         if (plant != null) {
             plant.setEnergyLevel(energyLevel);
             plant.setWaterLevel(waterLevel);
             plant.setFertilizerLevel(fertilizerLevel);
-            plant.setGrowthLevel(growthLevel);
         } else {
             System.err.printf("Impossible de trouver la plante %s en cours de croissance.%n", plantId);
         }
@@ -109,6 +116,7 @@ public class Dashboard {
         } else if ("DAILY".equals(tickType)) {
             day++;
             tick = 0;
+            display();
         } else {
             System.err.println("Type de tick non reconnu : " + tickType);
         }
