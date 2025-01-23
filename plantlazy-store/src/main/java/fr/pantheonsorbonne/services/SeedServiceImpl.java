@@ -14,8 +14,6 @@ import fr.pantheonsorbonne.exception.InsufficientFundsException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.apache.camel.ProducerTemplate;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.Comparator;

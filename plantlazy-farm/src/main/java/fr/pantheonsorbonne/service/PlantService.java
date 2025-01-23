@@ -48,14 +48,14 @@ public class PlantService {
             if (plant.isDead() && !plant.getComposted()) {
                 try {
                     producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", true);
-                    logService.sendLog(PlantMapper.toPlantDiedLog(plant));
+                    logService.sendLogPlantDied(PlantMapper.toPlantDiedLog(plant));
                 } catch (Exception e) {
                     System.out.println("Failed to send dead plant to transport: " + e.getMessage());
                 }
             }
             else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                 producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
-                logService.sendLog(PlantMapper.toPlantSoldLog(plant));
+                logService.sendLogPlantSold(PlantMapper.toPlantSoldLog(plant));
             }
         }
     }
@@ -77,13 +77,12 @@ public class PlantService {
         }
     }
 
-
     private void triggerPlantGrowth(Iterable<PlantEntity> plants) {
         for (PlantEntity plant : plants) {
             if (!plant.isDead()) {
                 plant.grow();
                 PlantEntity updatedPlant = plantRepository.save(plant);
-                logService.sendLog(PlantMapper.toPlantUpdatedLog(updatedPlant));
+                logService.sendLogUpdate(PlantMapper.toPlantUpdatedLog(updatedPlant));
             }
         }
     }
@@ -91,7 +90,5 @@ public class PlantService {
     private boolean plantNeedsNourishmentForStat(PlantEntity plant, PlantStat plantStat) {
         return (!plant.isDead() && plant.getRemainingTicksOfHealthyFor(plantStat) < 3);
     }
-
-
 
 }
