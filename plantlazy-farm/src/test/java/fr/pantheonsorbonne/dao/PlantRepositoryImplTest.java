@@ -12,10 +12,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @QuarkusTest
 class PlantRepositoryImplTest {
 
@@ -23,6 +25,7 @@ class PlantRepositoryImplTest {
     PlantRepository plantRepository;
     @Inject
     EntityManager em;
+
     @Transactional
     @Test
     public void testSavePlant() {
@@ -44,7 +47,6 @@ class PlantRepositoryImplTest {
 
     @Transactional
     @Test
-    @Disabled
     public void testFindAllWithOnePlant() {
         // Create and save a new plant
         PlantEntity plant = new PlantEntity(PlantType.FLOWER, new FullPlantStats(
@@ -71,8 +73,6 @@ class PlantRepositoryImplTest {
         assertNotNull(retrievedPlant.getSoil(), "SoilStat should not be null");
         assertNotNull(retrievedPlant.getSun(), "SunStat should not be null");
     }
-
-
 
 
 }

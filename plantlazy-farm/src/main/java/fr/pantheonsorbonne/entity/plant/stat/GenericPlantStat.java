@@ -1,7 +1,9 @@
 package fr.pantheonsorbonne.entity.plant.stat;
 // REGLES METIER : si une stat arrive a 0, mort automatique; si une stat arrive a threshold, plante en bonne sante
 
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public abstract class GenericPlantStat implements PlantStat {
     private int value;
     private int threshold;
