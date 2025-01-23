@@ -1,29 +1,28 @@
 package fr.pantheonsorbonne.mapper;
 
+import fr.pantheonsorbonne.dto.*;
 import fr.pantheonsorbonne.dto.LogMessage;
-import fr.pantheonsorbonne.dto.LogType;
-import fr.pantheonsorbonne.dto.PlantDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 
 public class PlantMapper {
 
-    public static LogMessage toPlantDiedLog(PlantEntity plant) {
+    public static LogMessagePlantDied toPlantDiedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessage(LogType.PLANT_DEAD, plantDTO);
+        return new LogMessagePlantDied(LogType.PLANT_DEAD, plantDTO.getId());
     }
 
-    public static LogMessage toPlantSoldLog(PlantEntity plant) {
+    public static LogMessagePlantSold toPlantSoldLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessage(LogType.PLANT_SOLD, plantDTO);
+        return new LogMessagePlantSold(LogType.PLANT_SOLD, plantDTO.getId());
     }
-    public static LogMessage toPlantCreatedLog(PlantEntity plant) {
+    public static LogMessagePlantCreated toPlantCreatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessage(LogType.PLANT_CREATED, plantDTO);
+        return new LogMessagePlantCreated(LogType.PLANT_CREATED, plantDTO.getId(), plantDTO.type(), plantDTO.growthLevel(), plantDTO.water(), plantDTO.sun(), plantDTO.soil());
     }
 
-    public static LogMessage toPlantUpdatedLog(PlantEntity plant) {
+    public static LogMessageUpdate toPlantUpdatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessage(LogType.PLANT_UPDATE, plantDTO);
+        return new LogMessageUpdate(LogType.PLANT_UPDATE, plantDTO.getId(), plantDTO.type(), plantDTO.growthLevel(), plantDTO.water(), plantDTO.sun(), plantDTO.soil());
     }
 
     public static PlantDTO toPlantDTO(PlantEntity plant) {

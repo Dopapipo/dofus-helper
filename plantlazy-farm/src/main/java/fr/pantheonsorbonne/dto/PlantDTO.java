@@ -6,6 +6,7 @@ import fr.pantheonsorbonne.entity.plant.stat.PlantGrowthLevel;
 import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
+
 import java.util.UUID;
 
 public record PlantDTO(PlantType type,
@@ -19,17 +20,22 @@ public record PlantDTO(PlantType type,
                        boolean sold,
                        UUID id,
                        boolean composted) {
+
     public PlantDTO(PlantEntity plant) {
         this(plant.getType(),
-             plant.getWater(),
-             plant.getSun(),
-             plant.getSoil(),
-             plant.isDead(),
-             plant.getTimeOfDeath(),
-             plant.getCauseOfDeath(),
-             plant.getGrowthLevel(),
-             plant.isSold(),
-             plant.getId(),
-             plant.getComposted());
+                plant.getWater(),
+                plant.getSun(),
+                plant.getSoil(),
+                plant.isDead(),
+                plant.getTimeOfDeath(),
+                plant.getCauseOfDeath(),
+                plant.getGrowthLevel(),
+                plant.isSold(),
+                plant.getId(),
+                plant.getComposted());
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

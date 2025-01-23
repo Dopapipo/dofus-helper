@@ -16,7 +16,6 @@ public class TickProcessor implements Processor {
     public void process(Exchange exchange) {
         TickMessage messageBody = exchange.getIn().getBody(TickMessage.class);
 
-        // Récupération du service depuis Arc.container()
         InstanceHandle<DashboardService> serviceHandle = Arc.container().instance(DashboardService.class);
         DashboardService dashboardService = serviceHandle.get();
 

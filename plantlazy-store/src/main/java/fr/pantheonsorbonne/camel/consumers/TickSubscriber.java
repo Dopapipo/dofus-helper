@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.camel.consumers;
 
 import fr.pantheonsorbonne.dto.TickMessage;
-import fr.pantheonsorbonne.dto.TickType;
 import fr.pantheonsorbonne.services.PlantService;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,7 +10,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class TickConsumer extends RouteBuilder {
+public class TickSubscriber extends RouteBuilder {
 
     @Inject
     @ConfigProperty(name = "tick.endpoint")

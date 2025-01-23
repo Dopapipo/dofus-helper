@@ -1,6 +1,5 @@
 package pantheonsorbonne.gateway;
 
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -8,10 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import pantheonsorbonne.camel.TickProducer;
-import pantheonsorbonne.entity.TickType;
-
-import java.util.concurrent.TimeUnit;
+import pantheonsorbonne.camel.TickPublisher;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,14 +15,14 @@ import java.util.concurrent.TimeUnit;
 public class TickResource {
 
     @Inject
-    TickProducer tickProducer;
+    TickPublisher tickPublisher;
 
     @POST
     @Path("/tick-init")
     public Response startTickGeneration() {
         try {
 
-            tickProducer.startServerTick();
+            tickPublisher.startServerTick();
 
             return Response.ok("Tick generation initialized").build();
         } catch (Exception e) {
@@ -42,7 +38,7 @@ public class TickResource {
     @Path("/tick-stop")
     public Response stopTickGeneration() {
         try {
-            tickProducer.stopServerTick();
+            tickPublisher.stopServerTick();
 
             return Response.ok("Tick generation stopped successfully").build();
 

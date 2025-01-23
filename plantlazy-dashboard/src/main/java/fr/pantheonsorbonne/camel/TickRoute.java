@@ -17,9 +17,6 @@ public class TickRoute extends RouteBuilder {
     String tickEndpoint;
 
 
-    private final Dashboard dashboard = new Dashboard();
-
-
     @Override
     public void configure() {
         from(tickEndpoint)

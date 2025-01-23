@@ -8,7 +8,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class TickConsumer extends RouteBuilder {
+public class TickSubscriber extends RouteBuilder {
 
     @ConfigProperty(name = "tick.endpoint")
     String tickEndpoint;
