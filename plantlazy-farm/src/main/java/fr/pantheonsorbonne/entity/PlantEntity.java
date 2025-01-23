@@ -9,15 +9,8 @@ import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -32,14 +25,26 @@ public class PlantEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PlantType type;
+
+
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "value", column = @Column(name = "soil_value"))
+    })
+    protected SoilStat soil;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "value", column = @Column(name = "water_value"))
+    })
     protected WaterStat water;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "value", column = @Column(name = "sun_value"))
+    })
     protected SunStat sun;
 
-    @Embedded
-    protected SoilStat soil;
 
     public PlantGrowthLevel getGrowthLevel() {
         return growthLevel;
