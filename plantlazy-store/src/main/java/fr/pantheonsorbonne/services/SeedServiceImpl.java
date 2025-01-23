@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
+import fr.pantheonsorbonne.camel.producer.SeedProducer;
 import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
@@ -26,10 +27,6 @@ import java.util.stream.Collectors;
 public class SeedServiceImpl implements SeedService {
 
     @Inject
-    @ConfigProperty(name = "plant.seed.endpoint")
-    String seedEndpoint;
-
-    @Inject
     SeedDAO seedDAO;
 
     @Inject
@@ -39,7 +36,7 @@ public class SeedServiceImpl implements SeedService {
     StoreService storeService;
 
     @Inject
-    ProducerTemplate producerTemplate;
+    SeedProducer SeedProducer;
 
     @RestClient
     @Inject
@@ -117,8 +114,10 @@ public class SeedServiceImpl implements SeedService {
             if (seed.getPrice() <= availableMoney) {
                 availableMoney -= seed.getPrice();
 
+                SeedToFarmDTO seedDTO = new SeedToFarmDTO(seed.getType(), seed.getQuality());
+                SeedProducer.sendSeedMessage(seedDTO);
 
-                producerTemplate.sendBody(seedEndpoint, new SeedToFarmDTO(seed.getType(), seed.getQuality()));
+                System.out.println("Seed of type " + seed.getType() + " sold for " + seed.getPrice() + "€");
                 seedNotificationService.notifyPlantSale(seed.getType(), seed.getPrice());
                 seedDAO.deleteSeed(seed);
 
