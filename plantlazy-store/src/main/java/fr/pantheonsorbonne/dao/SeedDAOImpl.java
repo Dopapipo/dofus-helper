@@ -2,15 +2,12 @@ package fr.pantheonsorbonne.dao;
 
 
 import fr.pantheonsorbonne.entity.SeedEntity;
-
-import fr.pantheonsorbonne.entity.enums.PlantType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class SeedDAOImpl implements SeedDAO {

@@ -16,7 +16,7 @@ public class PlantProcessor implements Processor {
 
     @Override
     @Transactional
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
 
         PlantFromFarmDTO plantDTO = exchange.getIn().getBody(PlantFromFarmDTO.class);
 

@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.resource;
 
-import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.services.SeedService;
@@ -8,7 +7,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +15,6 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SeedResource {
-
-    @Inject
-    @RestClient
-    StockClient stockClient;
 
     @Inject
     SeedService seedService;

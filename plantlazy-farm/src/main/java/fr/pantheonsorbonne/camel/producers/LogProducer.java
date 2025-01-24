@@ -9,7 +9,7 @@ public class LogProducer  extends RouteBuilder {
     @ConfigProperty(name = "log.endpoint")
     String logEndpoint;
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from("direct:logQueue")
                 .log("Sending log message: ${body}")
                 .marshal().json()

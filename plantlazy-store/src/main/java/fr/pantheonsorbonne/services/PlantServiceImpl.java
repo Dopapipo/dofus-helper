@@ -1,11 +1,8 @@
 package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
-import fr.pantheonsorbonne.camel.producer.PlantProducer;
 import fr.pantheonsorbonne.dao.PlantDAO;
-import fr.pantheonsorbonne.dto.LogType;
 import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
-import fr.pantheonsorbonne.dto.PlantInShopLogDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
@@ -13,7 +10,6 @@ import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.HashMap;
@@ -26,9 +22,6 @@ public class PlantServiceImpl implements PlantService {
 
     @Inject
     PlantDAO plantDAO;
-
-    @Inject
-    PlantProducer PlantProducer;
 
     @Inject
     @RestClient
