@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.camel.client;
 
-import fr.pantheonsorbonne.dto.ResourceMoneyDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.ws.rs.*;

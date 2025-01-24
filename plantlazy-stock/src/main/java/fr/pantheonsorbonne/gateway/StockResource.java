@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.gateway;
 
+import fr.pantheonsorbonne.dao.ResourceDAO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.dto.ResourceLevelDTO;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
@@ -18,6 +19,9 @@ public class StockResource {
     @Inject
     StockService stockService;
 
+    @Inject
+    ResourceDAO resourceDAO;
+
     @POST
     @Path("/update")
     public Response updateResource(ResourceUpdateDTO resourceUpdateDTO) {
@@ -34,7 +38,7 @@ public class StockResource {
     @Path("/{resourceType}")
     public Response getResourceValue(@PathParam("resourceType") ResourceType resourceType) {
         try {
-            ResourceLevelDTO resourceLevelDTO = stockService.getResourceValue(resourceType);
+            ResourceLevelDTO resourceLevelDTO = ResourceLevelDTO.fromEntity(resourceDAO.findByType(resourceType));
             return Response.ok(resourceLevelDTO).build();
         } catch (ResourceException e) {
             return Response.status(Response.Status.NOT_FOUND)

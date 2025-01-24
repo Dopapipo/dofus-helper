@@ -23,10 +23,6 @@ public class Resource {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public ResourceType getType() {
         return type;
     }

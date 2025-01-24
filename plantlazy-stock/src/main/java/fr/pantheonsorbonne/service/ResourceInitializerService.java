@@ -24,11 +24,9 @@ public class ResourceInitializerService {
     }
 
     private void initializeResource(ResourceType type, double initialQuantity) {
-        resourceDAO.findByType(type).orElseGet(() -> {
-            Resource resource = new Resource();
-            resource.setType(type);
-            resource.setQuantity(initialQuantity);
-            return resourceDAO.save(resource);
-        });
+        Resource resource = new Resource();
+        resource.setType(type);
+        resource.setQuantity(initialQuantity);
+        resourceDAO.save(resource);
     }
 }

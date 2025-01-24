@@ -8,7 +8,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class ResourceDAOImpl implements ResourceDAO {
@@ -18,11 +17,13 @@ public class ResourceDAOImpl implements ResourceDAO {
 
     @Override
     @Transactional
-    public Optional<Resource> findByType(ResourceType type) {
+    public Resource findByType(ResourceType type) {
         return entityManager.createQuery("SELECT r FROM Resource r WHERE r.type = :type", Resource.class)
                 .setParameter("type", type)
-                .getResultStream()
-                .findFirst();
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -31,13 +32,6 @@ public class ResourceDAOImpl implements ResourceDAO {
         return entityManager.createQuery("SELECT r FROM Resource r", Resource.class)
                 .getResultList();
     }
-
-    @Transactional
-    @Override
-    public Resource findById(Long id) {
-        return entityManager.find(Resource.class, id);
-    }
-
 
     @Override
     @Transactional

@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.service;
 
+import fr.pantheonsorbonne.dao.ResourceDAO;
 import fr.pantheonsorbonne.dto.DeadPlantDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.enums.OperationTag;
@@ -16,11 +17,22 @@ public class CompostService {
     @Inject
     StockService stockService;
 
+    @Inject
+    ResourceNotificationService resourceNotificationService;
+
+    @Inject
+    ResourceDAO resourceDAO;
+
     public void processDeadPlant(DeadPlantDTO deadPlant) {
         double fertilizerQuantity = calculateFertilizer(deadPlant.getPlantType());
 
+        double fertilizerBefore = resourceDAO.findByType(ResourceType.FERTILIZER).getQuantity();
+
+        double fertilizerAfter = fertilizerBefore + fertilizerQuantity;
+
         stockService.updateResource(
                 new ResourceUpdateDTO(ResourceType.FERTILIZER, fertilizerQuantity, OperationTag.STOCK_RECEIVED));
+        resourceNotificationService.notifyResourceUpdate(ResourceType.FERTILIZER, fertilizerBefore, fertilizerQuantity, fertilizerAfter, OperationTag.STOCK_RECEIVED);
     }
 
     private double calculateFertilizer(PlantType plantType) {
