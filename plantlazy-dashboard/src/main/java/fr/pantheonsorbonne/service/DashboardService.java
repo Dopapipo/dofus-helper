@@ -35,12 +35,24 @@ public class DashboardService {
 
 
     public void processPlantDead(PlantDeadLogDTO log) {
-        boolean removed = dashboard.removePlant(log.getPlantId());
+        boolean removed = dashboard.removePlant(log.getId());
         if (removed) {
-            System.out.printf("🪦 Plante morte retirée : %s%n", log.getPlantId());
+            System.out.printf("🪦 Plante morte retirée : %s%n", log.getId());
         } else {
-            System.err.printf("⚠️ Impossible de trouver la plante à supprimer : %s%n", log.getPlantId());
+            System.err.printf("⚠️ Impossible de trouver la plante à supprimer : %s%n", log.getId());
         }
+        dashboard.display();
+    }
+
+    public void processPlantSold(PlantSoldLogDTO log) {
+        boolean removed = dashboard.removePlant(log.getId());
+        if (removed) {
+            System.out.printf("🪦 Plante mise en vente : %s%n", log.getId());
+        } else {
+            System.err.printf("⚠️ Impossible de trouver la plante à supprimer des plantes en cours : %s%n", log.getId());
+        }
+
+        dashboard.display();
     }
 
 

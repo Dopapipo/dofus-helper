@@ -19,6 +19,7 @@ public class LogTypeExtractor implements Processor {
         if (body.contains("\"PLANT_DEAD\"")) return "PLANT_DEAD";
         if (body.contains("\"PLANT_GROWN\"")) return "PLANT_GROWN";
         if (body.contains("\"PLANT_UPDATE\"")) return "PLANT_UPDATE";
+        if (body.contains("\"PLANT_SOLD\"")) return "PLANT_SOLD";
         if (body.contains("\"RESOURCE_UPDATE\"")) return "RESOURCE_UPDATE";
         if (body.contains("\"STORE_SELLABLE_PLANTS\"")) return "STORE_SELLABLE_PLANTS";
         if (body.contains("\"STORE_SOLD_PLANT\"")) return "STORE_SOLD_PLANT";

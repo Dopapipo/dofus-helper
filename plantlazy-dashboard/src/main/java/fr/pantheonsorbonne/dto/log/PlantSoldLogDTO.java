@@ -2,11 +2,11 @@ package fr.pantheonsorbonne.dto.log;
 
 import java.util.UUID;
 
-public class PlantDeadLogDTO extends LogDTO{
+public class PlantSoldLogDTO extends LogDTO{
 
     private UUID id;
 
-    public PlantDeadLogDTO() {
+    public PlantSoldLogDTO() {
     }
 
 

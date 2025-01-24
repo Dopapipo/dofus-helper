@@ -67,7 +67,7 @@ public class Dashboard {
         deadPlants.put(plantId, plant);
     }
 
-    public boolean removePlant(String plantId) {
+    public boolean removePlant(UUID plantId) {
         if (plantsInProgress.containsKey(plantId)) {
             plantsInProgress.remove(plantId);
             return true;

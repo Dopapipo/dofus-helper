@@ -1,16 +1,7 @@
 package fr.pantheonsorbonne.camel;
 
 import fr.pantheonsorbonne.camel.processor.LogTypeExtractor;
-import fr.pantheonsorbonne.dto.log.DeadPlantLogDTO;
-import fr.pantheonsorbonne.dto.log.LogDTO;
-import fr.pantheonsorbonne.dto.log.PlantCreatedLogDTO;
-import fr.pantheonsorbonne.dto.log.PlantDeadLogDTO;
-import fr.pantheonsorbonne.dto.log.PlantGrownLogDTO;
-import fr.pantheonsorbonne.dto.log.PlantUpdateLogDTO;
-import fr.pantheonsorbonne.dto.log.ResourceUpdateLogDTO;
-import fr.pantheonsorbonne.dto.log.StoreSellablePlantLogDTO;
-import fr.pantheonsorbonne.dto.log.StoreSellableSeedsLogDTO;
-import fr.pantheonsorbonne.dto.log.StoreSoldPlantLogDTO;
+import fr.pantheonsorbonne.dto.log.*;
 import fr.pantheonsorbonne.service.EventLogService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -46,6 +37,7 @@ public class LogsRoute extends RouteBuilder {
         configureLogRoute("PLANT_DEAD", PlantDeadLogDTO.class, "processPlantDead");
         configureLogRoute("PLANT_GROWN", PlantGrownLogDTO.class, "processPlantGrown");
         configureLogRoute("PLANT_UPDATE", PlantUpdateLogDTO.class, "processPlantUpdate");
+        configureLogRoute("PLANT_SOLD", PlantSoldLogDTO.class, "processPlantSold");
         configureLogRoute("RESOURCE_UPDATE", ResourceUpdateLogDTO.class, "processResourceUpdate");
         configureLogRoute("STORE_SELLABLE_PLANTS", StoreSellablePlantLogDTO.class, "processStoreSellablePlant");
         configureLogRoute("STORE_SOLD_PLANT", StoreSoldPlantLogDTO.class, "processStoreSoldPlant");
