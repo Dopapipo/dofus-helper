@@ -6,13 +6,14 @@ import fr.pantheonsorbonne.dto.log.StoreSellableSeedsLogDTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Dashboard {
 
     private int day = 0;
     private int tick = 0;
 
-    private final Map<String, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
+    private final Map<UUID, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
     private final Map<String, ResourceData> resources = new HashMap<>();    // Ressources
     private final Map<String, PlantData> seedsForSale = new HashMap<>();    // Graines en vente
     private final Map<String, PlantData> plantsForSale = new HashMap<>();   // Plantes en vente
@@ -75,7 +76,7 @@ public class Dashboard {
         return false;
     }
 
-    public void addNewPlant(String plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel) {
+    public void addNewPlant(UUID plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel) {
         PlantData plant = new PlantData();
         plant.setName(name);
         plant.setEnergyLevel(energyLevel);
@@ -84,7 +85,7 @@ public class Dashboard {
         plantsInProgress.put(plantId, plant);
     }
 
-    public boolean plantExists(String plantId) {
+    public boolean plantExists(UUID plantId) {
         return plantsInProgress.containsKey(plantId);
     }
 
@@ -99,7 +100,7 @@ public class Dashboard {
         }
     }
 
-    public void updatePlantStats(String plantId, int energyLevel, int waterLevel, int fertilizerLevel) {
+    public void updatePlantStats(UUID plantId, int energyLevel, int waterLevel, int fertilizerLevel) {
         PlantData plant = plantsInProgress.get(plantId);
         if (plant != null) {
             plant.setEnergyLevel(energyLevel);

@@ -1,8 +1,10 @@
 package fr.pantheonsorbonne.dto.log;
 
+import java.util.UUID;
+
 public class PlantCreatedLogDTO extends LogDTO{
 
-    private String plantId;
+    private UUID plantId;
     private String name;
     private int energyLevel;
     private int waterLevel;
@@ -13,11 +15,11 @@ public class PlantCreatedLogDTO extends LogDTO{
     }
 
 
-    public String getPlantId() {
+    public UUID getPlantId() {
         return plantId;
     }
 
-    public void setPlantId(String plantId) {
+    public void setPlantId(UUID plantId) {
         this.plantId = plantId;
     }
 

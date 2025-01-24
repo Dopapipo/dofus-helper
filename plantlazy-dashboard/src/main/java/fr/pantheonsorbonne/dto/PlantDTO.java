@@ -3,20 +3,22 @@ package fr.pantheonsorbonne.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.util.UUID;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlantDTO {
-    private String id;
+    private UUID id;
     private String type;
     private int water; // Contiendra water.value
     private int sun;   // Contiendra sun.value
     private int soil;  // Contiendra soil.value
 
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

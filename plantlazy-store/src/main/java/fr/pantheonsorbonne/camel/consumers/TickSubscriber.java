@@ -26,8 +26,10 @@ public class TickSubscriber extends RouteBuilder {
     public void configure() {
         from(tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
+                .threads(1)
                 .choice()
                 .when(simple("${body.tickType} == 'DAILY'"))
+
                 .process(exchange -> {
                     seedService.updateDailySeedOffer();
                     seedService.sellSeedsDaily();
@@ -36,6 +38,8 @@ public class TickSubscriber extends RouteBuilder {
                 .process(exchange -> {
                     plantService.sellPlants();
                 })
+                .log("DAILY TICK")
+
                 .otherwise()
                 .log("Unknown TickType: ${body.tickType}")
                 .endChoice();
