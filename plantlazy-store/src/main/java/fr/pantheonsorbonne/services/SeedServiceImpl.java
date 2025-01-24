@@ -113,13 +113,11 @@ public class SeedServiceImpl implements SeedService {
                 SeedProducer.sendSeedMessageToFarm(seedDTO);
 
                 System.out.println("Seed of type " + seed.getType() + " sold for " + seed.getPrice() + "€");
-                seedDAO.deleteSeed(seed);
 
-            } else {
-                StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, storeService.getAvailableMoney() - (storeService.getAvailableMoney() - availableMoney), PlantType.OperationTag.STOCK_QUERIED));
-                break;
+                StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seed.getPrice(), PlantType.OperationTag.STOCK_QUERIED));
+
+                seedDAO.deleteSeed(seed);
             }
         }
     }
-
 }
