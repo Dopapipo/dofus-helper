@@ -33,7 +33,6 @@ public class LogsRoute extends RouteBuilder {
 
         from(logEndpoint)
                 .convertBodyTo(String.class)
-                .log("Received log entry: ${body}")
                 .process(new LogTypeExtractor()) // Extrait le type de log et l'ajoute à l'header "logType"
                 .choice()
                 .when(header("logType").isNotNull())
@@ -57,7 +56,6 @@ public class LogsRoute extends RouteBuilder {
     private void configureLogRoute(String logType, Class<? extends LogDTO> dtoClass, String dashboardMethod) {
         from("direct:" + logType)
                 .unmarshal().json(JsonLibrary.Jackson, dtoClass)
-                .log("Processing " + logType + ": ${body}")
                 .bean("dashboardService", dashboardMethod)
                 .process(exchange -> {
                     LogDTO logDTO = exchange.getIn().getBody(LogDTO.class);

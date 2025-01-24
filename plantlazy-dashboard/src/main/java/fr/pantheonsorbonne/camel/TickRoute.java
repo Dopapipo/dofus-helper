@@ -21,7 +21,6 @@ public class TickRoute extends RouteBuilder {
     public void configure() {
         from(tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
-                .log("Processing tick: ${body}")
                 .process(new TickProcessor());
 
     }

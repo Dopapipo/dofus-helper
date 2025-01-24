@@ -54,20 +54,13 @@ public class DashboardService {
     }
 
     public void processPlantUpdate(PlantUpdateLogDTO log) {
-        PlantDTO plant = log.getPlantDTO();
+        PlantDTO plant = log.getPlant();
 
         if (!dashboard.plantExists(plant.getId())) {
             dashboard.addNewPlant(plant.getId(), plant.getType(), plant.getSun(), plant.getWater(), plant.getSoil());
         }
 
         dashboard.updatePlantStats(plant.getId(), plant.getSun(), plant.getWater(), plant.getSoil());
-        System.out.println("UPDATEEEEEEEEEEEEEEEEEEEEE PLANTE" +
-                "" +
-                "" +
-                "" +
-                "" +
-                "" +
-                "yeyeryeyeyyeyeryeryeryeryer");
     }
 
     public void processTick(TickMessage tick) {
