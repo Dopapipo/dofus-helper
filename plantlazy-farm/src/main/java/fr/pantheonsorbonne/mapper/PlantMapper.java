@@ -20,12 +20,12 @@ public class PlantMapper {
 
     public static LogMessagePlantCreatedOrUpdated toPlantCreatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessagePlantCreatedOrUpdated(LogType.PLANT_CREATED, plantDTO.getId(), plantDTO.type(), plantDTO.growthLevel(), plantDTO.water(), plantDTO.sun(), plantDTO.soil());
+        return new LogMessagePlantCreatedOrUpdated(LogType.PLANT_CREATED, plantDTO.getId(), plantDTO.type(), plantDTO.water().getValue(), plantDTO.sun().getValue(), plantDTO.soil().getValue());
     }
 
     public static LogMessagePlantCreatedOrUpdated toPlantUpdatedLog(PlantEntity plant) {
         PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
-        return new LogMessagePlantCreatedOrUpdated(LogType.PLANT_UPDATE, plantDTO.getId(), plantDTO.type(), plantDTO.growthLevel(), plantDTO.water(), plantDTO.sun(), plantDTO.soil());
+        return new LogMessagePlantCreatedOrUpdated(LogType.PLANT_UPDATE, plantDTO.getId(), plantDTO.type(), plantDTO.water().getValue(), plantDTO.sun().getValue(), plantDTO.soil().getValue());
     }
 
     public static PlantDTO toPlantDTO(PlantEntity plant) {
