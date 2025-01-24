@@ -8,8 +8,11 @@ import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.mapper.PlantMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.apache.camel.ProducerTemplate;
-
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSProducer;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.Queue;
 import java.util.List;
 
 @ApplicationScoped
@@ -17,7 +20,8 @@ public class PlantService {
     @Inject
     PlantRepository plantRepository;
     @Inject
-    ProducerTemplate producerTemplate;
+    ConnectionFactory connectionFactory;
+
     @Inject
     LogService logService;
 
@@ -45,21 +49,31 @@ public class PlantService {
 
 
     private void sendPlants(Iterable<PlantEntity> plants) {
-        for (PlantEntity plant : plants) {
-            if (plant.isDead() && !plant.getComposted()) {
-                try {
-                    producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", true);
-                    logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
-                    System.out.println("PLANTE MORTE");
-                } catch (Exception e) {
-                    System.out.println("Failed to send dead plant to transport: " + e.getMessage());
-                }
+        try {
+            JMSContext context = connectionFactory.createContext();
+            JMSProducer producer = context.createProducer();
+
+            Queue queue = context.createQueue("direct:plantQueue");
+            for (PlantEntity plant : plants) {
+                if (plant.isDead() && !plant.getComposted()) {
+
+                    ObjectMessage message = context.createObjectMessage(PlantMapper.toPlantDTO(plant));
+                    message.setBooleanProperty("dead", true);
+
+                    producer.send(queue, message);
+                    context.close();
             } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
-                producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
-                logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
-                System.out.println("PLANTE MISE EN VENTE");
+                ObjectMessage message = context.createObjectMessage(PlantMapper.toPlantDTO(plant));
+                message.setBooleanProperty("sold", true);
+
+                producer.send(queue, message);
+                context.close();
 
             }
+            logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+        }
+        } catch (Exception e) {
+            System.out.println("Failed to send dead plant to transport: " + e.getMessage());
         }
     }
 

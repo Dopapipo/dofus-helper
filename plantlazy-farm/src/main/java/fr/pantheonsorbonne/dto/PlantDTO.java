@@ -7,6 +7,7 @@ import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 public record PlantDTO(PlantType type,
@@ -19,7 +20,7 @@ public record PlantDTO(PlantType type,
                        PlantGrowthLevel growthLevel,
                        boolean sold,
                        UUID id,
-                       boolean composted) {
+                       boolean composted) implements Serializable {
 
     public PlantDTO(PlantEntity plant) {
         this(plant.getType(),
