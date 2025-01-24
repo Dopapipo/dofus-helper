@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.UUID;
 
@@ -9,10 +8,9 @@ import java.util.UUID;
 public class PlantDTO {
     private UUID id;
     private String type;
-    private int water; // Contiendra water.value
-    private int sun;   // Contiendra sun.value
-    private int soil;  // Contiendra soil.value
-
+    private int water;
+    private int sun;
+    private int soil;
 
     public UUID getId() {
         return id;
@@ -34,51 +32,30 @@ public class PlantDTO {
         return water;
     }
 
-    // Setter personnalisé pour mapper directement water.value
-    @JsonSetter("water")
-    public void setWater(Object water) {
-        if (water instanceof java.util.Map) {
-            Object value = ((java.util.Map<?, ?>) water).get("value");
-            if (value instanceof Integer) {
-                this.water = (Integer) value;
-            }
-        }
+    public void setWater(int water) {
+        this.water = water;
     }
 
     public int getSun() {
         return sun;
     }
 
-    // Setter personnalisé pour mapper directement sun.value
-    @JsonSetter("sun")
-    public void setSun(Object sun) {
-        if (sun instanceof java.util.Map) {
-            Object value = ((java.util.Map<?, ?>) sun).get("value");
-            if (value instanceof Integer) {
-                this.sun = (Integer) value;
-            }
-        }
+    public void setSun(int sun) {
+        this.sun = sun;
     }
 
     public int getSoil() {
         return soil;
     }
 
-    // Setter personnalisé pour mapper directement soil.value
-    @JsonSetter("soil")
-    public void setSoil(Object soil) {
-        if (soil instanceof java.util.Map) {
-            Object value = ((java.util.Map<?, ?>) soil).get("value");
-            if (value instanceof Integer) {
-                this.soil = (Integer) value;
-            }
-        }
+    public void setSoil(int soil) {
+        this.soil = soil;
     }
 
     @Override
     public String toString() {
         return "PlantDTO{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", type='" + type + '\'' +
                 ", water=" + water +
                 ", sun=" + sun +
