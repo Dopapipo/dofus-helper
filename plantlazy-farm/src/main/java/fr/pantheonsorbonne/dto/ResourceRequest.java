@@ -3,11 +3,11 @@ package fr.pantheonsorbonne.dto;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 
 public class ResourceRequest {
-    private StatType type;
+    private ResourceType type;
     private int quantity;
     private OperationTag operationTag;
 
-    public ResourceRequest(StatType type, int quantity, OperationTag operationTag) {
+    public ResourceRequest(ResourceType type, int quantity, OperationTag operationTag) {
         this.type = type;
         this.quantity = quantity;
         this.operationTag = operationTag;
