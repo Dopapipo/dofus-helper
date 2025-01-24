@@ -13,11 +13,11 @@ public class ResourceRequest {
         this.operationTag = operationTag;
     }
 
-    public StatType getType() {
+    public ResourceType getType() {
         return type;
     }
 
-    public void setType(StatType type) {
+    public void setType(ResourceType type) {
         this.type = type;
     }
 
