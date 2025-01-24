@@ -29,19 +29,30 @@ public class PlantEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "soil_value"))
+            @AttributeOverride(name = "value", column = @Column(name = "soil_value")),
+            @AttributeOverride(name = "threshold", column = @Column(name = "soil_threshold")),
+            @AttributeOverride(name = "decayRate", column = @Column(name = "soil_decayRate")),
+            @AttributeOverride(name = "statType", column = @Column(name = "soil_statType"))
+
+
     })
     protected SoilStat soil;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "water_value"))
+            @AttributeOverride(name = "value", column = @Column(name = "water_value")),
+            @AttributeOverride(name = "threshold", column = @Column(name = "water_threshold")),
+            @AttributeOverride(name = "decayRate", column = @Column(name = "water_decayRate")),
+            @AttributeOverride(name = "statType", column = @Column(name = "water_statType"))
     })
     protected WaterStat water;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "sun_value"))
+            @AttributeOverride(name = "value", column = @Column(name = "sun_value")),
+            @AttributeOverride(name = "threshold", column = @Column(name = "sun_threshold")),
+            @AttributeOverride(name = "decayRate", column = @Column(name = "sun_decayRate")),
+            @AttributeOverride(name = "statType", column = @Column(name = "sun_statType"))
     })
     protected SunStat sun;
 
