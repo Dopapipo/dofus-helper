@@ -20,9 +20,8 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from(tickEndpoint)
-
+                .log("Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
-
                 .process(tickProcessor);
 
     }

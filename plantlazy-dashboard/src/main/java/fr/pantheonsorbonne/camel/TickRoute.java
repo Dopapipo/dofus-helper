@@ -20,6 +20,7 @@ public class TickRoute extends RouteBuilder {
     @Override
     public void configure() {
         from(tickEndpoint)
+                .log("Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .process(new TickProcessor());
 

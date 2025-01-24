@@ -19,6 +19,7 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() {
         from(tickEndpoint)
+                .log("Received tick message")
                 .unmarshal().json(TickMessageDTO.class)
                 .filter(exchange -> {
                     TickMessageDTO tickMessageDTO = exchange.getIn().getBody(TickMessageDTO.class);

@@ -56,6 +56,7 @@ public class PlantServiceImpl implements PlantService {
                         new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
                 );
 
+
                 notificationService.notifyPlantSold(plant.getId());
                 plantDAO.deletePlantById(plant.getId());
 
@@ -66,9 +67,9 @@ public class PlantServiceImpl implements PlantService {
     @Transactional
     public double getSellingPrice(PlantType plantType) {
         return switch (plantType) {
-            case CACTUS -> 80;
-            case TREE -> 100;
-            case FLOWER -> 60;
+            case CACTUS -> 150;
+            case TREE -> 200;
+            case FLOWER -> 100;
         };
     }
 
@@ -80,6 +81,8 @@ public class PlantServiceImpl implements PlantService {
         PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
 
         plantDAO.savePlant(plant);
+
+        System.out.println("Plant added to shop");
 
         notificationService.notifyPlantInShop(plant.getId(), plantDTO.getPlantType(), price);
 

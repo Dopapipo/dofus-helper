@@ -25,6 +25,7 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() {
         from(tickEndpoint)
+                .log("Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .threads(1)
                 .choice()

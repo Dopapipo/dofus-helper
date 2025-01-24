@@ -7,7 +7,7 @@ public class SunStat extends GenericPlantStat {
     private int value;
 
     public SunStat(int value) {
-        super(value, 50, 50, StatType.SUN);
+        super(value, 70, 5, StatType.SUN);
         this.value = value;
     }
 

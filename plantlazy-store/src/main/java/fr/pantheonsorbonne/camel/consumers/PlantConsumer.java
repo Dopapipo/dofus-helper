@@ -11,14 +11,14 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class PlantConsumer extends RouteBuilder {
 
     @ConfigProperty(name = "store.plant.transport.endpoint")
-    String plantSale;
+    String plantToShop;
 
     @Inject
     PlantProcessor plantProcessor;
 
     @Override
     public void configure() {
-        from(plantSale)
+        from(plantToShop)
                 .log("{$body}")
                 .unmarshal().json(PlantFromFarmDTO.class)
                 .process(plantProcessor);
