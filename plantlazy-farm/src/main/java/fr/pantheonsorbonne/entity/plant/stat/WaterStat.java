@@ -7,7 +7,7 @@ public class WaterStat extends GenericPlantStat {
     private int value;
 
     public WaterStat(int value) {
-        super(value, 65, 2, StatType.WATER);
+        super(value, 65, 50, StatType.WATER);
         this.value = value;
     }
 

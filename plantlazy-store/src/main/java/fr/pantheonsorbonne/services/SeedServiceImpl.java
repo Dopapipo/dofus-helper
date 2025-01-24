@@ -55,7 +55,7 @@ public class SeedServiceImpl implements SeedService {
             fixedPrices.put(plantType, Math.round(price * 100.0) / 100.0); // Arrondi à 2 décimales
         }
 
-        int numberOfSeedsToGenerate = 10 + random.nextInt(21);
+        int numberOfSeedsToGenerate = 2 + random.nextInt(6);
         List<SeedEntity> generatedSeeds = new ArrayList<>();
         for (int i = 0; i < numberOfSeedsToGenerate; i++) {
             SeedQuality dailyQuality = generateRandomSeedQuality();
@@ -102,7 +102,8 @@ public class SeedServiceImpl implements SeedService {
         double availableMoney = storeService.getAvailableMoney();
 
         if (seeds.isEmpty() || seeds.getFirst().getPrice() > availableMoney) {
-            throw new InsufficientFundsException("Buying 1 seed is too much for you.");
+            System.out.println("Buying 1 seed is too much for you.");
+            return;
         }
 
         for (SeedEntity seed : seeds) {
