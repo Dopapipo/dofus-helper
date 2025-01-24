@@ -20,13 +20,11 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from(tickEndpoint)
-                .log(LoggingLevel.INFO, "Received message from ${header.CamelJmsMessageID}: ${body}")
 
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
 
-                .process(tickProcessor)
+                .process(tickProcessor);
 
-                .log(LoggingLevel.INFO, "Message processed successfully.");
     }
 
 }

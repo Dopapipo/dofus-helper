@@ -44,7 +44,6 @@ public class Dashboard {
             plant.setQuantity(1); // Quantité par défaut, car SeedDTO ne contient pas de champ quantity
             seedsForSale.put(seed.getId(), plant);
         }
-        display();
 
     }
 
@@ -133,12 +132,12 @@ public class Dashboard {
             System.out.println("   Pas de plantes en cours.");
         } else {
             plantsInProgress.values().forEach(plant ->
-                    System.out.printf("   - %s | 💧 Eau : %d | ☀️ Énergie : %d | \uD83C\uDF30 Fertilizer : %d | 📈 Croissance : %d%%%n",
+                    System.out.printf("   - %s | 💧 Eau : %d | ☀️ Énergie : %d | \uD83C\uDF30 Fertilizer : %d%n",
                             plant.getName(), plant.getWaterLevel(), plant.getEnergyLevel(),
-                            plant.getFertilizerLevel(), plant.getGrowthLevel()));
+                            plant.getFertilizerLevel()));
         }
 
-        System.out.println("\n💀 Plantes au compost :");
+            System.out.println("\n💀 Plantes au compost :");
         if (deadPlants.isEmpty()) {
             System.out.println("   Pas de plantes au compost.");
         } else {

@@ -11,7 +11,6 @@ public class LogProducer  extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:logQueue")
-                .log("Sending log message: ${body}")
                 .marshal().json()
                 .to(logEndpoint);
     }

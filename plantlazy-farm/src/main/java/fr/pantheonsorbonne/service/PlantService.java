@@ -50,12 +50,15 @@ public class PlantService {
                 try {
                     producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", true);
                     logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
+                    System.out.println("PLANTE MORTE");
                 } catch (Exception e) {
                     System.out.println("Failed to send dead plant to transport: " + e.getMessage());
                 }
             } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                 producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
                 logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+                System.out.println("PLANTE MISE EN VENTE");
+
             }
         }
     }

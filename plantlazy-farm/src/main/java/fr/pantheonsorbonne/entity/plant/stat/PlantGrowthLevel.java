@@ -6,7 +6,7 @@ import java.io.Serializable;
 @Embeddable
 public class PlantGrowthLevel implements Serializable {
     int value;
-    int MAX_VALUE = 48;
+    int MAX_VALUE = 10;
 
 
     public PlantGrowthLevel(int value) {
