@@ -11,12 +11,18 @@ import fr.pantheonsorbonne.entity.plant.stat.SunStat;
 import fr.pantheonsorbonne.entity.plant.stat.WaterStat;
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "plants")
-public class PlantEntity {
+public class PlantEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +38,8 @@ public class PlantEntity {
             @AttributeOverride(name = "value", column = @Column(name = "soil_value")),
             @AttributeOverride(name = "threshold", column = @Column(name = "soil_threshold")),
             @AttributeOverride(name = "decayRate", column = @Column(name = "soil_decayRate")),
-            @AttributeOverride(name = "statType", column = @Column(name = "soil_statType"))
-
-
+            @AttributeOverride(name = "statType", column = @Column(name = "soil_statType")),
+            @AttributeOverride(name = "MAX_VALUE", column = @Column(name = "soil_max_value"))
     })
     protected SoilStat soil;
 
@@ -43,7 +48,8 @@ public class PlantEntity {
             @AttributeOverride(name = "value", column = @Column(name = "water_value")),
             @AttributeOverride(name = "threshold", column = @Column(name = "water_threshold")),
             @AttributeOverride(name = "decayRate", column = @Column(name = "water_decayRate")),
-            @AttributeOverride(name = "statType", column = @Column(name = "water_statType"))
+            @AttributeOverride(name = "statType", column = @Column(name = "water_statType")),
+            @AttributeOverride(name = "MAX_VALUE", column = @Column(name = "water_max_value"))
     })
     protected WaterStat water;
 
@@ -52,9 +58,11 @@ public class PlantEntity {
             @AttributeOverride(name = "value", column = @Column(name = "sun_value")),
             @AttributeOverride(name = "threshold", column = @Column(name = "sun_threshold")),
             @AttributeOverride(name = "decayRate", column = @Column(name = "sun_decayRate")),
-            @AttributeOverride(name = "statType", column = @Column(name = "sun_statType"))
+            @AttributeOverride(name = "statType", column = @Column(name = "sun_statType")),
+            @AttributeOverride(name = "MAX_VALUE", column = @Column(name = "sun_max_value"))
     })
     protected SunStat sun;
+
 
 
     public PlantGrowthLevel getGrowthLevel() {

@@ -49,33 +49,40 @@ public class PlantService {
 
 
     private void sendPlants(Iterable<PlantEntity> plants) {
+        JMSContext context = null;
         try {
-            JMSContext context = connectionFactory.createContext();
+            context = connectionFactory.createContext();
             JMSProducer producer = context.createProducer();
 
             Queue queue = context.createQueue("direct:plantQueue");
+
             for (PlantEntity plant : plants) {
-                if (plant.isDead() && !plant.getComposted()) {
-
+                try {
                     ObjectMessage message = context.createObjectMessage(PlantMapper.toPlantDTO(plant));
-                    message.setBooleanProperty("dead", true);
 
-                    producer.send(queue, message);
-                    context.close();
-            } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
-                ObjectMessage message = context.createObjectMessage(PlantMapper.toPlantDTO(plant));
-                message.setBooleanProperty("sold", true);
+                    if (plant.isDead() && !plant.getComposted()) {
+                        message.setBooleanProperty("dead", true);
+                        producer.send(queue, message);
+                    } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
+                        message.setBooleanProperty("sold", true);
+                        producer.send(queue, message);
+                    }
 
-                producer.send(queue, message);
-                context.close();
+                    logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
 
+                } catch (Exception e) {
+                    System.err.println("Failed to process plant with ID " + plant.getId() + ": " + e.getMessage());
+                }
             }
-            logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
-        }
         } catch (Exception e) {
-            System.out.println("Failed to send dead plant to transport: " + e.getMessage());
+            System.err.println("Failed to send plants: " + e.getMessage());
+        } finally {
+            if (context != null) {
+                context.close();
+            }
         }
     }
+
 
 
     private void triggerPlantNourishment(Iterable<PlantEntity> plants) {

@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.dto;
 
+
 public enum LogType {
     PLANT_UPDATE,
     PLANT_DEAD,

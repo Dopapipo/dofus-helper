@@ -19,6 +19,7 @@ public class PlantConsumer extends RouteBuilder {
     @Override
     public void configure() {
         from(plantToShop)
+                .log("dfgnsfgdjsfghjsgh")
                 .log("{$body}")
                 .unmarshal().json(PlantFromFarmDTO.class)
                 .process(plantProcessor);
