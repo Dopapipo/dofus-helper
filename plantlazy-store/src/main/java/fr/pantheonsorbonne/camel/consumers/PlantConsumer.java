@@ -1,26 +1,26 @@
 package fr.pantheonsorbonne.camel.consumers;
 
-import fr.pantheonsorbonne.camel.processor.SavePlantProcessor;
-import fr.pantheonsorbonne.dto.PlantSaleDTO;
+import fr.pantheonsorbonne.camel.processor.PlantProcessor;
+import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class PlantDataConsumer extends RouteBuilder {
+public class PlantConsumer extends RouteBuilder {
 
     @ConfigProperty(name = "store.plant.transport.endpoint")
     String plantSale;
 
     @Inject
-    SavePlantProcessor savePlantProcessor;
+    PlantProcessor plantProcessor;
 
     @Override
     public void configure() {
         from(plantSale)
                 .log("{$body}")
-                .unmarshal().json(PlantSaleDTO.class)
-                .process(savePlantProcessor);
+                .unmarshal().json(PlantFromFarmDTO.class)
+                .process(plantProcessor);
     }
 }

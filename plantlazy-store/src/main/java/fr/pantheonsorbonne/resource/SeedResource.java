@@ -2,15 +2,8 @@ package fr.pantheonsorbonne.resource;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dto.DailySeedOfferDTO;
-import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
-import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
-import fr.pantheonsorbonne.entity.enums.PlantType;
-import fr.pantheonsorbonne.entity.enums.ResourceType;
-import fr.pantheonsorbonne.exception.InsufficientFundsException;
-import fr.pantheonsorbonne.exception.InsufficientStockException;
 import fr.pantheonsorbonne.services.SeedService;
-import fr.pantheonsorbonne.services.StoreService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -40,14 +33,6 @@ public class SeedResource {
                 .map(seed -> new DailySeedOfferDTO(seed.getType(), seed.getQuality(), seed.getPrice()))
                 .collect(Collectors.toList());
     }
-
-    @GET
-    @Path("/pricing-and-stock")
-    public Response getSeedPricingAndStock() {
-        List<PurchaseRequestDTO> pricingAndStock = seedService.getSeedPricingAndStock();
-        return Response.ok(pricingAndStock).build();
-    }
-
 
     @POST
     @Path("/daily-offer")

@@ -24,21 +24,6 @@ public class SeedDAOImpl implements SeedDAO {
     }
 
     @Override
-    public Optional<SeedEntity> getSeedByType(PlantType type) {
-        return entityManager.createQuery("SELECT s FROM SeedEntity s WHERE s.type = :type", SeedEntity.class)
-                .setParameter("type", type)
-                .getResultStream()
-                .findFirst();
-    }
-    @Override
-    public long countSeedsByType(PlantType type) {
-        return entityManager.createQuery("SELECT COUNT(s) FROM SeedEntity s WHERE s.type = :type", Long.class)
-                .setParameter("type", type)
-                .getSingleResult();
-    }
-
-
-    @Override
     @Transactional
     public void saveSeed(SeedEntity seed) {
         entityManager.persist(seed);

@@ -3,7 +3,6 @@ package fr.pantheonsorbonne.services;
 import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.camel.producer.SeedProducer;
 import fr.pantheonsorbonne.dao.SeedDAO;
-import fr.pantheonsorbonne.dto.PurchaseRequestDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.dto.SeedToFarmDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
@@ -17,7 +16,6 @@ import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class SeedServiceImpl implements SeedService {
@@ -26,7 +24,7 @@ public class SeedServiceImpl implements SeedService {
     SeedDAO seedDAO;
 
     @Inject
-    SeedNotificationService seedNotificationService;
+    NotificationService notificationService;
 
     @Inject
     StoreService storeService;
@@ -49,17 +47,14 @@ public class SeedServiceImpl implements SeedService {
     @Override
     @Transactional
     public void updateDailySeedOffer() {
-        // Supprimer toutes les graines existantes
         seedDAO.deleteAllSeeds();
 
-        // Définir un prix fixe pour chaque type de plante pour ce tick
         Map<PlantType, Double> fixedPrices = new HashMap<>();
         for (PlantType plantType : PlantType.values()) {
             double price = 20 + (30 * random.nextDouble());
             fixedPrices.put(plantType, Math.round(price * 100.0) / 100.0); // Arrondi à 2 décimales
         }
 
-        // Générer les graines
         int numberOfSeedsToGenerate = 10 + random.nextInt(21);
         List<SeedEntity> generatedSeeds = new ArrayList<>();
         for (int i = 0; i < numberOfSeedsToGenerate; i++) {
@@ -67,7 +62,7 @@ public class SeedServiceImpl implements SeedService {
             PlantType dailyPlantType = generateRandomPlantType();
 
             SeedEntity seed = new SeedEntity();
-            seed.setPrice(fixedPrices.get(dailyPlantType)); // Utilise le prix fixe
+            seed.setPrice(fixedPrices.get(dailyPlantType));
             seed.setQuality(dailyQuality);
             seed.setType(dailyPlantType);
 
@@ -75,7 +70,6 @@ public class SeedServiceImpl implements SeedService {
             generatedSeeds.add(seed);
         }
 
-        // Envoyer les logs une fois toutes les graines générées
         sendSeedLog();
 
         System.out.println("Daily seeds generated");
@@ -83,12 +77,8 @@ public class SeedServiceImpl implements SeedService {
 
     private void sendSeedLog() {
         List<SeedEntity> allSeeds = seedDAO.getAllSeeds();
-
-        seedNotificationService.notifySeedUpdate(allSeeds);
-
+        notificationService.notifySeedUpdate(allSeeds);
     }
-
-
 
     private PlantType generateRandomPlantType() {
         PlantType[] types = PlantType.values();
@@ -101,15 +91,6 @@ public class SeedServiceImpl implements SeedService {
         int randomIndex = random.nextInt(qualities.length);
         return qualities[randomIndex];
     }
-
-    @Override
-    @Transactional
-    public List<PurchaseRequestDTO> getSeedPricingAndStock() {
-        return seedDAO.getAllSeeds().stream()
-                .map(seed -> new PurchaseRequestDTO(seed.getType(), seed.getQuality(), seed.getPrice()))
-                .collect(Collectors.toList());
-    }
-
 
     @Override
     @Transactional
@@ -129,10 +110,9 @@ public class SeedServiceImpl implements SeedService {
                 availableMoney -= seed.getPrice();
 
                 SeedToFarmDTO seedDTO = new SeedToFarmDTO(seed.getType(), seed.getQuality());
-                SeedProducer.sendSeedMessage(seedDTO);
+                SeedProducer.sendSeedMessageToFarm(seedDTO);
 
                 System.out.println("Seed of type " + seed.getType() + " sold for " + seed.getPrice() + "€");
-                seedNotificationService.notifyPlantSale(seed.getType(), seed.getPrice());
                 seedDAO.deleteSeed(seed);
 
             } else {

@@ -12,7 +12,7 @@ public class LogProducer  extends RouteBuilder {
     public void configure() throws Exception {
         from("direct:logQueue")
                 .log("Sending log message: ${body}")
-                .marshal().json(LogMessage.class)
+                .marshal().json()
                 .to(logEndpoint);
     }
 }

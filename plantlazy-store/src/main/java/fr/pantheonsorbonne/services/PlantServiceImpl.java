@@ -1,10 +1,11 @@
 package fr.pantheonsorbonne.services;
 
 import fr.pantheonsorbonne.camel.client.StockClient;
+import fr.pantheonsorbonne.camel.producer.PlantProducer;
 import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.dto.LogType;
-import fr.pantheonsorbonne.dto.PlantLogDTO;
-import fr.pantheonsorbonne.dto.PlantSaleDTO;
+import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
+import fr.pantheonsorbonne.dto.PlantInShopLogDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
@@ -27,14 +28,14 @@ public class PlantServiceImpl implements PlantService {
     PlantDAO plantDAO;
 
     @Inject
-    SendingPlantLogService sendingPlantLogService;
+    PlantProducer PlantProducer;
 
     @Inject
     @RestClient
     StockClient stockClient;
 
-    @ConfigProperty(name = "log.endpoint")
-    String logEndpoint;
+    @Inject
+    NotificationService notificationService;
 
 
     private static final Random random = new Random();
@@ -62,17 +63,12 @@ public class PlantServiceImpl implements PlantService {
                         new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
                 );
 
+                notificationService.notifyPlantSold(plant.getId());
                 plantDAO.deletePlantById(plant.getId());
 
-                System.out.println("La plante de type " + plant.getType() + " n'a a été vendue (probabilité réussie).");
-
-
-            } else {
-                System.out.println("La plante de type " + plant.getType() + " n'a pas été vendue (probabilité échouée).");
             }
         }
     }
-
 
     @Transactional
     public double getSellingPrice(PlantType plantType) {
@@ -85,18 +81,14 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     @Transactional
-    public void savePlant(PlantSaleDTO plantDTO) {
+    public void putPlantInShop(PlantFromFarmDTO plantDTO) {
         double price = getSellingPrice(plantDTO.getPlantType());
 
         PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
 
-        // Sauvegarde de la plante
         plantDAO.savePlant(plant);
 
-        // Création du log et envoi
-        PlantLogDTO plantLog = new PlantLogDTO(plant.getId(), plant.getType().toString(), plant.getPrice(), LogType.STORE_SELLABLE_PLANT);
-        sendingPlantLogService.sendPlantLog(logEndpoint, plantLog);
+        notificationService.notifyPlantInShop(plant.getId(), plantDTO.getPlantType(), price);
 
-        System.out.println("plante vendu : log enoyéééééééééééééééééééééééééé");
     }
 }

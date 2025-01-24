@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.camel.processor;
 
-import fr.pantheonsorbonne.dto.PlantSaleDTO;
+import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
 import fr.pantheonsorbonne.services.PlantService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -9,7 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 @ApplicationScoped
-public class SavePlantProcessor implements Processor {
+public class PlantProcessor implements Processor {
 
     @Inject
     PlantService plantService;
@@ -18,11 +18,9 @@ public class SavePlantProcessor implements Processor {
     @Transactional
     public void process(Exchange exchange) throws Exception {
 
-        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb");
+        PlantFromFarmDTO plantDTO = exchange.getIn().getBody(PlantFromFarmDTO.class);
 
-        PlantSaleDTO plantDTO = exchange.getIn().getBody(PlantSaleDTO.class);
+        plantService.putPlantInShop(plantDTO);
 
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        plantService.savePlant(plantDTO);
     }
 }

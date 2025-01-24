@@ -9,10 +9,6 @@ import java.util.Optional;
 public interface SeedDAO {
     List<SeedEntity> getAllSeeds();
 
-    Optional<SeedEntity> getSeedByType(PlantType type);
-
-    long countSeedsByType(PlantType type);
-
     void saveSeed(SeedEntity seed);
 
     void deleteSeed(SeedEntity seed);

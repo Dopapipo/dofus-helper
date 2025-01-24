@@ -1,8 +1,7 @@
 package fr.pantheonsorbonne.service;
 
-import fr.pantheonsorbonne.dto.LogMessagePlantDied;
-import fr.pantheonsorbonne.dto.LogMessagePlantSold;
-import fr.pantheonsorbonne.dto.LogMessageUpdate;
+import fr.pantheonsorbonne.dto.LogMessagePlantCreatedOrUpdated;
+import fr.pantheonsorbonne.dto.LogMessagePlantDiedOrSold;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.ProducerTemplate;
@@ -12,15 +11,11 @@ public class LogService {
     @Inject
     ProducerTemplate producerTemplate;
 
-    public void sendLogUpdate(LogMessageUpdate message) {
+    public void sendLogPlantCreatedOrUpdated(LogMessagePlantCreatedOrUpdated message) {
         producerTemplate.sendBody("direct:logQueue", message);
     }
 
-    public void sendLogPlantDied(LogMessagePlantDied message) {
-        producerTemplate.sendBody("direct:logQueue", message);
-    }
-
-    public void sendLogPlantSold(LogMessagePlantSold message) {
+    public void sendLogPlantDiedOrSold(LogMessagePlantDiedOrSold message) {
         producerTemplate.sendBody("direct:logQueue", message);
     }
 

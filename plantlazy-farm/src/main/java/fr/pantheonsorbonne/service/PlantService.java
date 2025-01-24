@@ -8,8 +8,9 @@ import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.mapper.PlantMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import java.util.List;
 import org.apache.camel.ProducerTemplate;
+
+import java.util.List;
 
 @ApplicationScoped
 public class PlantService {
@@ -48,14 +49,13 @@ public class PlantService {
             if (plant.isDead() && !plant.getComposted()) {
                 try {
                     producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "dead", true);
-                    logService.sendLogPlantDied(PlantMapper.toPlantDiedLog(plant));
+                    logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
                 } catch (Exception e) {
                     System.out.println("Failed to send dead plant to transport: " + e.getMessage());
                 }
-            }
-            else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
+            } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                 producerTemplate.sendBodyAndHeader("direct:plantQueue", PlantMapper.toPlantDTO(plant), "sold", false);
-                logService.sendLogPlantSold(PlantMapper.toPlantSoldLog(plant));
+                logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
             }
         }
     }
@@ -82,7 +82,7 @@ public class PlantService {
             if (!plant.isDead()) {
                 plant.grow();
                 PlantEntity updatedPlant = plantRepository.save(plant);
-                logService.sendLogUpdate(PlantMapper.toPlantUpdatedLog(updatedPlant));
+                logService.sendLogPlantCreatedOrUpdated(PlantMapper.toPlantUpdatedLog(updatedPlant));
             }
         }
     }

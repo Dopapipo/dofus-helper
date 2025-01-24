@@ -5,10 +5,10 @@ import fr.pantheonsorbonne.entity.enums.PlantType;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface PlantDAO {
     List<PlantEntity> getAllPlants();
-    Optional<PlantEntity> getPlantByType(PlantType type);
     void savePlant(PlantEntity plant);
-    void deletePlantById(long plantId); // Assurez-vous que cette méthode est bien déclarée ici
+    void deletePlantById(UUID plantId); // Assurez-vous que cette méthode est bien déclarée ici
 }

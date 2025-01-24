@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.camel.processors;
 
+import fr.pantheonsorbonne.dto.LogMessagePlantCreatedOrUpdated;
 import fr.pantheonsorbonne.dto.SeedDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.mapper.PlantMapper;
@@ -17,7 +18,7 @@ public class SeedProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         SeedDTO seedDTO = exchange.getIn().getBody(SeedDTO.class);
         PlantEntity plant = seedService.growSeed(seedDTO);
-        LogMessage plantCreated = PlantMapper.toPlantCreatedLog(plant);
+        LogMessagePlantCreatedOrUpdated plantCreated = PlantMapper.toPlantCreatedLog(plant);
         exchange.getIn().setBody(plantCreated);
     }
 }

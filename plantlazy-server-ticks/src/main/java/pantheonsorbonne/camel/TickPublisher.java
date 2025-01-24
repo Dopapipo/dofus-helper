@@ -55,7 +55,7 @@ public class TickPublisher {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectMessage message = context.createObjectMessage(objectMapper.writeValueAsString(tickMessage));
 
-            context.createProducer().send(context.createTopic(tickEndpoint), message);
+            context.createProducer().send(context.createQueue(tickEndpoint), message);
 
 
             System.out.println("Sent " + tickType + " tick to " + tickEndpoint);

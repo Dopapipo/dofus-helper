@@ -3,12 +3,14 @@ package fr.pantheonsorbonne.entity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class PlantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     private PlantType type;
@@ -23,12 +25,8 @@ public class PlantEntity {
         this.price = price;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public PlantType getType() {
@@ -43,16 +41,4 @@ public class PlantEntity {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "PlantEntity{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", price=" + price +
-                '}';
-    }
 }
