@@ -26,17 +26,15 @@ public class PlantTransportProducer extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:plantQueue")
-                .log("Plante moerterzeferfezrgrthdfgsfghczrtjh")
+                .log("Plante morte ou mature")
                 .log("${body}")
 
                 .choice()
                 .when(header("dead").isEqualTo(true))
                 .process(deadPlantProcessor).to(transportEndpoint)
 
-                .when(header("sold").isEqualTo(false))
-                .process(soldPlantProcessor).to(storePlantEndpoint)
-
-                .otherwise();
+                .when(header("sold").isEqualTo(true))
+                .process(soldPlantProcessor).to(storePlantEndpoint);
     }
 }
 

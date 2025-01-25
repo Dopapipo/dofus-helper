@@ -41,10 +41,14 @@ public class StockResource {
             ResourceLevelDTO resourceLevelDTO = ResourceLevelDTO.fromEntity(resourceDAO.findByType(resourceType));
             return Response.ok(resourceLevelDTO).build();
         } catch (ResourceException e) {
-            return Response.status(Response.Status.NOT_FOUND)
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("An unexpected error occurred: " + e.getMessage())
                     .build();
         }
     }
+
 
 
 }

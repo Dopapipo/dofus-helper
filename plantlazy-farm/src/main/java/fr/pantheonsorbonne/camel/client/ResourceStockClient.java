@@ -22,9 +22,29 @@ public class ResourceStockClient {
     public void requestResource(StatType statType, int quantity) throws ResourceRequestDeniedException {
         ResourceType resourceType = TypeMapper.toResourceType(statType);
         ResourceRequest request = new ResourceRequest(resourceType, quantity, OperationTag.STOCK_QUERIED);
-        Response response = stockService.updateResource(request);
-        if (response.getStatus() != 200) {
-            throw new ResourceRequestDeniedException("Not enough resources available");
+
+        System.out.println("Requesting resource " + resourceType + " with quantity " + quantity);
+        System.out.println("Sending request to StockService: " + request);
+
+        try {
+            Response response = stockService.updateResource(request);
+            System.out.println("Received response: " + response.getStatus());
+
+            if (response.getStatus() != 202) {
+                throw new ResourceRequestDeniedException("Not enough resources available");
+            }
+
+        } catch (jakarta.ws.rs.WebApplicationException e) {
+            int statusCode = e.getResponse().getStatus();
+            if (statusCode == 400) {
+                throw new ResourceRequestDeniedException("Resource unavailable for type: " + resourceType);
+            } else if (statusCode == 500) {
+                throw new ResourceRequestDeniedException("Stock service is currently unavailable");
+            } else {
+                throw new ResourceRequestDeniedException("Unexpected error: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new ResourceRequestDeniedException("An unexpected error occurred: " + e.getMessage());
         }
     }
 }

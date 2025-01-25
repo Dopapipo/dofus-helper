@@ -36,4 +36,13 @@ public class ResourceRequest {
     public void setOperationTag(OperationTag operationTag) {
         this.operationTag = operationTag;
     }
+
+    @Override
+    public String toString() {
+        return "ResourceRequest{" +
+                "type='" + type + '\'' +
+                ", quantity=" + quantity +
+                ", operationTag='" + operationTag + '\'' +
+                '}';
+    }
 }

@@ -34,6 +34,7 @@ public class PlantService {
         return plant;
     }
 
+
     public void processHouryPlantLifecycle() {
         List<PlantEntity> plants = plantRepository.findAll();
         this.triggerPlantGrowth(plants);
@@ -63,12 +64,24 @@ public class PlantService {
                     if (plant.isDead() && !plant.getComposted()) {
                         message.setBooleanProperty("dead", true);
                         producer.send(queue, message);
+                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+
+                        System.out.println("plant morte lets go");
+
+                        plant.setComposted(true);
+
                     } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                         message.setBooleanProperty("sold", true);
                         producer.send(queue, message);
+                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+
+                        System.out.println("plant veude lets go");
+
+
+                        plant.setSold(true);
+
                     }
 
-                    logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
 
                 } catch (Exception e) {
                     System.err.println("Failed to process plant with ID " + plant.getId() + ": " + e.getMessage());
@@ -94,12 +107,13 @@ public class PlantService {
                         PlantEntity updatedPlant = this.feedPlant(plant, requiredResourceQuantity, stat);
                         plantRepository.save(updatedPlant);
                     } catch (ResourceRequestDeniedException e) {
-                        System.out.println("Resource request denied for " + stat.getType() + ": " + e.getMessage());
+                        System.out.println("Failed to nourish plant " + plant.getId() + " for stat " + stat.getType() + ": " + e.getMessage());
                     }
                 }
             }
         }
     }
+
 
     private void triggerPlantGrowth(Iterable<PlantEntity> plants) {
         for (PlantEntity plant : plants) {
