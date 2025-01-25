@@ -22,7 +22,7 @@ public class TickSubscriber extends RouteBuilder {
                 .unmarshal().json(TickMessageDTO.class)
                 .filter(exchange -> {
                     TickMessageDTO tickMessageDTO = exchange.getIn().getBody(TickMessageDTO.class);
-                    return "DAILY".equalsIgnoreCase(tickMessageDTO.getTickType());
+                    return "DAILY".equalsIgnoreCase(tickMessageDTO.tickType().toString());
                 })
                 .process(tickMessageProcessor);
     }

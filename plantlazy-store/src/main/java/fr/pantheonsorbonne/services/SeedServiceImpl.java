@@ -9,7 +9,6 @@ import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
-import fr.pantheonsorbonne.exception.InsufficientFundsException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -55,8 +54,7 @@ public class SeedServiceImpl implements SeedService {
             fixedPrices.put(plantType, Math.round(price * 100.0) / 100.0); // Arrondi à 2 décimales
         }
 
-        int numberOfSeedsToGenerate = 2 + random.nextInt(5);
-        List<SeedEntity> generatedSeeds = new ArrayList<>();
+        int numberOfSeedsToGenerate = 2 /*+ random.nextInt(1)*/;
         for (int i = 0; i < numberOfSeedsToGenerate; i++) {
             SeedQuality dailyQuality = generateRandomSeedQuality();
             PlantType dailyPlantType = generateRandomPlantType();
@@ -67,7 +65,6 @@ public class SeedServiceImpl implements SeedService {
             seed.setType(dailyPlantType);
 
             seedDAO.saveSeed(seed);
-            generatedSeeds.add(seed);
         }
 
         sendSeedLog();

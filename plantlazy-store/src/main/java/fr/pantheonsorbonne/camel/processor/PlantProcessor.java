@@ -21,6 +21,6 @@ public class PlantProcessor implements Processor {
         PlantFromFarmDTO plantDTO = exchange.getIn().getBody(PlantFromFarmDTO.class);
 
         plantService.putPlantInShop(plantDTO);
-
+        System.out.println("Plante ajouté à la base.");
     }
 }

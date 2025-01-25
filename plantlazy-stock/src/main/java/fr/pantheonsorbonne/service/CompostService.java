@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.service;
 import fr.pantheonsorbonne.dao.ResourceDAO;
 import fr.pantheonsorbonne.dto.DeadPlantDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
+import fr.pantheonsorbonne.entity.Resource;
 import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
@@ -24,9 +25,11 @@ public class CompostService {
     ResourceDAO resourceDAO;
 
     public void processDeadPlant(DeadPlantDTO deadPlant) {
-        double fertilizerQuantity = calculateFertilizer(deadPlant.getPlantType());
+        double fertilizerQuantity = calculateFertilizer(deadPlant.plantType());
 
-        double fertilizerBefore = resourceDAO.findByType(ResourceType.FERTILIZER).getQuantity();
+        Resource fertilizerResource = resourceDAO.findByType(ResourceType.FERTILIZER);
+
+        double fertilizerBefore = (fertilizerResource != null) ? fertilizerResource.getQuantity() : 0.0;
 
         double fertilizerAfter = fertilizerBefore + fertilizerQuantity;
 
@@ -35,11 +38,12 @@ public class CompostService {
         resourceNotificationService.notifyResourceUpdate(ResourceType.FERTILIZER, fertilizerBefore, fertilizerQuantity, fertilizerAfter, OperationTag.STOCK_RECEIVED);
     }
 
+
     private double calculateFertilizer(PlantType plantType) {
         return switch (plantType) {
-            case TREE -> ThreadLocalRandom.current().nextInt(80, 101);
-            case CACTUS -> ThreadLocalRandom.current().nextInt(40, 71);
-            case FLOWER -> ThreadLocalRandom.current().nextInt(15, 31);
+            case TREE -> ThreadLocalRandom.current().nextInt(180, 201);
+            case CACTUS -> ThreadLocalRandom.current().nextInt(140, 171);
+            case FLOWER -> ThreadLocalRandom.current().nextInt(115, 131);
         };
     }
 }

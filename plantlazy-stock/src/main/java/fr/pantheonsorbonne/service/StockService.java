@@ -21,7 +21,7 @@ public class StockService {
     @Inject
     ResourceDAO resourceDAO;
 
-    public static final double DAILY_LIMIT = 5.0;
+    public static final double DAILY_LIMIT = 800;
 
     private static final EnumSet<ResourceType> REFILLABLE_TYPES = EnumSet.of(ResourceType.WATER, ResourceType.ENERGY);
 

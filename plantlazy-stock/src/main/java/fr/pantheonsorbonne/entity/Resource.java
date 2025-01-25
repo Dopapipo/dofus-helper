@@ -32,8 +32,9 @@ public class Resource {
     }
 
     public Double getQuantity() {
-        return quantity;
+        return (quantity != null) ? quantity : 0.0;
     }
+
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
