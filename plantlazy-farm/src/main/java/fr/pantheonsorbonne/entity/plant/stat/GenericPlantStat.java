@@ -4,8 +4,14 @@ package fr.pantheonsorbonne.entity.plant.stat;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @MappedSuperclass
-public abstract class GenericPlantStat implements PlantStat {
+public abstract class GenericPlantStat implements PlantStat, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int value;
     private int threshold;
     private int MAX_VALUE = 100;

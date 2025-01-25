@@ -1,10 +1,16 @@
 package fr.pantheonsorbonne.entity.plant.stat;
 
 import jakarta.persistence.Embeddable;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 @Embeddable
 public class PlantGrowthLevel implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     int value;
     int MAX_VALUE = 10;
 

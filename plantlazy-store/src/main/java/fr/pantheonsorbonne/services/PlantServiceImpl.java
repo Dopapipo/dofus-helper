@@ -76,15 +76,15 @@ public class PlantServiceImpl implements PlantService {
     @Override
     @Transactional
     public void putPlantInShop(PlantFromFarmDTO plantDTO) {
-        double price = getSellingPrice(plantDTO.getPlantType());
+        double price = getSellingPrice(plantDTO.plantType());
 
-        PlantEntity plant = new PlantEntity(plantDTO.getPlantType(), price);
+        PlantEntity plant = new PlantEntity(plantDTO.plantType(), price);
 
         plantDAO.savePlant(plant);
 
         System.out.println("Plant added to shop");
 
-        notificationService.notifyPlantInShop(plant.getId(), plantDTO.getPlantType(), price);
+        notificationService.notifyPlantInShop(plant.getId(), plantDTO.plantType(), price);
 
     }
 }
