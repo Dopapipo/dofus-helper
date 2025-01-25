@@ -68,12 +68,17 @@ public class Dashboard {
     }
 
     public boolean removePlant(UUID plantId) {
-        if (plantsInProgress.containsKey(plantId)) {
-            plantsInProgress.remove(plantId);
-            return true;
+        System.out.println("🌱 Current plants in progress: " + plantsInProgress.keySet());
+        for (UUID id : plantsInProgress.keySet()) {
+            System.out.printf("Comparing received UUID: %s with stored UUID: %s%n", plantId, id);
+            if (id.equals(plantId)) {
+                plantsInProgress.remove(id);
+                return true;
+            }
         }
         return false;
     }
+
 
     public void addNewPlant(UUID plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel) {
         PlantData plant = new PlantData();
