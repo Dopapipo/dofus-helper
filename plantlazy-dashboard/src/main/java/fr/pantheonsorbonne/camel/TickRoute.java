@@ -19,10 +19,9 @@ public class TickRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from(tickEndpoint)
-                .log("Received tick message")
+        from("sjms2:topic:" + tickEndpoint)
+                .log("Received tick message from topic: " + tickEndpoint)
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .process(new TickProcessor());
-
     }
 }
