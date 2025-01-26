@@ -56,7 +56,6 @@ public class PlantServiceImpl implements PlantService {
                         new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_RECEIVED)
                 );
 
-                System.out.println("Plant sold" + plant.getId() + " for " + plant.getPrice());
                 notificationService.notifyPlantSold(plant.getId(), plant.getPrice(), plant.getType());
                 plantDAO.deletePlantById(plant.getId());
 
@@ -82,7 +81,6 @@ public class PlantServiceImpl implements PlantService {
 
         plantDAO.savePlant(plant);
 
-        System.out.println("Plant added to shop");
 
         notificationService.notifyPlantInShop(plant.getId(), plantDTO.plantType(), price);
 

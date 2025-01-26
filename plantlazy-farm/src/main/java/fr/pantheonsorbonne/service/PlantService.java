@@ -98,7 +98,7 @@ public class PlantService {
                         PlantEntity updatedPlant = this.feedPlant(plant, requiredResourceQuantity, stat);
                         plantRepository.save(updatedPlant);
                     } catch (ResourceRequestDeniedException e) {
-                        System.out.println("Failed to nourish plant " + plant.getId() + " for stat " + stat.getType() + ": " + e.getMessage());
+                        System.err.println("Failed to nourish plant " + plant.getId() + " for stat " + stat.getType() + ": " + e.getMessage());
                     }
                 }
             }

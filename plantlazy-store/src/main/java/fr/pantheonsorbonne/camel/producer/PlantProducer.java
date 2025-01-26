@@ -32,8 +32,6 @@ public class PlantProducer {
 
             message.setBody(jsonMessage);
             producerTemplate.send(logEndpoint, exchange);
-            System.out.println(jsonMessage);
-            System.out.println("eeeeee");
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to serialize MessageLogDTO to JSON", e);

@@ -78,7 +78,6 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
 
     protected void decrease(int value) {
         this.value = Math.max(this.value - value, 0);
-        System.out.println("decay : " + value);
 
     }
 
@@ -89,7 +88,6 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
 
     @Override
     public void tick() {
-        System.out.println("decay : " + decayRate);
         this.decrease(decayRate);
     }
 
