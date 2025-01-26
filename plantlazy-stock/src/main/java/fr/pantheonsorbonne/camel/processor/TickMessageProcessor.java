@@ -14,7 +14,6 @@ public class TickMessageProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-
         stockService.refillDailyResource();
 
     }
