@@ -22,6 +22,7 @@ public class DashboardService {
     }
 
     public void processStoreSellablePlant(StoreSellablePlantLogDTO log) {
+        System.out.println("Plante à mettre en vente" + log.getPlantId() + log.getName() + log.getPrice());
         dashboard.updatePlantsForSale(log.getPlantId(), log.getName(), log.getPrice());
     }
 

@@ -49,10 +49,12 @@ public class Dashboard {
 
 
     public void updatePlantsForSale(String plantId, String name, int price) {
+        System.out.println("for sale");
         PlantData plant = new PlantData();
         plant.setName(name);
         plant.setPrice(price);
         plantsForSale.put(plantId, plant);
+        System.out.println(plantsForSale);
     }
 
     public void updateSoldPlants(String plantType, int price) {

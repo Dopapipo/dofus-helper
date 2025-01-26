@@ -55,14 +55,13 @@ public class TickPublisher {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectMessage message = context.createObjectMessage(objectMapper.writeValueAsString(tickMessage));
 
-            context.createProducer().send(context.createQueue(tickEndpoint), message);
+            context.createProducer().send(context.createTopic(tickEndpoint), message);
 
-
-            System.out.println("Sent " + tickType + " tick to " + tickEndpoint);
-
+            System.out.println("Sent " + tickType + " tick to topic " + tickEndpoint);
         } catch (Exception e) {
             LOGGER.error("Unexpected error while publishing {} tick. Error: {}", tickType, e.getMessage(), e);
         }
     }
+
 }
 
