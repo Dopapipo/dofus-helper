@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.entity;
 
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,20 +15,24 @@ public class Resource {
     private Double quantity;
 
 
-    public Long getId() {
-        return id;
+    public Resource() {
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public ResourceType getType() {
         return type;
     }
 
+    public void setType(ResourceType type) {
+        this.type = type;
+    }
+
     public Double getQuantity() {
-        return quantity;
+        return (quantity != null) ? quantity : 0.0;
     }
 
     public void setQuantity(Double quantity) {

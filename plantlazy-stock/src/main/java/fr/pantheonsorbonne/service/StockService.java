@@ -1,96 +1,83 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.dao.ResourceDAO;
-import fr.pantheonsorbonne.dto.ResourceDTO;
-import fr.pantheonsorbonne.dto.ResourceMessage;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.Resource;
-import fr.pantheonsorbonne.entity.ResourceType;
-import fr.pantheonsorbonne.exception.DailyLimitExceededException;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.exception.InsufficientResourceException;
-import fr.pantheonsorbonne.exception.InvalidQuantityException;
-import fr.pantheonsorbonne.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.EnumSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class StockService {
 
     @Inject
-    ResourceDAO resourceDAO;
-
-    private static final double DAILY_LIMIT = 1000.0;
+    ResourceNotificationService notificationService;
 
     @Inject
-    MessageProducerService producerTemplate;
+    ResourceDAO resourceDAO;
 
-    @ConfigProperty(name = "tick.endpoint")
-    String tickEndpoint;
+    public static final double DAILY_REFILL = 64;
 
+    private static final EnumSet<ResourceType> REFILLABLE_TYPES = EnumSet.of(ResourceType.WATER, ResourceType.ENERGY);
 
-    public ResourceDTO updateResource(ResourceType type, Double quantity) {
-        validateQuantity(quantity);
-        Resource resource = getResourceOrThrow(type);
+    private ResourceUpdateDTO handleUpdate(ResourceType ressourceType, Double quantity, OperationTag operationTag) {
+        Resource resource = resourceDAO.findByType(ressourceType);
+
         Double quantityBefore = resource.getQuantity();
 
-        validateResourceUpdate(resource, type, quantity);
+        validateResourceUpdate(resource, ressourceType, quantity);
         Resource updatedResource = updateResourceQuantity(resource, quantity);
 
-        notifyResourceUpdate(type, quantityBefore, quantity, updatedResource.getQuantity());
+        notificationService.notifyResourceUpdate(ressourceType, quantityBefore, quantity, updatedResource.getQuantity(), operationTag);
 
-        return ResourceDTO.fromEntity(updatedResource);
+        resourceDAO.save(updatedResource);
+
+        return ResourceUpdateDTO.fromEntity(updatedResource, operationTag);
     }
 
-    private void validateQuantity(Double quantity) {
-        if (quantity == null || quantity == 0) {
-            throw new InvalidQuantityException("Quantity cannot be null or zero");
+    public ResourceUpdateDTO updateResource(ResourceUpdateDTO resourceUpdateDTO) {
+        if (resourceUpdateDTO.operationTag() == OperationTag.STOCK_RECEIVED) {
+            return this.handleUpdate(resourceUpdateDTO.type(), resourceUpdateDTO.quantity(), resourceUpdateDTO.operationTag());
+        } else {
+            return this.handleUpdate(resourceUpdateDTO.type(), -resourceUpdateDTO.quantity(), resourceUpdateDTO.operationTag());
         }
     }
 
-    private Resource getResourceOrThrow(ResourceType type) {
-        return resourceDAO.findByType(type)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found: " + type));
+    public void refillDailyResource() {
+        List<Resource> allResources = resourceDAO.findAll();
+        allResources.stream()
+                .filter(resource -> REFILLABLE_TYPES.contains(resource.getType()))
+                .forEach(resource -> {
+                    Double quantityBefore = resource.getQuantity();
+                    Double quantityAdded = DAILY_REFILL;
+                    Double newQuantity = quantityBefore + quantityAdded;
+                    resource.setQuantity(newQuantity);
+                    resourceDAO.save(resource);
+                    notificationService.notifyResourceUpdate(
+                            resource.getType(),
+                            quantityBefore,
+                            quantityAdded,
+                            newQuantity,
+                            OperationTag.STOCK_RECEIVED
+                    );
+                });
     }
 
-    private void validateResourceUpdate(Resource resource, ResourceType type, Double quantity) {
-        if (!isWithinDailyLimit(resource, quantity)) {
-            throw new DailyLimitExceededException("Daily limit exceeded for " + type);
-        }
-        validateSufficientResource(resource, type, quantity);
-    }
-
-    private void validateSufficientResource(Resource resource, ResourceType type, Double quantity) {
-        if (resource.getQuantity() + quantity < 0) {
-            throw new InsufficientResourceException("Insufficient " + type);
-        }
-    }
 
     private Resource updateResourceQuantity(Resource resource, Double quantity) {
         resource.setQuantity(resource.getQuantity() + quantity);
         return resourceDAO.save(resource);
     }
 
-    private void notifyResourceUpdate(ResourceType type, Double quantityBefore, Double quantityChange, Double newQuantity) {
-        ResourceMessage message = new ResourceMessage(type, quantityBefore, quantityChange, newQuantity);
-        producerTemplate.sendMessageToRoute("direct:resourceUpdateRoute", message);
+    public void validateResourceUpdate(Resource resource, ResourceType type, Double quantity) {
+        if (resource.getQuantity() + quantity < 0) {
+            throw new InsufficientResourceException("Not enough resource of type: " + type);
+        }
     }
 
-    public boolean isWithinDailyLimit(Resource resource, double quantity) {
-        double newUsage = resource.getQuantity() - quantity;
-        return newUsage >= 0;
-    }
-
-    public List<ResourceDTO> refillDailyResources() {
-        List<ResourceType> typesToRefill = List.of(ResourceType.WATER, ResourceType.ENERGY);
-        return typesToRefill.stream().map(type -> {
-            Resource resource = resourceDAO.findByType(type).orElseThrow(() ->
-                    new ResourceNotFoundException("Resource not found for type: " + type));
-            resource.setQuantity(DAILY_LIMIT);
-            Resource updatedResource = resourceDAO.save(resource);
-            return ResourceDTO.fromEntity(updatedResource);
-        }).collect(Collectors.toList());
-    }
 }

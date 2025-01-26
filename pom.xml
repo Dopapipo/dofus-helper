@@ -12,7 +12,6 @@
         <module>plantlazy-farm</module>
         <module>plantlazy-dashboard</module>
         <module>plantlazy-store</module>
-        <module>plantlazy-plant-manager</module>
         <module>plantlazy-server-ticks</module>
     </modules>
     <dependencyManagement>
@@ -39,20 +38,8 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-api</artifactId>
-            <version>4.8.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
             <artifactId>camel-core-model</artifactId>
             <version>4.8.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-            <version>3.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

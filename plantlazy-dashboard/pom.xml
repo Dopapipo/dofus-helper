@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.pantheonsorbonne</groupId>
     <artifactId>plantlazy-dashboard</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <maven.compiler.release>21</maven.compiler.release>
@@ -15,8 +13,8 @@
         <quarkus.platform.version>3.15.2</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.3.1</surefire-plugin.version>
+        <quarkus.package.type>uber-jar</quarkus.package.type>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -35,7 +33,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -120,8 +117,12 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.artemis</groupId>
+            <artifactId>quarkus-artemis-jms</artifactId>
+            <version>3.6.0</version>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -178,7 +179,6 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <id>native</id>

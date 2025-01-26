@@ -1,11 +1,9 @@
 package fr.pantheonsorbonne.services;
 
-import fr.pantheonsorbonne.entity.PlantEntity;
-
-import java.util.List;
+import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
 
 public interface PlantService {
-    List<PlantEntity> getAvailablePlants();
+    void sellPlants();
 
-    void sellPlant(String type, int quantity);
+    void putPlantInShop(PlantFromFarmDTO plantFromFarmDTO);
 }

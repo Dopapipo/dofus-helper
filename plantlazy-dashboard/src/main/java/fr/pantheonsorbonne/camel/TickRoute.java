@@ -1,23 +1,26 @@
 package fr.pantheonsorbonne.camel;
 
-import org.apache.camel.builder.RouteBuilder;
+import fr.pantheonsorbonne.camel.processor.TickProcessor;
+import fr.pantheonsorbonne.entity.TickMessage;
+import fr.pantheonsorbonne.model.Dashboard;
 import jakarta.enterprise.context.ApplicationScoped;
-import fr.pantheonsorbonne.dto.TickDTO;
+import jakarta.inject.Inject;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class TickRoute extends RouteBuilder {
 
+    @Inject
+    @ConfigProperty(name = "tick.endpoint")
+    String tickEndpoint;
+
+
     @Override
     public void configure() {
-        from("timer://tick?period=5000")
-                .process(exchange -> {
-                    TickDTO tick = new TickDTO("TICK");
-                    exchange.getIn().setBody(tick);
-                })
-                .marshal().json()
-                // .to("sjms2:queue:TICK_QUEUE")
-                // .log("Tick envoyé à la queue TICK_QUEUE: ${body}");
-                .to("file://tick?fileName=ticks.json")
-                .to("file://log?fileName=tick.json");
+        from("sjms2:topic:" + tickEndpoint)
+                .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
+                .process(new TickProcessor());
     }
 }

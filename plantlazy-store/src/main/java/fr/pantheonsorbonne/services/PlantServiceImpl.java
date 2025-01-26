@@ -1,15 +1,17 @@
 package fr.pantheonsorbonne.services;
 
+import fr.pantheonsorbonne.camel.client.StockClient;
 import fr.pantheonsorbonne.dao.PlantDAO;
+import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
+import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
-
-import fr.pantheonsorbonne.exception.InsufficientStockException;
-import fr.pantheonsorbonne.exception.PlantNotFoundException;
-import fr.pantheonsorbonne.exception.SaleNotCompletedException;
-import jakarta.annotation.PostConstruct;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
+import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,56 +24,66 @@ public class PlantServiceImpl implements PlantService {
     @Inject
     PlantDAO plantDAO;
 
+    @Inject
+    @RestClient
+    StockClient stockClient;
+
+    @Inject
+    NotificationService notificationService;
+
+
     private static final Random random = new Random();
 
-    // Probabilités de vente par type de plante (en pourcentage)
-    private static final Map<String, Integer> SALE_PROBABILITIES = new HashMap<>();
+    private static final Map<PlantType, Integer> SALE_PROBABILITIES = new HashMap<>();
 
     static {
-        SALE_PROBABILITIES.put("Tomate", 70);    // 70% de chances de vente
-        SALE_PROBABILITIES.put("Courgette", 50); // 50% de chances de vente
-        SALE_PROBABILITIES.put("Concombre", 30); // 30% de chances de vente
+        SALE_PROBABILITIES.put(PlantType.CACTUS, 20);
+        SALE_PROBABILITIES.put(PlantType.TREE, 10);
+        SALE_PROBABILITIES.put(PlantType.FLOWER, 15);
     }
 
+
     @Override
-    public List<PlantEntity> getAvailablePlants() {
-        return plantDAO.getAllPlants();
+    @Transactional
+    public void sellPlants() {
+        List<PlantEntity> plants = plantDAO.getAllPlants();
+
+        for (PlantEntity plant : plants) {
+            int saleProbability = SALE_PROBABILITIES.getOrDefault(plant.getType(), 0);
+            int randomValue = random.nextInt(100);
+
+            if (randomValue < saleProbability) {
+                stockClient.updateResource(
+                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), OperationTag.STOCK_RECEIVED)
+                );
+
+                notificationService.notifyPlantSold(plant.getId(), plant.getPrice(), plant.getType());
+                plantDAO.deletePlantById(plant.getId());
+
+            }
+        }
+    }
+
+    @Transactional
+    public double getSellingPrice(PlantType plantType) {
+        return switch (plantType) {
+            case CACTUS -> 150;
+            case TREE -> 200;
+            case FLOWER -> 100;
+        };
     }
 
     @Override
     @Transactional
-    public void sellPlant(String type, int quantity) {
-        PlantEntity plant = plantDAO.getPlantByType(type)
-                .orElseThrow(() -> new PlantNotFoundException(type));
+    public void putPlantInShop(PlantFromFarmDTO plantDTO) {
+        double price = getSellingPrice(plantDTO.plantType());
 
-        // Probabilité de vente
-        int probability = SALE_PROBABILITIES.getOrDefault(type, 0); // 0% si le type est inconnu
-        int randomValue = random.nextInt(100); // Génère un nombre entre 0 et 99
+        PlantEntity plant = new PlantEntity(plantDTO.plantType(), price);
 
-        if (randomValue >= probability) {
-            throw new SaleNotCompletedException(type); // Vente échoue à cause de la probabilité
-        }
+        plantDAO.savePlant(plant);
 
-        // Vérifier la quantité disponible
-        if (plant.getQuantity() < quantity) {
-            throw new InsufficientStockException(type, plant.getQuantity(), quantity);
-        }
 
-        // Réduction de la quantité en stock
-        plant.setQuantity(plant.getQuantity() - quantity);
-        plantDAO.updatePlant(plant);
+        notificationService.notifyPlantInShop(plant.getId(), plantDTO.plantType(), price);
 
-        // Appeler le microservice Stock pour transférer l'argent
     }
-
-    @PostConstruct
-    @Transactional
-    public void initializePlants() {
-        if (plantDAO.getAllPlants().isEmpty()) {
-            plantDAO.savePlant(new PlantEntity("Tomate", 100, 0));
-            plantDAO.savePlant(new PlantEntity("Courgette", 150, 0));
-            plantDAO.savePlant(new PlantEntity("Concombre", 120, 0));
-        }
-    }
-
 }

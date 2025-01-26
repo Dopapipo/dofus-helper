@@ -1,90 +1,65 @@
 package fr.pantheonsorbonne.service;
 
-import fr.pantheonsorbonne.dto.LogMessage;
-import fr.pantheonsorbonne.dto.PlantUpdateDTO;
-import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
-import fr.pantheonsorbonne.dto.PlantSaleDTO;
+import fr.pantheonsorbonne.dto.PlantDTO;
+import fr.pantheonsorbonne.dto.log.*;
+import fr.pantheonsorbonne.entity.TickMessage;
 import fr.pantheonsorbonne.model.Dashboard;
-import fr.pantheonsorbonne.model.PlantData;
 import jakarta.enterprise.context.ApplicationScoped;
-
+import jakarta.inject.Named;
 
 @ApplicationScoped
+@Named("dashboardService")
 public class DashboardService {
+
     private final Dashboard dashboard = new Dashboard();
 
-    public void processLog(LogMessage logMessage) {
-        // Identifier le type de log et traiter le payload
-        switch (logMessage.getType()) {
-            case "RESOURCE_UPDATE":
-                ResourceUpdateDTO resourceUpdate = castPayload(logMessage.getPayload(), ResourceUpdateDTO.class);
-                updateResources(resourceUpdate);
-                break;
+    public void processResourceUpdate(ResourceUpdateLogDTO log) {
+        dashboard.updateResource(log.getResourceType(), log.getQuantityAfter());
+    }
 
-            case "PLANT_UPDATE":
-                PlantUpdateDTO plantUpdate = castPayload(logMessage.getPayload(), PlantUpdateDTO.class);
-                updatePlant(plantUpdate);
-                break;
+    public void processStoreSellableSeeds(StoreSellableSeedsLogDTO log) {
+        dashboard.updateSeedsForSale(log.getSeeds());
+    }
 
-            case "PLANT_SALE":
-                PlantSaleDTO plantSale = castPayload(logMessage.getPayload(), PlantSaleDTO.class);
-                addPlantForSale(plantSale);
-                break;
+    public void processStoreSellablePlant(StoreSellablePlantLogDTO log) {
+        dashboard.updatePlantsForSale(log.getId(), log.getPlantType(), log.getPrice());
+    }
 
-            case "PLANT_DEAD":
-                String deadPlantId = (String) logMessage.getPayload();
-                markPlantAsDead(deadPlantId);
-                break;
+    public void processStoreSoldPlant(StoreSoldPlantLogDTO log) {
+        dashboard.updateSoldPlants(log.getId(), log.getPrice());
+    }
 
-            default:
-                System.out.println("Type de message inconnu : " + logMessage.getType());
+
+    public void processPlantDead(PlantDeadLogDTO log) {
+        boolean removed = dashboard.removePlant(log.getId());
+    }
+
+    public void processPlantSold(PlantSoldLogDTO log) {
+        boolean removed = dashboard.removePlant(log.getId());
+    }
+
+
+    public void processPlantCreated(PlantCreatedLogDTO log) {
+        dashboard.addNewPlant(log.getPlantId(), log.getName(), log.getEnergyLevel(),
+                log.getWaterLevel(), log.getFertilizerLevel());
+    }
+
+    public void processPlantGrown(PlantGrownLogDTO log) {
+        dashboard.markPlantAsMature(log.getPlantId());
+    }
+
+    public void processPlantUpdate(PlantUpdateLogDTO log) {
+        PlantDTO plant = log.getPlant();
+
+        if (!dashboard.plantExists(plant.getId())) {
+            dashboard.addNewPlant(plant.getId(), plant.getType(), plant.getSun(), plant.getWater(), plant.getSoil());
         }
+
+        dashboard.updatePlantStats(plant.getId(), plant.getSun(), plant.getWater(), plant.getSoil());
     }
 
-    public void updateResources(ResourceUpdateDTO update) {
-        dashboard.getResources().setWater(update.getUpdatedWater());
-        dashboard.getResources().setEnergy(update.getUpdatedEnergy());
-        dashboard.getResources().setFertilizer(update.getUpdatedFertilizer());
-        dashboard.getResources().setMoney(update.getUpdatedMoney());
-    }
-
-    public void updatePlant(PlantUpdateDTO update) {
-        PlantData plant = dashboard.getPlantsInProgress()
-                .computeIfAbsent(update.getPlantId(), id -> new PlantData());
-        plant.setName(update.getPlantName());
-        plant.setWateringLevel(update.getUpdatedWateringLevel());
-        plant.setEnergyLevel(update.getUpdatedEnergyLevel());
-        plant.setFertilizerLevel(update.getUpdatedFertilizerLevel());
-        plant.setHealthLevel(update.getUpdatedHealthLevel());
-    }
-
-    public void addPlantForSale(PlantSaleDTO sale) {
-        PlantData plant = new PlantData();
-        plant.setName(sale.getPlantName());
-        plant.setPrice(sale.getUpdatedPrice());
-        plant.setSalesRate(sale.getUpdatedSalesRate());
-        dashboard.getPlantsForSale().put(sale.getPlantId(), plant);
-    }
-
-    public void markPlantAsDead(String plantId) {
-        dashboard.incrementDeadPlants(plantId);
-    }
-
-    public void incrementTick() {
-        dashboard.incrementTick();
-    }
-
-    public void displayDashboard() {
-        System.out.println("Tableau de bord mis à jour :");
-        dashboard.display();
-    }
-
-    // Méthode utilitaire pour caster le payload
-    private <T> T castPayload(Object payload, Class<T> type) {
-        if (type.isInstance(payload)) {
-            return type.cast(payload);
-        } else {
-            throw new IllegalArgumentException("Payload ne correspond pas au type attendu : " + type.getSimpleName());
-        }
+    public void processTick(TickMessage tick) {
+        String tickType = tick.getTickType().name();
+        dashboard.updateTick(tickType);
     }
 }

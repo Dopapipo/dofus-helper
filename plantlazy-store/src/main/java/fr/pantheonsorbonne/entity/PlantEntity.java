@@ -1,43 +1,39 @@
 package fr.pantheonsorbonne.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import fr.pantheonsorbonne.entity.enums.PlantType;
+import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 public class PlantEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    private String type; // Exemple : "Tomate", "Courgette", "Concombre"
-    private double price; // Prix de vente de la plante
-    private int quantity; // Quantité en stock
+    @Enumerated(EnumType.STRING)
+    private PlantType type;
+
+    private double price;
 
     public PlantEntity() {
     }
 
-    public PlantEntity(String type, double price, int quantity) {
+    public PlantEntity(PlantType type, double price) {
         this.type = type;
         this.price = price;
-        this.quantity = quantity;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
+    public PlantType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PlantType type) {
         this.type = type;
     }
 
@@ -45,25 +41,4 @@ public class PlantEntity {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "PlantEntity{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
-    }
 }

@@ -1,25 +1,19 @@
 package fr.pantheonsorbonne.dto;
 
-import fr.pantheonsorbonne.camel.processors.plant.PlantType;
-import fr.pantheonsorbonne.camel.processors.seeds.SeedQuality;
+import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.seed.Seed;
+import fr.pantheonsorbonne.entity.seed.SeedFactory;
+import fr.pantheonsorbonne.entity.enums.SeedQuality;
 
-public class SeedDTO {
-    private PlantType type;
-    private SeedQuality quality;
+import java.io.Serial;
+import java.io.Serializable;
 
-    public PlantType getType() {
-        return type;
+public record SeedDTO (PlantType seedType, SeedQuality seedQuality) implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    public Seed toSeed() {
+        return SeedFactory.getSeed(this.seedType, this.seedQuality);
     }
 
-    public void setType(PlantType type) {
-        this.type = type;
-    }
-
-    public SeedQuality getQuality() {
-        return quality;
-    }
-
-    public void setQuality(SeedQuality quality) {
-        this.quality = quality;
-    }
 }

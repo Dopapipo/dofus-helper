@@ -1,43 +1,38 @@
 package fr.pantheonsorbonne.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
+import fr.pantheonsorbonne.entity.enums.PlantType;
+import fr.pantheonsorbonne.entity.enums.SeedQuality;
+import jakarta.persistence.*;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
-public class SeedEntity {
+public class SeedEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    private String type; // Exemple : "Tomate", "Courgette", "Concombre"
-    private double price; // Prix unitaire de la graine
-    private int quantity; // Quantité disponible pour l'offre quotidienne
+    @Enumerated(EnumType.STRING)
+    private PlantType type;
+
+    @Enumerated(EnumType.STRING)
+    private SeedQuality quality;
+
+    private double price;
 
     public SeedEntity() {
     }
 
-    public SeedEntity(String type, double price, int quantity) {
-        this.type = type;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
+    public PlantType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PlantType type) {
         this.type = type;
     }
 
@@ -49,12 +44,12 @@ public class SeedEntity {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public SeedQuality getQuality() {
+        return quality;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuality(SeedQuality quality) {
+        this.quality = quality;
     }
 
     @Override
@@ -63,7 +58,6 @@ public class SeedEntity {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", price=" + price +
-                ", quantity=" + quantity +
                 '}';
     }
 }
