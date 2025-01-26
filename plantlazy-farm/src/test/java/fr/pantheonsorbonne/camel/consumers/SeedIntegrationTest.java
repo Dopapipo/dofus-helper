@@ -5,7 +5,6 @@ import fr.pantheonsorbonne.dto.SeedDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
-import fr.pantheonsorbonne.service.SeedService;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
