@@ -12,7 +12,7 @@ public class WaterStat extends GenericPlantStat implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public WaterStat(int value) {
-        super(value, 65, 80, StatType.WATER);
+        super(value, 70, 1, StatType.WATER);
     }
 
     public WaterStat() {

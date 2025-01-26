@@ -18,7 +18,5 @@ public class LogService {
     public void sendLogPlantDiedOrSold(LogMessagePlantDiedOrSold message) {
         producerTemplate.sendBody("direct:logQueue", message);
         System.out.println(message);
-        System.out.println("ejkigmervebve");
     }
-
 }

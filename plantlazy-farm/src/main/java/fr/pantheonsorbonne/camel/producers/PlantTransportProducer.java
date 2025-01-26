@@ -1,16 +1,15 @@
 package fr.pantheonsorbonne.camel.producers;
 
-import fr.pantheonsorbonne.camel.processors.DeadPlantProcessor;
-import fr.pantheonsorbonne.camel.processors.SoldPlantProcessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.pantheonsorbonne.dto.PlantDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class PlantTransportProducer extends RouteBuilder {
+public class PlantTransportProducer {
     @ConfigProperty(name = "dead.plant.transport.endpoint")
     String transportEndpoint;
 
@@ -18,24 +17,34 @@ public class PlantTransportProducer extends RouteBuilder {
     String storePlantEndpoint;
 
     @Inject
-    DeadPlantProcessor deadPlantProcessor;
+    ObjectMapper objectMapper;
 
     @Inject
-    SoldPlantProcessor soldPlantProcessor;
+    ProducerTemplate producerTemplate;
 
-    @Override
-    public void configure() throws Exception {
-        from("direct:plantQueue")
-                .log("Plante morte ou mature")
-                .log("${body}")
 
-                .choice()
-                .when(header("dead").isEqualTo(true))
-                .process(deadPlantProcessor).to(transportEndpoint)
+    public void sendPlantToStore(PlantDTO plantDTO) {
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(plantDTO);
 
-                .when(header("sold").isEqualTo(true))
-                .process(soldPlantProcessor).to(storePlantEndpoint);
+            producerTemplate.sendBody(storePlantEndpoint, jsonMessage);
+            System.out.println("Message sent for plant: " + jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error serializing PlantDTO to JSON", e);
+        }
     }
+
+    public void sendDeadPlant(PlantDTO plantDTO) {
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(plantDTO);
+
+            producerTemplate.sendBody(transportEndpoint, jsonMessage);
+            System.out.println("Message sent for dead plant: " + jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error serializing PlantDTO to JSON", e);
+        }
+    }
+
 }
 
 

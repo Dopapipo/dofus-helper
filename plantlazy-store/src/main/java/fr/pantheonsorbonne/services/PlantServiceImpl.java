@@ -53,10 +53,10 @@ public class PlantServiceImpl implements PlantService {
 
             if (randomValue < saleProbability) {
                 stockClient.updateResource(
-                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_QUERIED)
+                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_RECEIVED)
                 );
 
-
+                System.out.println("Plant sold" + plant.getId() + " for " + plant.getPrice());
                 notificationService.notifyPlantSold(plant.getId());
                 plantDAO.deletePlantById(plant.getId());
 

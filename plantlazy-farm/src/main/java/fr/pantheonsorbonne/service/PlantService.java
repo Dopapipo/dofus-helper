@@ -1,32 +1,31 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.camel.client.ResourceStockClient;
+import fr.pantheonsorbonne.camel.producers.PlantTransportProducer;
 import fr.pantheonsorbonne.dao.PlantRepository;
+import fr.pantheonsorbonne.dto.PlantDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 import fr.pantheonsorbonne.entity.plant.stat.PlantStat;
 import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.mapper.PlantMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.jms.ConnectionFactory;
-import jakarta.jms.JMSContext;
-import jakarta.jms.JMSProducer;
-import jakarta.jms.ObjectMessage;
-import jakarta.jms.Queue;
+
 import java.util.List;
 
 @ApplicationScoped
 public class PlantService {
     @Inject
     PlantRepository plantRepository;
-    @Inject
-    ConnectionFactory connectionFactory;
 
     @Inject
     LogService logService;
 
     @Inject
     ResourceStockClient resourceStockClient;
+
+    @Inject
+    PlantTransportProducer plantTransportProducer;
 
     private PlantEntity feedPlant(PlantEntity plant, int quantity, PlantStat stat) throws ResourceRequestDeniedException {
         resourceStockClient.requestResource(stat.getType(), quantity);
@@ -48,54 +47,45 @@ public class PlantService {
 
     }
 
-
     private void sendPlants(Iterable<PlantEntity> plants) {
-        JMSContext context = null;
         try {
-            context = connectionFactory.createContext();
-            JMSProducer producer = context.createProducer();
-
-            Queue queue = context.createQueue("direct:plantQueue");
-
             for (PlantEntity plant : plants) {
                 try {
-                    ObjectMessage message = context.createObjectMessage(PlantMapper.toPlantDTO(plant));
+                    // Convertir PlantEntity en PlantDTO
+                    PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
 
+                    // Gestion des plantes mortes
                     if (plant.isDead() && !plant.getComposted()) {
-                        message.setBooleanProperty("dead", true);
-                        producer.send(queue, message);
-                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+                        // Envoyer la plante morte via le transport producer
+                        plantTransportProducer.sendDeadPlant(plantDTO);
+                        System.out.println("Plante morte envoyée.");
 
-                        System.out.println("plant morte lets go");
-
+                        // Mettre à jour l'état de la plante
                         plant.setComposted(true);
 
-                    } else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
-                        message.setBooleanProperty("sold", true);
-                        producer.send(queue, message);
-                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
+                        // Envoyer le log
+                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
+                    }
+                    // Gestion des plantes matures et non vendues
+                    else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
+                        // Envoyer la plante vendue via le transport producer
+                        plantTransportProducer.sendPlantToStore(plantDTO);
+                        System.out.println("Plante vendue envoyée.");
 
-                        System.out.println("plant veude lets go");
-
-
+                        // Mettre à jour l'état de la plante
                         plant.setSold(true);
 
+                        // Envoyer le log
+                        logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
                     }
-
-
                 } catch (Exception e) {
-                    System.err.println("Failed to process plant with ID " + plant.getId() + ": " + e.getMessage());
+                    System.err.println("Erreur lors du traitement de la plante avec ID " + plant.getId() + ": " + e.getMessage());
                 }
             }
         } catch (Exception e) {
-            System.err.println("Failed to send plants: " + e.getMessage());
-        } finally {
-            if (context != null) {
-                context.close();
-            }
+            System.err.println("Erreur lors de l'envoi des plantes : " + e.getMessage());
         }
     }
-
 
 
     private void triggerPlantNourishment(Iterable<PlantEntity> plants) {
