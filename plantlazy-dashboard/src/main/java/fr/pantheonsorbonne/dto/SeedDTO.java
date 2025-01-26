@@ -1,10 +1,10 @@
 package fr.pantheonsorbonne.dto;
 
 public class SeedDTO {
-    private String id;        // Identifiant unique de la graine
-    private String type;      // Type de plante (ex: TREE, FLOWER, etc.)
-    private String quality;   // Qualité de la graine (ex: HIGH, MEDIUM, LOW)
-    private int price;     // Prix de la graine
+    private String id;
+    private String type;
+    private String quality;
+    private int price;
 
     public SeedDTO() {
     }

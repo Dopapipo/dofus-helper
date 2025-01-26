@@ -13,11 +13,11 @@ public class Dashboard {
     private int day = 0;
     private int tick = 0;
 
-    private final Map<UUID, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
-    private final Map<String, ResourceData> resources = new HashMap<>();    // Ressources
-    private final Map<String, PlantData> seedsForSale = new HashMap<>();    // Graines en vente
-    private final Map<UUID, PlantData> plantsForSale = new HashMap<>();   // Plantes en vente
-    private final Map<String, PlantData> deadPlants = new HashMap<>();      // Plantes mortes
+    private final Map<UUID, PlantData> plantsInProgress = new HashMap<>();
+    private final Map<String, ResourceData> resources = new HashMap<>();
+    private final Map<String, PlantData> seedsForSale = new HashMap<>();
+    private final Map<UUID, PlantData> plantsForSale = new HashMap<>();
+
 
     public Dashboard() {
         resources.put("WATER", new ResourceData("WATER", 0));
@@ -39,9 +39,9 @@ public class Dashboard {
         seedsForSale.clear();
         for (SeedDTO seed : seeds) {
             PlantData plant = new PlantData();
-            plant.setName(seed.getType()); // Utilise le type comme nom de la plante
+            plant.setName(seed.getType());
             plant.setPrice(seed.getPrice());
-            plant.setQuantity(1); // Quantité par défaut, car SeedDTO ne contient pas de champ quantity
+            plant.setQuantity(1);
             seedsForSale.put(seed.getId(), plant);
         }
 
@@ -49,33 +49,26 @@ public class Dashboard {
 
 
     public void updatePlantsForSale(UUID plantId, String name, int price) {
-        System.out.println("for sale");
         PlantData plant = new PlantData();
         plant.setName(name);
         plant.setPrice(price);
         plantsForSale.put(plantId, plant);
-        System.out.println(plantsForSale);
     }
 
     public void updateSoldPlants(UUID plantId, int price) {
-        plantsForSale.remove(plantId); // Retire la plante des ventes
-        System.out.printf("✔️ Plante vendue : %s pour %d 💵%n", plantId, price);
+        plantsForSale.remove(plantId);
+        System.out.printf("Plante vendue pour %d %n", price);
     }
 
-    public void updateDeadPlant(String plantId, String name, int decompositionLevel) {
-        PlantData plant = new PlantData();
-        plant.setName(name);
-        plant.setDecompositionLevel(decompositionLevel);
-        deadPlants.put(plantId, plant);
-    }
 
     public boolean removePlant(UUID plantId) {
-        System.out.println("🌱 Current plants in progress: " + plantsInProgress.keySet());
         for (UUID id : plantsInProgress.keySet()) {
-            System.out.printf("Comparing received UUID: %s with stored UUID: %s%n", plantId, id);
             if (id.equals(plantId)) {
                 plantsInProgress.remove(id);
                 return true;
+            }
+            else {
+                System.out.printf("Plante non trouvée pour %s%n", plantId);
             }
         }
         return false;
@@ -96,13 +89,10 @@ public class Dashboard {
     }
 
 
-    public void markPlantAsMature(String plantId) {
+    public void markPlantAsMature(UUID plantId) {
         PlantData plant = plantsInProgress.get(plantId);
         if (plant != null) {
             plant.setGrowthLevel(100); // Marque comme mûr
-            System.out.printf("🌟 Plante mature : %s !%n", plant.getName());
-        } else {
-            System.err.printf("Impossible de trouver la plante %s en cours de croissance.%n", plantId);
         }
     }
 
@@ -112,8 +102,6 @@ public class Dashboard {
             plant.setEnergyLevel(energyLevel);
             plant.setWaterLevel(waterLevel);
             plant.setFertilizerLevel(fertilizerLevel);
-        } else {
-            System.err.printf("Impossible de trouver la plante %s en cours de croissance.%n", plantId);
         }
     }
 
@@ -144,15 +132,6 @@ public class Dashboard {
                             plant.getFertilizerLevel()));
         }
 
-            System.out.println("\n💀 Plantes au compost :");
-        if (deadPlants.isEmpty()) {
-            System.out.println("   Pas de plantes au compost.");
-        } else {
-            deadPlants.values().forEach(plant ->
-                    System.out.printf("   - %s | Niveau de décomposition : %d%%%n",
-                            plant.getName(), plant.getDecompositionLevel()));
-        }
-
         System.out.println("\n🛒 Plantes en vente :");
         if (plantsForSale.isEmpty()) {
             System.out.println("   Pas de plantes en vente.");
@@ -166,8 +145,8 @@ public class Dashboard {
             System.out.println("   Pas de graines en vente.");
         } else {
             seedsForSale.values().forEach(seed ->
-                    System.out.printf("   - %s | 💵 Prix : %d | 📦 Quantité : %d%n",
-                            seed.getName(), seed.getPrice(), seed.getQuantity()));
+                    System.out.printf("   - %s | 💵 Prix : %d%n",
+                            seed.getName(), seed.getPrice()));
         }
 
         System.out.println("\n⚙️ Ressources :");

@@ -9,7 +9,6 @@ public enum LogType {
     PLANT_GROWN,
     PLANT_DEAD,
     PLANT_CREATED,
-    DEAD_PLANT_UPDATE,
     PLANT_SOLD
 
 }

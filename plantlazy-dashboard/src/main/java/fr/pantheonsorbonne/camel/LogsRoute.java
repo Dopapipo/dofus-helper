@@ -24,15 +24,13 @@ public class LogsRoute extends RouteBuilder {
 
         from(logEndpoint)
                 .convertBodyTo(String.class)
-                .process(new LogTypeExtractor()) // Extrait le type de log et l'ajoute à l'header "logType"
+                .process(new LogTypeExtractor())
                 .choice()
                 .when(header("logType").isNotNull())
-                .toD("direct:${header.logType}") // Envoie dynamiquement vers la sous-route correspondante
+                .toD("direct:${header.logType}")
                 .otherwise()
                 .log("Unsupported log type: ${body}");
 
-        /* === Sous-routes basées sur le type de log === */
-        configureLogRoute("DEAD_PLANT_UPDATE", DeadPlantLogDTO.class, "processDeadPlant");
         configureLogRoute("PLANT_CREATED", PlantCreatedLogDTO.class, "processPlantCreated");
         configureLogRoute("PLANT_DEAD", PlantDeadLogDTO.class, "processPlantDead");
         configureLogRoute("PLANT_GROWN", PlantGrownLogDTO.class, "processPlantGrown");

@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 
 @ApplicationScoped
-@Named("dashboardService") // pour accès depuis la route Camel
+@Named("dashboardService")
 public class DashboardService {
 
     private final Dashboard dashboard = new Dashboard();
@@ -22,46 +22,26 @@ public class DashboardService {
     }
 
     public void processStoreSellablePlant(StoreSellablePlantLogDTO log) {
-        System.out.println(log);
-
-        System.out.println("Plante à mettre en vente" + log.getId() + log.getPlantType() + log.getPrice());
         dashboard.updatePlantsForSale(log.getId(), log.getPlantType(), log.getPrice());
     }
 
     public void processStoreSoldPlant(StoreSoldPlantLogDTO log) {
-        System.out.println(log);
-        System.out.println("soldddd");
         dashboard.updateSoldPlants(log.getId(), log.getPrice());
-    }
-
-    public void processDeadPlant(DeadPlantLogDTO log) {
-        dashboard.updateDeadPlant(log.getPlantId(), log.getName(), log.getDecompositionLevel());
     }
 
 
     public void processPlantDead(PlantDeadLogDTO log) {
         boolean removed = dashboard.removePlant(log.getId());
-        if (removed) {
-            System.out.printf("🪦 Plante morte retirée : %s%n", log.getId());
-        } else {
-            System.err.printf("⚠️ Impossible de trouver la plante à supprimer : %s%n", log.getId());
-        }
     }
 
     public void processPlantSold(PlantSoldLogDTO log) {
         boolean removed = dashboard.removePlant(log.getId());
-        if (removed) {
-            System.out.printf("🪦 Plante mise en vente : %s%n", log.getId());
-        } else {
-            System.err.printf("⚠️ Impossible de trouver la plante à supprimer des plantes en cours : %s%n", log.getId());
-        }
     }
 
 
     public void processPlantCreated(PlantCreatedLogDTO log) {
         dashboard.addNewPlant(log.getPlantId(), log.getName(), log.getEnergyLevel(),
                 log.getWaterLevel(), log.getFertilizerLevel());
-        System.out.println("plant crée" + log.getPlantId());
     }
 
     public void processPlantGrown(PlantGrownLogDTO log) {

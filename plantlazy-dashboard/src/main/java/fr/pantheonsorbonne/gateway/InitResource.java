@@ -21,7 +21,7 @@ public class InitResource {
     @POST
     @Path("/init")
     public Response initializeSimulation(InitMoneyDTO initMoneyDTO) {
-        System.out.println("💬 Received request to initialize simulation with: " + initMoneyDTO);
+        System.out.println("Received request to initialize simulation with: " + initMoneyDTO);
 
         try {
             if (initMoneyDTO.getMoney() == null || initMoneyDTO.getMoney() <= 0) {
@@ -34,7 +34,7 @@ public class InitResource {
             return Response.ok("Simulation initialized successfully").build();
 
         } catch (Exception e) {
-            System.out.println("❌ Unexpected error while initializing simulation: " + e.getMessage());
+            System.out.println("Unexpected error while initializing simulation: " + e.getMessage());
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Unexpected error: " + e.getMessage())

@@ -26,20 +26,17 @@ public class StopResource {
     @POST
     @Path("/stop")
     public Response stopSimulation() {
-        System.out.println("💬 Received request to stop simulation");
+        System.out.println("Received request to stop simulation");
 
         try {
-            System.out.println("🛑 Calling ServerTick to stop ticks...");
             serverTickService.stopTicks();
-            System.out.println("✅ ServerTick stopped successfully.");
 
-            System.out.println("📊 Generating simulation statistics...");
             statsService.generateStats();
 
-            return Response.ok("Simulation stopped successfully. Statistics generated.").build();
+            return Response.ok("Simulation stopped successfully. Statistics generated").build();
 
         } catch (Exception e) {
-            System.out.println("❌ Error while stopping simulation or generating statistics: " + e.getMessage());
+            System.out.println("Error while stopping simulation or generating statistics: " + e.getMessage());
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error while stopping simulation or generating statistics: " + e.getMessage())

@@ -10,18 +10,18 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlantUpdateLogDTO extends LogDTO {
 
-    private final PlantDTO plant; // Objet encapsulant les détails de la plante
+    private final PlantDTO plant;
 
     @JsonCreator
     public PlantUpdateLogDTO(
-            @JsonProperty("id") String id,
+            @JsonProperty("id") UUID id,
             @JsonProperty("plantType") String plantType,
             @JsonProperty("water") int water,
             @JsonProperty("sun") int sun,
             @JsonProperty("soil") int soil
     ) {
         this.plant = new PlantDTO();
-        this.plant.setId(UUID.fromString(id));
+        this.plant.setId(id);
         this.plant.setType(plantType);
         this.plant.setWater(water);
         this.plant.setSun(sun);

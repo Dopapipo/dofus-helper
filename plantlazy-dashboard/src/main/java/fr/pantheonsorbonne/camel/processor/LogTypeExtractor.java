@@ -14,7 +14,6 @@ public class LogTypeExtractor implements Processor {
     }
 
     private String extractLogType(String body) {
-        if (body.contains("\"DEAD_PLANT_UPDATE\"")) return "DEAD_PLANT_UPDATE";
         if (body.contains("\"PLANT_CREATED\"")) return "PLANT_CREATED";
         if (body.contains("\"PLANT_DEAD\"")) return "PLANT_DEAD";
         if (body.contains("\"PLANT_GROWN\"")) return "PLANT_GROWN";
