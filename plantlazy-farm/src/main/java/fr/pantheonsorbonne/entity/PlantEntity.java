@@ -15,6 +15,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+// Une plante est morte lorsqu'une jauge de stat tombe a 0 ou les 3 en dessous du threshold qu'on a fixé
 
 
 @Entity

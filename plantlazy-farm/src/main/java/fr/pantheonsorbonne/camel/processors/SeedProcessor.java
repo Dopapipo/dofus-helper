@@ -9,6 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+
+// Fait croitre une graine en une plante
 @ApplicationScoped
 public class SeedProcessor implements Processor {
 

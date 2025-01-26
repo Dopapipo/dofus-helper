@@ -23,12 +23,8 @@ public class ResourceStockClient {
         ResourceType resourceType = TypeMapper.toResourceType(statType);
         ResourceRequest request = new ResourceRequest(resourceType, quantity, OperationTag.STOCK_QUERIED);
 
-        System.out.println("Requesting resource " + resourceType + " with quantity " + quantity);
-        System.out.println("Sending request to StockService: " + request);
-
         try {
             Response response = stockService.updateResource(request);
-            System.out.println("Received response: " + response.getStatus());
 
             if (response.getStatus() != 202) {
                 throw new ResourceRequestDeniedException("Not enough resources available");

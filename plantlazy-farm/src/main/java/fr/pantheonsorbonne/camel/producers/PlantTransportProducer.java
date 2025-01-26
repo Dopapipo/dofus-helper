@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import org.apache.camel.ProducerTemplate;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+// Produit les plantes mortes et les plantes matures pour les envoyer au transport
 @ApplicationScoped
 public class PlantTransportProducer {
     @ConfigProperty(name = "dead.plant.transport.endpoint")
@@ -28,7 +29,6 @@ public class PlantTransportProducer {
             String jsonMessage = objectMapper.writeValueAsString(plantDTO);
 
             producerTemplate.sendBody(storePlantEndpoint, jsonMessage);
-            System.out.println("Message sent for plant: " + jsonMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error serializing PlantDTO to JSON", e);
         }
@@ -39,7 +39,6 @@ public class PlantTransportProducer {
             String jsonMessage = objectMapper.writeValueAsString(plantDTO);
 
             producerTemplate.sendBody(transportEndpoint, jsonMessage);
-            System.out.println("Message sent for dead plant: " + jsonMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error serializing PlantDTO to JSON", e);
         }

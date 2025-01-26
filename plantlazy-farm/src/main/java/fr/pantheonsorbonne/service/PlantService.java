@@ -12,7 +12,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
-
+// Plein de logique pour savoir quand envoyer une plante morte ou une plante mature à un magasin
 @ApplicationScoped
 public class PlantService {
     @Inject
@@ -58,7 +58,6 @@ public class PlantService {
                     if (plant.isDead() && !plant.getComposted()) {
                         // Envoyer la plante morte via le transport producer
                         plantTransportProducer.sendDeadPlant(plantDTO);
-                        System.out.println("Plante morte envoyée.");
 
                         // Mettre à jour l'état de la plante
                         plant.setComposted(true);
@@ -71,7 +70,6 @@ public class PlantService {
                     else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
                         // Envoyer la plante vendue via le transport producer
                         plantTransportProducer.sendPlantToStore(plantDTO);
-                        System.out.println("Plante vendue envoyée.");
 
                         // Mettre à jour l'état de la plante
                         plant.setSold(true);

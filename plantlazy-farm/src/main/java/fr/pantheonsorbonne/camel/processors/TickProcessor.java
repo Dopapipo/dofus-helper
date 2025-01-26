@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+// Appelle les services de plantes pour traiter les ticks
 @ApplicationScoped
 public class TickProcessor implements Processor {
 

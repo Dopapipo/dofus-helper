@@ -17,13 +17,9 @@ public class SeedService {
     public PlantEntity growSeed(SeedDTO seedDTO) throws SeedGrowException {
         Seed seed = seedDTO.toSeed();
         PlantEntity plant = seed.grow();
-        PlantEntity savedPlant =  plantRepository.save(plant);
-        System.out.println(savedPlant.getId());
-        System.out.println(savedPlant);
-        System.out.println("plante créée");
-        if(savedPlant == null){
+        if(plant == null){
             throw new SeedGrowException("Failed to grow seed");
         }
-        return savedPlant;
+        return plantRepository.save(plant);
     }
 }

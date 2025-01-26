@@ -8,6 +8,9 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+// Consomme les ticks serveur pour faire avancer le jeu
+// Tick HOURLY : les plantes consomment des ressources et peuvent mourir
+// Tick DAILY : envoie les plantes mortes et les plantes matures pour les vendre
 @ApplicationScoped
 public class TickSubscriber extends RouteBuilder {
 

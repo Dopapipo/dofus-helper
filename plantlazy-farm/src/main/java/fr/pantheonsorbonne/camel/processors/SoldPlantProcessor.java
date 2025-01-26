@@ -9,6 +9,8 @@ import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+
+// Transforme une plante mature en plante vendue
 @ApplicationScoped
 public class SoldPlantProcessor implements Processor {
     @Inject

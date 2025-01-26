@@ -9,6 +9,8 @@ import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+
+// Transforme une plante morte en compost
 @ApplicationScoped
 public class DeadPlantProcessor implements Processor {
     @Inject
@@ -17,7 +19,6 @@ public class DeadPlantProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         PlantDTO plantDTO = exchange.getIn().getBody(PlantDTO.class);
         PlantEntity plantEntity = PlantMapper.toPlantEntity(plantDTO);
-        System.out.println("aaaaaaaaaaaaa");
         plantEntity.setComposted(true);
         plantRepository.save(plantEntity);
     }

@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-
+// Consomme les graines et les transforme en plantes
 @ApplicationScoped
 public class SeedConsumer extends RouteBuilder {
     @Inject
