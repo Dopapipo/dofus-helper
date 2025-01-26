@@ -20,8 +20,6 @@ public class DeadPlantConsumer extends RouteBuilder {
     @Override
     public void configure() {
         from(deadPlantEndpoint)
-                .log("${body}")
-                .log("Received dead plant")
                 .unmarshal().json(DeadPlantDTO.class)
                 .process(compostProcessor);
     }
