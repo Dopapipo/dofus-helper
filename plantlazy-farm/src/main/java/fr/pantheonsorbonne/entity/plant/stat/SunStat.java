@@ -12,7 +12,7 @@ public class SunStat extends GenericPlantStat implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public SunStat(int value) {
-        super(value, 70, 1, StatType.SUN);
+        super(value, 75, 10, StatType.SUN);
     }
 
     public SunStat() {

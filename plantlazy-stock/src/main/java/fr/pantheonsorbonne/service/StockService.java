@@ -21,7 +21,7 @@ public class StockService {
     @Inject
     ResourceDAO resourceDAO;
 
-    public static final double DAILY_LIMIT = 800;
+    public static final double DAILY_REFILL = 64;
 
     private static final EnumSet<ResourceType> REFILLABLE_TYPES = EnumSet.of(ResourceType.WATER, ResourceType.ENERGY);
 
@@ -50,14 +50,24 @@ public class StockService {
 
     public void refillDailyResource() {
         List<Resource> allResources = resourceDAO.findAll();
-        allResources.stream().filter(resource -> REFILLABLE_TYPES.contains(resource.getType())).forEach(resource -> {
-            Double quantityBefore = resource.getQuantity();
-            Double quantity = DAILY_LIMIT - quantityBefore;
-            resource.setQuantity(DAILY_LIMIT);
-            resourceDAO.save(resource);
-            notificationService.notifyResourceUpdate(resource.getType(), quantityBefore, quantity, DAILY_LIMIT, OperationTag.STOCK_RECEIVED);
-        });
+        allResources.stream()
+                .filter(resource -> REFILLABLE_TYPES.contains(resource.getType()))
+                .forEach(resource -> {
+                    Double quantityBefore = resource.getQuantity();
+                    Double quantityAdded = DAILY_REFILL;
+                    Double newQuantity = quantityBefore + quantityAdded;
+                    resource.setQuantity(newQuantity);
+                    resourceDAO.save(resource);
+                    notificationService.notifyResourceUpdate(
+                            resource.getType(),
+                            quantityBefore,
+                            quantityAdded,
+                            newQuantity,
+                            OperationTag.STOCK_RECEIVED
+                    );
+                });
     }
+
 
     private Resource updateResourceQuantity(Resource resource, Double quantity) {
         resource.setQuantity(resource.getQuantity() + quantity);

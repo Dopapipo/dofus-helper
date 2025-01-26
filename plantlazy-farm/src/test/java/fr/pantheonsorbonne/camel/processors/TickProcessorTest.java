@@ -49,7 +49,7 @@ public class TickProcessorTest {
         tickProcessor.process(exchange);
 
 
-        verify(plantService, times(1)).processHouryPlantLifecycle();
+        verify(plantService, times(1)).processHourlyPlantLifecycle();
     }
  @Test
     void testProcessDailyTick() {

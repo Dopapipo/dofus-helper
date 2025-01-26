@@ -1,21 +1,23 @@
 package fr.pantheonsorbonne.dto.log;
 
+import java.util.UUID;
+
 public class StoreSellablePlantLogDTO extends LogDTO{
 
-    private String plantId;
-    private String name;
+    private UUID id;
+    private String plantType;
     private int price;
 
     public StoreSellablePlantLogDTO() {
     }
 
 
-    public String getPlantId() {
-        return plantId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setPlantId(String plantId) {
-        this.plantId = plantId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public int getPrice() {
@@ -26,11 +28,21 @@ public class StoreSellablePlantLogDTO extends LogDTO{
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public String getPlantType() {
+        return plantType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlantType(String plantType) {
+        this.plantType = plantType;
+    }
+
+
+    @Override
+    public String toString() {
+        return "StoreSellablePlantLogDTO{" +
+                "id='" + id + '\'' +
+                ", plantType='" + plantType + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

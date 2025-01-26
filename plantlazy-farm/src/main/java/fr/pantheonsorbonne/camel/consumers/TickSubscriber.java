@@ -20,7 +20,6 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("sjms2:topic:" + tickEndpoint)
-                .log("Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .process(tickProcessor);
 

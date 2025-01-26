@@ -3,7 +3,7 @@ package fr.pantheonsorbonne.dto.log;
 public enum LogType {
     STORE_SELLABLE_SEEDS,
     STORE_SOLD_PLANT,
-    STORE_SELLABLE_PLANTS,
+    STORE_SELLABLE_PLANT,
     RESOURCE_UPDATE,
     PLANT_UPDATE,
     PLANT_GROWN,

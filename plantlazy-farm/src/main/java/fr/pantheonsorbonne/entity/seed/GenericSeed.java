@@ -28,7 +28,7 @@ public class GenericSeed implements Seed{
 
     @Override
     public FullPlantStats getInitialStats() {
-        return new FullPlantStats(new WaterStat(50), new SoilStat(50), new SunStat(50));
+        return new FullPlantStats(new WaterStat(100), new SoilStat(100), new SunStat(100));
     }
 
     @Override

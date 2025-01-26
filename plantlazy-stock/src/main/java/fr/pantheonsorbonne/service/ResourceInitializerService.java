@@ -15,9 +15,9 @@ public class ResourceInitializerService {
 
     @Transactional
     public void initializeResources(Double initialMoney) {
-        initializeResource(ResourceType.WATER, 800.0);
-        initializeResource(ResourceType.ENERGY, 800.0);
-        initializeResource(ResourceType.FERTILIZER, 500.0);
+        initializeResource(ResourceType.WATER, 50.0);
+        initializeResource(ResourceType.ENERGY, 50.0);
+        initializeResource(ResourceType.FERTILIZER, 200.0);
         initializeResource(ResourceType.MONEY, initialMoney);
 
         System.out.println("Resources initialized");

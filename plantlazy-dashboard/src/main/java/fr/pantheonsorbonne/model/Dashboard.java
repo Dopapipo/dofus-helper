@@ -16,7 +16,7 @@ public class Dashboard {
     private final Map<UUID, PlantData> plantsInProgress = new HashMap<>(); // Plantes en cours
     private final Map<String, ResourceData> resources = new HashMap<>();    // Ressources
     private final Map<String, PlantData> seedsForSale = new HashMap<>();    // Graines en vente
-    private final Map<String, PlantData> plantsForSale = new HashMap<>();   // Plantes en vente
+    private final Map<UUID, PlantData> plantsForSale = new HashMap<>();   // Plantes en vente
     private final Map<String, PlantData> deadPlants = new HashMap<>();      // Plantes mortes
 
     public Dashboard() {
@@ -48,7 +48,7 @@ public class Dashboard {
     }
 
 
-    public void updatePlantsForSale(String plantId, String name, int price) {
+    public void updatePlantsForSale(UUID plantId, String name, int price) {
         System.out.println("for sale");
         PlantData plant = new PlantData();
         plant.setName(name);
@@ -57,9 +57,9 @@ public class Dashboard {
         System.out.println(plantsForSale);
     }
 
-    public void updateSoldPlants(String plantType, int price) {
-        plantsForSale.remove(plantType); // Retire la plante des ventes
-        System.out.printf("✔️ Plante vendue : %s pour %d 💵%n", plantType, price);
+    public void updateSoldPlants(UUID plantId, int price) {
+        plantsForSale.remove(plantId); // Retire la plante des ventes
+        System.out.printf("✔️ Plante vendue : %s pour %d 💵%n", plantId, price);
     }
 
     public void updateDeadPlant(String plantId, String name, int decompositionLevel) {

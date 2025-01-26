@@ -39,7 +39,7 @@ public class LogsRoute extends RouteBuilder {
         configureLogRoute("PLANT_UPDATE", PlantUpdateLogDTO.class, "processPlantUpdate");
         configureLogRoute("PLANT_SOLD", PlantSoldLogDTO.class, "processPlantSold");
         configureLogRoute("RESOURCE_UPDATE", ResourceUpdateLogDTO.class, "processResourceUpdate");
-        configureLogRoute("STORE_SELLABLE_PLANTS", StoreSellablePlantLogDTO.class, "processStoreSellablePlant");
+        configureLogRoute("STORE_SELLABLE_PLANT", StoreSellablePlantLogDTO.class, "processStoreSellablePlant");
         configureLogRoute("STORE_SOLD_PLANT", StoreSoldPlantLogDTO.class, "processStoreSoldPlant");
         configureLogRoute("STORE_SELLABLE_SEEDS", StoreSellableSeedsLogDTO.class, "processStoreSellableSeeds");
 

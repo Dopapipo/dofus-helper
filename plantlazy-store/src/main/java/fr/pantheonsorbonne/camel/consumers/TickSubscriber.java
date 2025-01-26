@@ -25,7 +25,6 @@ public class TickSubscriber extends RouteBuilder {
     @Override
     public void configure() {
         from("sjms2:topic:" + tickEndpoint)
-                .log("Received tick message")
                 .unmarshal().json(JsonLibrary.Jackson, TickMessage.class)
                 .threads(1)
                 .choice()
@@ -39,7 +38,6 @@ public class TickSubscriber extends RouteBuilder {
                 .process(exchange -> {
                     plantService.sellPlants();
                 })
-                .log("DAILY TICK")
 
                 .otherwise()
                 .log("Unknown TickType: ${body.tickType}")

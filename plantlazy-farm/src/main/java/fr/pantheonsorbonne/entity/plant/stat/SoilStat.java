@@ -12,7 +12,7 @@ public class SoilStat extends GenericPlantStat implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public SoilStat(int value) {
-        super(value, 70, 1, StatType.SOIL);
+        super(value, 60, 10, StatType.SOIL);
     }
 
     public SoilStat() {

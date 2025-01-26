@@ -14,6 +14,6 @@ public class LowQualitySeed extends GenericSeed {
 
     @Override
     public FullPlantStats getInitialStats() {
-        return new FullPlantStats(new WaterStat(60), new SoilStat(60), new SunStat(60));
+        return new FullPlantStats(new WaterStat(80), new SoilStat(80), new SunStat(80));
     }
 }

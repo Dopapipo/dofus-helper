@@ -34,7 +34,7 @@ public class PlantService {
     }
 
 
-    public void processHouryPlantLifecycle() {
+    public void processHourlyPlantLifecycle() {
         List<PlantEntity> plants = plantRepository.findAll();
         this.triggerPlantGrowth(plants);
         this.triggerPlantNourishment(plants);
@@ -62,6 +62,7 @@ public class PlantService {
 
                         // Mettre à jour l'état de la plante
                         plant.setComposted(true);
+                        plantRepository.save(plant);
 
                         // Envoyer le log
                         logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
@@ -74,6 +75,8 @@ public class PlantService {
 
                         // Mettre à jour l'état de la plante
                         plant.setSold(true);
+                        plantRepository.save(plant);
+
 
                         // Envoyer le log
                         logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
@@ -116,7 +119,7 @@ public class PlantService {
     }
 
     private boolean plantNeedsNourishmentForStat(PlantEntity plant, PlantStat plantStat) {
-        return (!plant.isDead() && plant.getRemainingTicksOfHealthyFor(plantStat) < 3);
+        return (!plant.isDead() && plant.getRemainingTicksOfHealthyFor(plantStat) < 10);
     }
 
 }

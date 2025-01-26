@@ -2,18 +2,20 @@ package fr.pantheonsorbonne.dto.log;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.UUID;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StoreSoldPlantLogDTO extends LogDTO {
-    private String plantId;
-    private String plantType; // Nouveau champ ajouté
+    private UUID id;
+    private String plantType;
     private int price;
 
-    public String getPlantId() {
-        return plantId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setPlantId(String plantId) {
-        this.plantId = plantId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getPlantType() {
@@ -30,5 +32,14 @@ public class StoreSoldPlantLogDTO extends LogDTO {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "StoreSoldPlantLogDTO{" +
+                "plantId=" + id +
+                ", plantType='" + plantType + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

@@ -56,7 +56,7 @@ public class PlantLifecycleConsumerTest {
         PlantEntity persistedPlant = plantRepository.save(createTestPlant(100));
         em.flush();
 
-        plantService.processHouryPlantLifecycle();
+        plantService.processHourlyPlantLifecycle();
 
         PlantEntity updatedPlant = plantRepository.findById(persistedPlant.getId());
         assertEquals(expectedPlant.getStats(), updatedPlant.getStats(), "Plant stats should be updated correctly.");
@@ -73,7 +73,7 @@ public class PlantLifecycleConsumerTest {
         PlantEntity persistedPlant = plantRepository.save(createTestPlant(threshold + decayRate));
         em.flush();
 
-        plantService.processHouryPlantLifecycle();
+        plantService.processHourlyPlantLifecycle();
         camelContext.createProducerTemplate().sendBody(tickEndpoint, new TickMessage(TickType.HOURLY, System.currentTimeMillis()));
 
         PlantEntity updatedPlant = plantRepository.findById(persistedPlant.getId());

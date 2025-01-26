@@ -17,6 +17,7 @@ public class DeadPlantProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         PlantDTO plantDTO = exchange.getIn().getBody(PlantDTO.class);
         PlantEntity plantEntity = PlantMapper.toPlantEntity(plantDTO);
+        System.out.println("aaaaaaaaaaaaa");
         plantEntity.setComposted(true);
         plantRepository.save(plantEntity);
     }

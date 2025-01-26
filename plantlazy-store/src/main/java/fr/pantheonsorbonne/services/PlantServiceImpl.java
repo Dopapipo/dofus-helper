@@ -36,9 +36,9 @@ public class PlantServiceImpl implements PlantService {
     private static final Map<PlantType, Integer> SALE_PROBABILITIES = new HashMap<>();
 
     static {
-        SALE_PROBABILITIES.put(PlantType.CACTUS, 70);
-        SALE_PROBABILITIES.put(PlantType.TREE, 50);
-        SALE_PROBABILITIES.put(PlantType.FLOWER, 30);
+        SALE_PROBABILITIES.put(PlantType.CACTUS, 20);
+        SALE_PROBABILITIES.put(PlantType.TREE, 10);
+        SALE_PROBABILITIES.put(PlantType.FLOWER, 15);
     }
 
 
@@ -57,7 +57,7 @@ public class PlantServiceImpl implements PlantService {
                 );
 
                 System.out.println("Plant sold" + plant.getId() + " for " + plant.getPrice());
-                notificationService.notifyPlantSold(plant.getId());
+                notificationService.notifyPlantSold(plant.getId(), plant.getPrice(), plant.getType());
                 plantDAO.deletePlantById(plant.getId());
 
             }

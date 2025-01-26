@@ -22,12 +22,16 @@ public class DashboardService {
     }
 
     public void processStoreSellablePlant(StoreSellablePlantLogDTO log) {
-        System.out.println("Plante à mettre en vente" + log.getPlantId() + log.getName() + log.getPrice());
-        dashboard.updatePlantsForSale(log.getPlantId(), log.getName(), log.getPrice());
+        System.out.println(log);
+
+        System.out.println("Plante à mettre en vente" + log.getId() + log.getPlantType() + log.getPrice());
+        dashboard.updatePlantsForSale(log.getId(), log.getPlantType(), log.getPrice());
     }
 
     public void processStoreSoldPlant(StoreSoldPlantLogDTO log) {
-        dashboard.updateSoldPlants(log.getPlantId(), log.getPrice());
+        System.out.println(log);
+        System.out.println("soldddd");
+        dashboard.updateSoldPlants(log.getId(), log.getPrice());
     }
 
     public void processDeadPlant(DeadPlantLogDTO log) {
@@ -42,7 +46,6 @@ public class DashboardService {
         } else {
             System.err.printf("⚠️ Impossible de trouver la plante à supprimer : %s%n", log.getId());
         }
-        dashboard.display();
     }
 
     public void processPlantSold(PlantSoldLogDTO log) {
@@ -52,14 +55,13 @@ public class DashboardService {
         } else {
             System.err.printf("⚠️ Impossible de trouver la plante à supprimer des plantes en cours : %s%n", log.getId());
         }
-
-        dashboard.display();
     }
 
 
     public void processPlantCreated(PlantCreatedLogDTO log) {
         dashboard.addNewPlant(log.getPlantId(), log.getName(), log.getEnergyLevel(),
                 log.getWaterLevel(), log.getFertilizerLevel());
+        System.out.println("plant crée" + log.getPlantId());
     }
 
     public void processPlantGrown(PlantGrownLogDTO log) {
