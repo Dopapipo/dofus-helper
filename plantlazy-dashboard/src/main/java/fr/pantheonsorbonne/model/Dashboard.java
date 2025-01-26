@@ -56,7 +56,6 @@ public class Dashboard {
 
     public void updateSoldPlants(UUID plantId, int price) {
         plantsForSale.remove(plantId);
-        System.out.printf("Plante vendue pour %d %n", price);
     }
 
 
