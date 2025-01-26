@@ -7,7 +7,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.stereotype.Repository;
 
 @ApplicationScoped
 public class PlantRepositoryImpl implements PlantRepository {

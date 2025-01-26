@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.entity.seed;
+package fr.pantheonsorbonne.entity.enums;
 
 public enum SeedQuality {
     LOW,
