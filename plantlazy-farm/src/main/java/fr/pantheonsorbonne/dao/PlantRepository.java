@@ -8,5 +8,4 @@ public interface PlantRepository {
     PlantEntity save(PlantEntity plantEntity);
     PlantEntity findById(UUID id);
     List<PlantEntity> findAll();
-    void delete(PlantEntity plantEntity);
 }

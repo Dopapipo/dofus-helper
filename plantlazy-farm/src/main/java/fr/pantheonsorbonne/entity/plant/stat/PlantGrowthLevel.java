@@ -14,11 +14,6 @@ public class PlantGrowthLevel implements Serializable {
     int value;
     int MAX_VALUE = 10;
 
-
-    public PlantGrowthLevel(int value) {
-        this.value = value;
-    }
-
     public boolean isMature() {
         return this.getGrowthPercentage()>0.7;
     }
@@ -26,8 +21,8 @@ public class PlantGrowthLevel implements Serializable {
     private double getGrowthPercentage() {
         return (double) value / MAX_VALUE;
     }
-    public PlantGrowthLevel() {
 
+    public PlantGrowthLevel() {
     }
 
     public void grow() {

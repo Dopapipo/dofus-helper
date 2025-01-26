@@ -35,9 +35,4 @@ public class PlantRepositoryImpl implements PlantRepository {
         List<PlantEntity> plants = em.createQuery("SELECT p FROM PlantEntity p", PlantEntity.class).getResultList();
         return plants.stream().map(em::merge).toList();
     }
-    @Transactional
-    @Override
-    public void delete(PlantEntity plantEntity) {
-        em.remove(plantEntity);
-    }
 }

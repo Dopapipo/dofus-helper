@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.entity;
 
 import fr.pantheonsorbonne.dto.PlantDTO;
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.entity.plant.stat.PlantGrowthLevel;
 import fr.pantheonsorbonne.entity.plant.stat.PlantStat;
@@ -70,10 +70,6 @@ public class PlantEntity implements Serializable {
         return growthLevel;
     }
 
-    public void setGrowthLevel(PlantGrowthLevel growthLevel) {
-        this.growthLevel = growthLevel;
-    }
-
     @Embedded
     protected PlantGrowthLevel growthLevel = new PlantGrowthLevel();
 
@@ -137,10 +133,6 @@ public class PlantEntity implements Serializable {
         return this.id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public PlantType getType() {
         return type;
     }
@@ -153,44 +145,20 @@ public class PlantEntity implements Serializable {
         return water;
     }
 
-    public void setWater(WaterStat water) {
-        this.water = water;
-    }
-
     public SunStat getSun() {
         return sun;
-    }
-
-    public void setSun(SunStat sun) {
-        this.sun = sun;
     }
 
     public SoilStat getSoil() {
         return soil;
     }
 
-    public void setSoil(SoilStat soil) {
-        this.soil = soil;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
     public Long getTimeOfDeath() {
         return timeOfDeath;
     }
 
-    public void setTimeOfDeath(Long timeOfDeath) {
-        this.timeOfDeath = timeOfDeath;
-    }
-
     public String getCauseOfDeath() {
         return causeOfDeath;
-    }
-
-    public void setCauseOfDeath(String causeOfDeath) {
-        this.causeOfDeath = causeOfDeath;
     }
 
     public PlantEntity(PlantType type, WaterStat water, SunStat sun, SoilStat soil) {

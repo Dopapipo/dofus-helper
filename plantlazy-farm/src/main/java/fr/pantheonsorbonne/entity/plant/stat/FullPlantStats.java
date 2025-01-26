@@ -30,7 +30,4 @@ public class FullPlantStats {
         return this.sunStat;
     }
 
-    public boolean isDead() {
-        return (this.soilStat.isDead() || this.waterStat.isDead() || this.sunStat.isDead()) || (!this.soilStat.isHealthy() && !this.waterStat.isHealthy() && !this.sunStat.isHealthy());
-    }
 }

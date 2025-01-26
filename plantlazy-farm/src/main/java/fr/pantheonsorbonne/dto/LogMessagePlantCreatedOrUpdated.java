@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.dto;
 
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.LogType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 
 
 import java.util.UUID;

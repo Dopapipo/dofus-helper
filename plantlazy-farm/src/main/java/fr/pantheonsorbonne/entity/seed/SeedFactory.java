@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.entity.seed;
 
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 
 public class SeedFactory {
     public static Seed getSeed(PlantType type, SeedQuality quality) {

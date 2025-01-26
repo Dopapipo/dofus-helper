@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.entity.plant;
+package fr.pantheonsorbonne.entity.enums;
 
 public enum PlantType {
     CACTUS,

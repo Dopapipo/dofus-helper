@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.mapper;
 
-import fr.pantheonsorbonne.dto.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 
 public class TypeMapper {

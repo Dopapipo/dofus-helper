@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.camel.processors;
 
 import fr.pantheonsorbonne.dto.TickMessage;
-import fr.pantheonsorbonne.dto.TickType;
+import fr.pantheonsorbonne.entity.enums.TickType;
 import fr.pantheonsorbonne.service.PlantService;
 import io.quarkus.test.junit.QuarkusTest;
 import org.apache.camel.Exchange;

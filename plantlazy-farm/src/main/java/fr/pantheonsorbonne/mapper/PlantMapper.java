@@ -2,7 +2,7 @@ package fr.pantheonsorbonne.mapper;
 
 import fr.pantheonsorbonne.dto.LogMessagePlantCreatedOrUpdated;
 import fr.pantheonsorbonne.dto.LogMessagePlantDiedOrSold;
-import fr.pantheonsorbonne.dto.LogType;
+import fr.pantheonsorbonne.entity.enums.LogType;
 import fr.pantheonsorbonne.dto.PlantDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
 

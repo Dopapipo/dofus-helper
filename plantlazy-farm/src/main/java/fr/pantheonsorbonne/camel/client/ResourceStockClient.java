@@ -1,8 +1,8 @@
 package fr.pantheonsorbonne.camel.client;
 
-import fr.pantheonsorbonne.dto.OperationTag;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.dto.ResourceRequest;
-import fr.pantheonsorbonne.dto.ResourceType;
+import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.exception.ResourceRequestDeniedException;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import fr.pantheonsorbonne.mapper.TypeMapper;

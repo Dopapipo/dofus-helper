@@ -51,32 +51,23 @@ public class PlantService {
         try {
             for (PlantEntity plant : plants) {
                 try {
-                    // Convertir PlantEntity en PlantDTO
                     PlantDTO plantDTO = PlantMapper.toPlantDTO(plant);
 
-                    // Gestion des plantes mortes
                     if (plant.isDead() && !plant.getComposted()) {
-                        // Envoyer la plante morte via le transport producer
+
                         plantTransportProducer.sendDeadPlant(plantDTO);
 
-                        // Mettre à jour l'état de la plante
                         plant.setComposted(true);
                         plantRepository.save(plant);
 
-                        // Envoyer le log
                         logService.sendLogPlantDiedOrSold(PlantMapper.toPlantDiedLog(plant));
                     }
-                    // Gestion des plantes matures et non vendues
                     else if (!plant.isDead() && plant.isMature() && !plant.isSold()) {
-                        // Envoyer la plante vendue via le transport producer
                         plantTransportProducer.sendPlantToStore(plantDTO);
 
-                        // Mettre à jour l'état de la plante
                         plant.setSold(true);
                         plantRepository.save(plant);
 
-
-                        // Envoyer le log
                         logService.sendLogPlantDiedOrSold(PlantMapper.toPlantSoldLog(plant));
                     }
                 } catch (Exception e) {
@@ -104,7 +95,6 @@ public class PlantService {
             }
         }
     }
-
 
     private void triggerPlantGrowth(Iterable<PlantEntity> plants) {
         for (PlantEntity plant : plants) {

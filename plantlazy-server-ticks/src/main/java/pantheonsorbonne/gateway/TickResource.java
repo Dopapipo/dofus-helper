@@ -33,7 +33,6 @@ public class TickResource {
         }
     }
 
-
     @POST
     @Path("/tick-stop")
     public Response stopTickGeneration() {

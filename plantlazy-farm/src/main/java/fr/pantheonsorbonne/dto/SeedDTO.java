@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.dto;
 
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.seed.Seed;
 import fr.pantheonsorbonne.entity.seed.SeedFactory;
 import fr.pantheonsorbonne.entity.seed.SeedQuality;

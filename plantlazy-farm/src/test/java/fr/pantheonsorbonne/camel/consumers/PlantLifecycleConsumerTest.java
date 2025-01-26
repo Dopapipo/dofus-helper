@@ -2,9 +2,9 @@ package fr.pantheonsorbonne.camel.consumers;
 
 import fr.pantheonsorbonne.dao.PlantRepository;
 import fr.pantheonsorbonne.dto.TickMessage;
-import fr.pantheonsorbonne.dto.TickType;
+import fr.pantheonsorbonne.entity.enums.TickType;
 import fr.pantheonsorbonne.entity.PlantEntity;
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.StatType;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;

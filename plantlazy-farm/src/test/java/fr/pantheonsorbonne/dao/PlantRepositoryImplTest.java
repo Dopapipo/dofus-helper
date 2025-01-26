@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.dao;
 
 import fr.pantheonsorbonne.entity.PlantEntity;
-import fr.pantheonsorbonne.entity.plant.PlantType;
+import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.plant.stat.FullPlantStats;
 import fr.pantheonsorbonne.entity.plant.stat.SoilStat;
 import fr.pantheonsorbonne.entity.plant.stat.SunStat;

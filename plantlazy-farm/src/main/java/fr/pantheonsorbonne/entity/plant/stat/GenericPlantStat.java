@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.entity.plant.stat;
 // REGLES METIER : si une stat arrive a 0, mort automatique; si une stat arrive a threshold, plante en bonne sante
 
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
 
 import java.io.Serial;
@@ -14,7 +13,7 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
     private static final long serialVersionUID = 1L;
     private int value;
     private int threshold;
-    private int MAX_VALUE = 100;
+    private final int MAX_VALUE = 100;
     private int decayRate = 7;
     private StatType statType;
 
@@ -22,32 +21,12 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public int getThreshold() {
         return threshold;
     }
 
-    public void setThreshold(int threshold) {
-        this.threshold = threshold;
-    }
-
-    public int getMAX_VALUE() {
-        return MAX_VALUE;
-    }
-
-    public void setMAX_VALUE(int MAX_VALUE) {
-        this.MAX_VALUE = MAX_VALUE;
-    }
-
     public int getDecayRate() {
         return decayRate;
-    }
-
-    public void setDecayRate(int decayRate) {
-        this.decayRate = decayRate;
     }
 
     public GenericPlantStat(int value, int threshold, int decayRate, StatType statType) {
@@ -58,9 +37,7 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
     }
 
     public GenericPlantStat() {
-
     }
-
 
     @Override
     public boolean isHealthy() {
@@ -109,16 +86,6 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
         return this.statType;
     }
 
-
-    public StatType getStatType() {
-        return statType;
-    }
-
-    public void setStatType(StatType statType) {
-        this.statType = statType;
-    }
-
-
     @Override
     public String toString() {
         return "GenericPlantStat{" +
@@ -137,11 +104,7 @@ public abstract class GenericPlantStat implements PlantStat, Serializable {
 
         GenericPlantStat that = (GenericPlantStat) obj;
 
-        return value == that.value &&
-                threshold == that.threshold &&
-                MAX_VALUE == that.MAX_VALUE &&
-                decayRate == that.decayRate &&
-                statType == that.statType;
+        return value == that.value && threshold == that.threshold && decayRate == that.decayRate && statType == that.statType;
     }
 
 }
