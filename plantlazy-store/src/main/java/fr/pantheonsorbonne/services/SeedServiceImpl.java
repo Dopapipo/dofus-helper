@@ -6,6 +6,7 @@ import fr.pantheonsorbonne.dao.SeedDAO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.dto.SeedToFarmDTO;
 import fr.pantheonsorbonne.entity.SeedEntity;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
@@ -38,11 +39,6 @@ public class SeedServiceImpl implements SeedService {
 
 
     private static final Random random = new Random();
-
-    @Override
-    public List<SeedEntity> getAvailableSeeds() {
-        return seedDAO.getAllSeeds();
-    }
 
     @Override
     @Transactional
@@ -91,7 +87,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeedsDaily() throws InsufficientFundsException{
+    public void sellSeedsDaily() throws InsufficientFundsException {
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
@@ -110,7 +106,7 @@ public class SeedServiceImpl implements SeedService {
                 SeedProducer.sendSeedMessageToFarm(seedDTO);
 
 
-                StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seed.getPrice(), PlantType.OperationTag.STOCK_QUERIED));
+                StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seed.getPrice(), OperationTag.STOCK_QUERIED));
 
                 seedDAO.deleteSeed(seed);
             }

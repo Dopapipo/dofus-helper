@@ -23,24 +23,16 @@ public class PlantProducer {
     String logEndpoint;
 
     public void sendPlantInShopLog(PlantInShopLogDTO plantDTO) {
-        try {
-            String jsonMessage = objectMapper.writeValueAsString(plantDTO);
-            producerTemplate.sendBody(logEndpoint, jsonMessage);
-
-            Exchange exchange = producerTemplate.getCamelContext().getEndpoint(logEndpoint).createExchange();
-            Message message = exchange.getIn();
-
-            message.setBody(jsonMessage);
-            producerTemplate.send(logEndpoint, exchange);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize MessageLogDTO to JSON", e);
-        }
+        sendLog(plantDTO, "Failed to serialize PlantInShopLogDTO to JSON");
     }
 
     public void sendPlantSoldLog(PlantSoldLogDTO plantDTO) {
+        sendLog(plantDTO, "Failed to serialize PlantSoldLogDTO to JSON");
+    }
+
+    private <T> void sendLog(T dto, String errorMessage) {
         try {
-            String jsonMessage = objectMapper.writeValueAsString(plantDTO);
+            String jsonMessage = objectMapper.writeValueAsString(dto);
             producerTemplate.sendBody(logEndpoint, jsonMessage);
 
             Exchange exchange = producerTemplate.getCamelContext().getEndpoint(logEndpoint).createExchange();
@@ -50,9 +42,8 @@ public class PlantProducer {
             producerTemplate.send(logEndpoint, exchange);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize MessageLogDTO to JSON", e);
+            throw new RuntimeException(errorMessage, e);
         }
-
-
     }
 }
+

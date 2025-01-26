@@ -28,20 +28,6 @@ public class SeedEntity implements Serializable {
     public SeedEntity() {
     }
 
-    public SeedEntity(PlantType type, double price, SeedQuality quality) {
-        this.type = type;
-        this.price = price;
-        this.quality = quality;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public PlantType getType() {
         return type;
     }

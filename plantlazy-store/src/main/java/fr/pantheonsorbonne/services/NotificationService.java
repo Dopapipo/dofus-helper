@@ -29,10 +29,10 @@ public class NotificationService {
         seedProducer.sendSeedInShopLog(seedInShopLogDTO);
     }
 
-    public void notifyPlantInShop(UUID id ,PlantType plantType, double price) {
+    public void notifyPlantInShop(UUID id, PlantType plantType, double price) {
         PlantInShopLogDTO plantLog = new PlantInShopLogDTO(id, plantType, price, LogType.STORE_SELLABLE_PLANT);
         plantProducer.sendPlantInShopLog(plantLog);
-   }
+    }
 
     public void notifyPlantSold(UUID id, double price, PlantType plantType) {
         PlantSoldLogDTO plantLog = new PlantSoldLogDTO(id, price, plantType, LogType.STORE_SOLD_PLANT);

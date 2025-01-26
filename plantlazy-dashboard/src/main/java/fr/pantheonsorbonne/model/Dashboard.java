@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.model;
 
 import fr.pantheonsorbonne.dto.SeedDTO;
-import fr.pantheonsorbonne.dto.log.StoreSellableSeedsLogDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,17 +61,13 @@ public class Dashboard {
 
 
     public boolean removePlant(UUID plantId) {
-        for (UUID id : plantsInProgress.keySet()) {
-            if (id.equals(plantId)) {
-                plantsInProgress.remove(id);
-                return true;
-            }
-            else {
-                System.out.printf("Plante non trouvée pour %s%n", plantId);
-            }
+        if (plantsInProgress.containsKey(plantId)) {
+            plantsInProgress.remove(plantId);
+            return true;
         }
         return false;
     }
+
 
 
     public void addNewPlant(UUID plantId, String name, int energyLevel, int waterLevel, int fertilizerLevel) {

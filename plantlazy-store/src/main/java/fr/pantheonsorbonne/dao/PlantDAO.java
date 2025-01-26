@@ -10,5 +10,5 @@ public interface PlantDAO {
 
     void savePlant(PlantEntity plant);
 
-    void deletePlantById(UUID plantId); // Assurez-vous que cette méthode est bien déclarée ici
+    void deletePlantById(UUID plantId);
 }

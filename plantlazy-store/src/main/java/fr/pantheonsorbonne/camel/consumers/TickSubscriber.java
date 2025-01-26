@@ -33,17 +33,14 @@ public class TickSubscriber extends RouteBuilder {
 
                 .process(exchange -> {
                     try {
-                    seedService.updateDailySeedOffer();
-                    seedService.sellSeedsDaily();
-                    }
-                    catch (InsufficientFundsException e) {
+                        seedService.updateDailySeedOffer();
+                        seedService.sellSeedsDaily();
+                    } catch (InsufficientFundsException e) {
                         e.printStackTrace();
                     }
                 })
                 .when(simple("${body.tickType} == 'HOURLY'"))
-                .process(exchange -> {
-                    plantService.sellPlants();
-                })
+                .process(exchange -> plantService.sellPlants())
 
                 .otherwise()
                 .log("Unknown TickType: ${body.tickType}")

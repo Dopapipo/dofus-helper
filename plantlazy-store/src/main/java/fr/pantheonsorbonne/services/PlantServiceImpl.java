@@ -5,6 +5,7 @@ import fr.pantheonsorbonne.dao.PlantDAO;
 import fr.pantheonsorbonne.dto.PlantFromFarmDTO;
 import fr.pantheonsorbonne.dto.ResourceUpdateDTO;
 import fr.pantheonsorbonne.entity.PlantEntity;
+import fr.pantheonsorbonne.entity.enums.OperationTag;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -53,7 +54,7 @@ public class PlantServiceImpl implements PlantService {
 
             if (randomValue < saleProbability) {
                 stockClient.updateResource(
-                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), PlantType.OperationTag.STOCK_RECEIVED)
+                        new ResourceUpdateDTO(ResourceType.MONEY, plant.getPrice(), OperationTag.STOCK_RECEIVED)
                 );
 
                 notificationService.notifyPlantSold(plant.getId(), plant.getPrice(), plant.getType());
