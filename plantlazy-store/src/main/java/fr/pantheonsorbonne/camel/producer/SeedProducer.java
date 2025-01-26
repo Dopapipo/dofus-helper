@@ -33,7 +33,6 @@ public class SeedProducer {
             String jsonMessage = objectMapper.writeValueAsString(seedToFarmDTO);
 
             producerTemplate.sendBody(seedEndpoint, jsonMessage);
-            System.out.println("Message sent for seed: " + jsonMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error serializing SeedToFarmDTO to JSON", e);
         }
@@ -49,7 +48,6 @@ public class SeedProducer {
 
             producerTemplate.send(logEndpoint, exchange);
 
-            System.out.println("Message sent" + seedInShopLogDTO);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to serialize SeedLogDTO to JSON", e);

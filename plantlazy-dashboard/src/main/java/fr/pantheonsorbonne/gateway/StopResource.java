@@ -26,7 +26,6 @@ public class StopResource {
     @POST
     @Path("/stop")
     public Response stopSimulation() {
-        System.out.println("Received request to stop simulation");
 
         try {
             serverTickService.stopTicks();
@@ -36,7 +35,6 @@ public class StopResource {
             return Response.ok("Simulation stopped successfully. Statistics generated").build();
 
         } catch (Exception e) {
-            System.out.println("Error while stopping simulation or generating statistics: " + e.getMessage());
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error while stopping simulation or generating statistics: " + e.getMessage())

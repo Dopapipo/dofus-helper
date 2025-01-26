@@ -21,7 +21,6 @@ public class InitResource {
     @POST
     @Path("/init")
     public Response initializeSimulation(InitMoneyDTO initMoneyDTO) {
-        System.out.println("Received request to initialize simulation with: " + initMoneyDTO);
 
         try {
             if (initMoneyDTO.getMoney() == null || initMoneyDTO.getMoney() <= 0) {

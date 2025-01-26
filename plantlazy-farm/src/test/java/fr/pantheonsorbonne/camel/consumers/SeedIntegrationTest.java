@@ -25,9 +25,6 @@ public class SeedIntegrationTest {
     String seedEndpoint;
 
     @Inject
-    SeedService seedService;
-
-    @Inject
     PlantRepository plantRepository;
 
     @Inject
@@ -50,7 +47,7 @@ public class SeedIntegrationTest {
     @Test
     @Transactional
     @Disabled
-    void testSeedConsumerProcess() throws Exception {
+    void testSeedConsumerProcess() {
         // Arrange: Simulate sending a seed to the consumer
         plantRepository.save(expectedPlantEntity);
         em.flush();

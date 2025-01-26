@@ -20,7 +20,6 @@ public class ResourceInitializerService {
         initializeResource(ResourceType.FERTILIZER, 200.0);
         initializeResource(ResourceType.MONEY, initialMoney);
 
-        System.out.println("Resources initialized");
     }
 
     private void initializeResource(ResourceType type, double initialQuantity) {

@@ -31,12 +31,6 @@ public class PlantLifecycleConsumerTest {
     @Inject
     @ConfigProperty(name = "tick.endpoint")
     String tickEndpoint;
-    @Inject
-    @ConfigProperty(name = "dead.plant.transport.endpoint")
-    String transportEndpoint;
-    @Inject
-    @ConfigProperty(name = "log.endpoint")
-    String logEndpoint;
 
     @Inject
     CamelContext camelContext;

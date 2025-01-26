@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.camel.consumers;
 
 import fr.pantheonsorbonne.dto.TickMessage;
+import fr.pantheonsorbonne.exception.InsufficientFundsException;
 import fr.pantheonsorbonne.services.PlantService;
 import fr.pantheonsorbonne.services.SeedService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,8 +32,13 @@ public class TickSubscriber extends RouteBuilder {
                 .when(simple("${body.tickType} == 'DAILY'"))
 
                 .process(exchange -> {
+                    try {
                     seedService.updateDailySeedOffer();
                     seedService.sellSeedsDaily();
+                    }
+                    catch (InsufficientFundsException e) {
+                        e.printStackTrace();
+                    }
                 })
                 .when(simple("${body.tickType} == 'HOURLY'"))
                 .process(exchange -> {

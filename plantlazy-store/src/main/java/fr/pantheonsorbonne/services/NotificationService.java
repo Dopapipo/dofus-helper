@@ -32,13 +32,10 @@ public class NotificationService {
     public void notifyPlantInShop(UUID id ,PlantType plantType, double price) {
         PlantInShopLogDTO plantLog = new PlantInShopLogDTO(id, plantType, price, LogType.STORE_SELLABLE_PLANT);
         plantProducer.sendPlantInShopLog(plantLog);
-        System.out.println("Notif envoyé plante in sale" + id + plantType + price);
    }
 
     public void notifyPlantSold(UUID id, double price, PlantType plantType) {
         PlantSoldLogDTO plantLog = new PlantSoldLogDTO(id, price, plantType, LogType.STORE_SOLD_PLANT);
-        System.out.println(plantLog);
-        System.out.println("vendue");
         plantProducer.sendPlantSoldLog(plantLog);
 
     }

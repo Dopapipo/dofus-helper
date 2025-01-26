@@ -9,6 +9,7 @@ import fr.pantheonsorbonne.entity.SeedEntity;
 import fr.pantheonsorbonne.entity.enums.PlantType;
 import fr.pantheonsorbonne.entity.enums.ResourceType;
 import fr.pantheonsorbonne.entity.enums.SeedQuality;
+import fr.pantheonsorbonne.exception.InsufficientFundsException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -69,7 +70,6 @@ public class SeedServiceImpl implements SeedService {
 
         sendSeedLog();
 
-        System.out.println("Daily seeds generated");
     }
 
     private void sendSeedLog() {
@@ -91,7 +91,7 @@ public class SeedServiceImpl implements SeedService {
 
     @Override
     @Transactional
-    public void sellSeedsDaily() {
+    public void sellSeedsDaily() throws InsufficientFundsException{
         List<SeedEntity> seeds = seedDAO.getAllSeeds().stream()
                 .sorted(Comparator.comparingDouble(SeedEntity::getPrice))
                 .toList();
@@ -99,8 +99,7 @@ public class SeedServiceImpl implements SeedService {
         double availableMoney = storeService.getAvailableMoney();
 
         if (seeds.isEmpty() || seeds.getFirst().getPrice() > availableMoney) {
-            System.out.println("Buying 1 seed is too much for you.");
-            return;
+            throw new InsufficientFundsException("Not enough money to buy them");
         }
 
         for (SeedEntity seed : seeds) {
@@ -110,7 +109,6 @@ public class SeedServiceImpl implements SeedService {
                 SeedToFarmDTO seedDTO = new SeedToFarmDTO(seed.getType(), seed.getQuality());
                 SeedProducer.sendSeedMessageToFarm(seedDTO);
 
-                System.out.println("Seed of type " + seed.getType() + " sold for " + seed.getPrice() + "€");
 
                 StockClient.updateResource(new ResourceUpdateDTO(ResourceType.MONEY, seed.getPrice(), PlantType.OperationTag.STOCK_QUERIED));
 
