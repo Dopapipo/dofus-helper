@@ -85,7 +85,16 @@ mvn clean install
 curl -X POST http://localhost:8080/api/simulation/init \
 -H "Content-Type: application/json" \
 -d '{
-  "money": 10
+  "money": 200
 }'
+
+### Étape 2 : Démarrer la simulation via Swagger (alternatif)
+Il est aussi possible d'utiliser le swagger intégré dans quarkus sur le port du dashboard et 
+et de lancer le projet avec : 
+/api/simulation/init 
+{
+  "money": 200
+}
+
 
 ---
